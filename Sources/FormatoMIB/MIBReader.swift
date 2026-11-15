@@ -38,12 +38,15 @@ public nonisolated struct MIBReader: Sendable {
     ///   - firstFrame: Inclusive frame index, with Python negative indexing.
     ///   - lastFrame: Exclusive frame index, with Python negative indexing.
     ///   - convention: Reference behavior by default; the app compatibility option is pinned separately.
+    ///   - keepStoredType: In the app convention, return the stored integer type (little-endian) instead of Float32: the same
+    ///     shape, each value the file's own (FormatoKit#115 part 2). The reference convention keeps it always.
     /// - Throws: `MIBError` for malformed files and unsupported layouts, including R64.
     public init(path: String, navigationShape: [Int]? = nil, firstFrame: Int? = nil, lastFrame: Int? = nil,
-                convention: MIBConvention = .rosettaSciIO) throws {
+                convention: MIBConvention = .rosettaSciIO, keepStoredType: Bool = false) throws {
         let hdr = URL(fileURLWithPath: path).deletingPathExtension().appendingPathExtension("hdr")
         try self.init(parts: [path], hdrPath: FileManager.default.fileExists(atPath: hdr.path) ? hdr : nil,
-                      navigationShape: navigationShape, firstFrame: firstFrame, lastFrame: lastFrame, convention: convention)
+                      navigationShape: navigationShape, firstFrame: firstFrame, lastFrame: lastFrame, convention: convention,
+                      keepStoredType: keepStoredType)
     }
 
     /// Opens a Merlin acquisition saved as several files (`MerlinSet`) as one scan, in the app convention: the parts' frames in
@@ -51,13 +54,14 @@ public nonisolated struct MIBReader: Sendable {
     /// file at a time; this reads the set the way LiberTEM's MIB data set does (all `<stem>*.mib` beside the `.hdr`, ordered).
     /// - Throws: `MIBError` when a part is missing or out of order (the frame numbers must run on), when the parts disagree on
     ///   their frame layout, or when the frames do not make the header's scan.
-    public init(set: MerlinSet) throws {
+    /// - Parameter keepStoredType: return the stored integer type instead of Float32, as in `init(path:)`.
+    public init(set: MerlinSet, keepStoredType: Bool = false) throws {
         try self.init(parts: set.parts, hdrPath: URL(fileURLWithPath: set.header), navigationShape: nil, firstFrame: nil, lastFrame: nil,
-                      convention: .appScanXY)
+                      convention: .appScanXY, keepStoredType: keepStoredType)
     }
 
     private init(parts: [String], hdrPath: URL?, navigationShape: [Int]?, firstFrame: Int?, lastFrame: Int?,
-                 convention: MIBConvention) throws {
+                 convention: MIBConvention, keepStoredType: Bool) throws {
         guard let path = parts.first else { throw MIBError.cannotOpen("no MIB file") }
         // A set's parts are mapped without keeping a descriptor each (a save can have more parts than a process may hold open);
         // their sizes are checked by path, for the parts a read touches.
@@ -145,7 +149,7 @@ public nonisolated struct MIBReader: Sendable {
                 guard total == frames else { throw MIBError.malformed("The .hdr describes \(total) frames, the files hold \(frames)") }
                 x = trigger; y = total / trigger
             }
-            shape = [y,x,dimensions,dimensions]; first = 0; flip = false; outputType = .float32
+            shape = [y,x,dimensions,dimensions]; first = 0; flip = false; outputType = keepStoredType ? type : .float32
         } else {
             func index(_ value: Int?, fallback: Int) -> Int {
                 guard let value else { return fallback }

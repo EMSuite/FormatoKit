@@ -124,6 +124,34 @@ private func directory() throws -> URL {
     #expect(throws: MIBError.self) { try MIBReader(path: path.path) }
 }
 
+/// `keepStoredType` (FormatoKit#115 part 2): the app convention's frames in the stored type of the pixel code, little-endian,
+/// each value equal to the Float32 reading's, on every pinned app-convention fixture.
+@Test func mibAppConventionKeepsTheStoredType() throws {
+    let pins = try JSONDecoder().decode(Pins.self, from: Data(contentsOf: fixtures.appendingPathComponent("pins.json")))
+    let dir = try directory(); defer { try? FileManager.default.removeItem(at: dir) }
+    var checked = 0
+    for pin in pins.cases where pin.app {
+        let path = dir.appendingPathComponent(pin.name + ".mib")
+        try inflate(pin.name + ".mib.gz").write(to: path)
+        let hdr = fixtures.appendingPathComponent(pin.name + ".hdr")
+        if FileManager.default.fileExists(atPath: hdr.path) { try FileManager.default.copyItem(at: hdr, to: path.deletingPathExtension().appendingPathExtension("hdr")) }
+        let wide = try MIBReader(path: path.path, convention: .appScanXY)
+        let native = try MIBReader(path: path.path, convention: .appScanXY, keepStoredType: true)
+        let expected: FormatoDataType = ["U08": .uint8, "U16": .uint16, "U32": .uint32][native.pixelCode]!
+        let a = try wide.signal.load().data, b = try native.signal.load().data
+        #expect(a.dataType == .float32 && b.dataType == expected, "\(pin.name)")
+        #expect(b.shape == a.shape && b.bytes.count == b.count * expected.byteSize, "\(pin.name)")
+        #expect(b.floats().map(\.bitPattern) == a.floats().map(\.bitPattern), "\(pin.name)")
+        for n in 0..<4 {
+            let start = a.shape.enumerated().map { ($0.offset * 11 + n * 7) % $0.element }
+            let count = zip(start, a.shape).map { min(3, $1 - $0) }
+            #expect(try native.signal.array.read(start: start, count: count) == b.slab(start: start, count: count))
+        }
+        checked += 1
+    }
+    #expect(checked > 0)
+}
+
 /// The direct "YYYY-MM-DDTHH:MM:SS" reading (0.9.0) agrees with `ISO8601DateFormatter` over a sweep of instants, leap days included.
 @Test func mibPlainTimestampEqualsTheFormatter() throws {
     let formatter = ISO8601DateFormatter()

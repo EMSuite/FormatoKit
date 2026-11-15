@@ -93,6 +93,16 @@ private func writeSet(in dir: URL, parts: Int = 3, framesPerPart: Int = 4, heade
     try joined.write(to: merlinSingle)
     try merlinHeader(frames: 12, perTrigger: 4).write(to: dir.appendingPathComponent("merlin.hdr"), atomically: true, encoding: .utf8)
     #expect(try MIBReader(path: merlinSingle.path, convention: .appScanXY).signal.load().data == reference.data)
+
+    // At the stored bit depth (FormatoKit#115 part 2): uint8, one byte a value, the same values as the Float32 reading.
+    let stored = try MIBReader(set: set, keepStoredType: true).signal
+    let storedAll = try stored.load().data
+    #expect(storedAll.dataType == .uint8 && storedAll.shape == signal.data.shape)
+    #expect(storedAll.bytes.count == storedAll.count)
+    #expect(storedAll.floats().map(\.bitPattern) == signal.data.floats().map(\.bitPattern))
+    for (start, count) in [([0, 3, 10, 20], [2, 1, 3, 5]), ([1, 0, 0, 0], [1, 4, 2, 256])] {
+        #expect(try stored.array.read(start: start, count: count) == storedAll.slab(start: start, count: count))
+    }
 }
 
 @Test func aSetWithAGapAMisorderedPartOrNoRowLengthIsRefused() throws {

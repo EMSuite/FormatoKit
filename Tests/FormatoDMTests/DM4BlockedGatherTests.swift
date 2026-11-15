@@ -102,4 +102,25 @@ import FormatoDM
             }
         }
     }
+
+    /// The app convention with `keepStoredType` (FormatoKit#115 part 2): the stored element type, the same layout, and every
+    /// slab equal to the Float32 app reading once widened, bit for bit.
+    @Test(arguments: Stored.allCases, [true, false])
+    func appConventionKeepsTheStoredType(type: Stored, scanFirst: Bool) throws {
+        let path = try Self.file(type, dims: [70, 5, 19, 21], scanFirst: scanFirst)
+        defer { try? FileManager.default.removeItem(at: URL(fileURLWithPath: path).deletingLastPathComponent()) }
+        let wide = try DM4Datacube(path: path, convention: .appCalibratedAxes)
+        let native = try DM4Datacube(path: path, convention: .appCalibratedAxes, keepStoredType: true)
+        let stored: FormatoDataType = switch type { case .float32: .float32; case .uint16: .uint16; case .int8: .int8 }
+        #expect(native.layout.storedType == stored && native.layout.outputType == stored)
+        #expect(native.layout.permutation == wide.layout.permutation)
+        #expect(native.signal.array.shape == wide.signal.array.shape)
+        #expect(native.signal.axes.map(\.name) == wide.signal.axes.map(\.name))
+        for (start, count) in Self.slabs(wide.signal.array.shape) {
+            let a = try wide.signal.array.read(start: start, count: count)
+            let b = try native.signal.array.read(start: start, count: count)
+            #expect(b.dataType == stored && b.bytes.count == b.count * stored.byteSize)
+            #expect(b.floats().map(\.bitPattern) == a.floats().map(\.bitPattern), "\(type) scanFirst \(scanFirst) \(start) \(count)")
+        }
+    }
 }
