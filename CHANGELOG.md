@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.0](https://github.com/macEMSuite/FormatoKit/compare/0.16.1...0.17.0) (2026-11-15)
+
+
+### Features
+
+* the DM4 and Merlin app conventions hand out tiles at the stored bit depth ([#130](https://github.com/macEMSuite/FormatoKit/issues/130)) ([e61053d](https://github.com/macEMSuite/FormatoKit/commit/e61053dfdc815d80a7ef248072ae10b51b021431))
+
 ## [0.16.1](https://github.com/macEMSuite/FormatoKit/compare/0.16.0...0.16.1) (2026-11-14)
 
 
