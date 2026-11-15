@@ -386,6 +386,19 @@ import FormatoDM
         #expect([o.role, o.label, o.experimentID] as [AnyHashable?] == [DM4ImageRole.eels, "EELS", "run-9"])
     }
 
+    /// A 2D image decode inside a cancelled task stops at its first block with `FormatoCancelled` (#106). Red under: no ask.
+    @Test func testAnImageReadStopsInACancelledTask() async throws {
+        let data = Self.file(imageList: [Self.object(
+            name: "x", dataType: 2, dims: [2, 3], axes: [Self.um, Self.um],
+            blobType: 6, blob: Self.f32s([1, 2, 3, 4, 5, 6]), count: 6, tags: [])])
+        let task = Task { () throws -> DM4Image in
+            withUnsafeCurrentTask { $0?.cancel() }
+            return try DM4Experiment.readImage(data: data, index: 1)
+        }
+        await #expect(throws: FormatoCancelled.self) { try await task.value }
+        #expect(try DM4Experiment.readImage(data: data, index: 1).pixels == [1, 2, 3, 4, 5, 6])
+    }
+
     @Test func testTheRootThumbnailListDecidesBeforeTheDataType() throws {
         // Object 1 is listed as a thumbnail by the root list although it is uint16, not RGBA.
         let data = Self.file(imageList: [Self.thumbnail(dataType: 10), Self.survey()], extraRoot: [Self.thumbnails])

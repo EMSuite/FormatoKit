@@ -165,8 +165,30 @@ public nonisolated struct FormatoArray: Sendable, Equatable {
     /// Calls `body(firstElement, length)` for each contiguous run of the slab, in C order: a run is one row of the last
     /// dimension (the whole slab when it is the whole array). Element indices are into the full array.
     package static func forEachContiguousRun(start: [Int], count: [Int], shape: [Int], _ body: (Int, Int) -> Void) {
+        walkRuns(start: start, count: count, shape: shape, body)
+    }
+
+    /// The file readers' walk: as `forEachContiguousRun`, asking `cancelled` before the first run and every
+    /// `cancelCheckRuns` runs after it, and throwing `FormatoCancelled` with the walk stopped when it answers true (#106).
+    /// The readers pass `FormatoCancellation.task`, so a read inside a cancelled Task stops within a block of rows.
+    package static func forEachContiguousRun(start: [Int], count: [Int], shape: [Int],
+                                             cancelled: @Sendable () -> Bool,
+                                             _ body: (Int, Int) -> Void) throws {
+        var runs = 0
+        try walkRuns(start: start, count: count, shape: shape) { element, length in
+            if runs % cancelCheckRuns == 0 { try FormatoCancellation.check(cancelled) }
+            runs += 1
+            body(element, length)
+        }
+    }
+
+    /// Runs between two cancellation asks of the file readers' walk: a few hundred rows of a pattern or a frame, so the ask is
+    /// never per value.
+    package static let cancelCheckRuns = 256
+
+    private static func walkRuns(start: [Int], count: [Int], shape: [Int], _ body: (Int, Int) throws -> Void) rethrows {
         let rank = shape.count
-        if rank == 0 { body(0, 1); return }
+        if rank == 0 { try body(0, 1); return }
         if count.contains(0) { return }
         var strides = [Int](repeating: 1, count: rank)
         for k in stride(from: rank - 2, through: 0, by: -1) { strides[k] = strides[k + 1] * shape[k + 1] }
@@ -175,7 +197,7 @@ public nonisolated struct FormatoArray: Sendable, Equatable {
         while true {
             var element = start[rank - 1]
             for k in 0..<(rank - 1) { element += (start[k] + index[k]) * strides[k] }
-            body(element, rowLength)
+            try body(element, rowLength)
             var k = rank - 2
             while k >= 0 {
                 index[k] += 1

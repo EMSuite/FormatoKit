@@ -59,6 +59,10 @@ A reader that cannot read a file throws ``FormatoReadError``. Its cases name wha
 
 Long reads take a `cancelled` closure. It defaults to ``FormatoCancellation/task``, which follows the task's cancellation. When the closure returns true, the read throws ``FormatoCancelled`` and keeps nothing partial.
 
+A lazy array's `read(start:count:)` takes no closure: the DigitalMicrograph, MIB, EMPAD, TIFF and raw-file arrays, and the DM4
+image and spectrum-image decodes, ask the calling task's cancellation once per block of rows, frames or channels. A slab read inside a
+cancelled task throws ``FormatoCancelled``. HDF5 reads are still one library call each (FormatoKit#106 holds what is left).
+
 ## Units
 
 ``FormatoUnits/convertUnits(_:from:to:)`` converts a value between the length and time units the readers meet, with the same factors RosettaSciIO uses. It returns nil for a pair it does not convert, so a caller decides what to do rather than receiving a guess.

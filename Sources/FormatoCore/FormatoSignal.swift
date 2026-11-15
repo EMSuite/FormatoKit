@@ -110,9 +110,9 @@ public nonisolated struct FormatoFileArray: FormatoLazyArray {
         }
         var out = Data(count: total)
         var failure: FormatoReadError?
-        out.withUnsafeMutableBytes { dst in
+        try out.withUnsafeMutableBytes { dst in
             var written = 0
-            FormatoArray.forEachContiguousRun(start: start, count: count, shape: shape) { element, length in
+            try FormatoArray.forEachContiguousRun(start: start, count: count, shape: shape, cancelled: FormatoCancellation.task) { element, length in
                 guard failure == nil else { return }
                 let want = length * size
                 var done = 0
