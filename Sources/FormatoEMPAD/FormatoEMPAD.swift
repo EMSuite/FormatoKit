@@ -269,7 +269,7 @@ private struct EMPADArray: FormatoLazyArray {
         try FormatoArray.validateSlab(start: start, count: count, shape: shape)
         try mapping.checkSize()
         var bytes = Data(capacity: try FormatoArray.elementCount(count) * 4)
-        FormatoArray.forEachContiguousRun(start: start, count: count, shape: shape) { element, length in
+        try FormatoArray.forEachContiguousRun(start: start, count: count, shape: shape, cancelled: FormatoCancellation.task) { element, length in
             let frame = element / (128 * 128)
             let pixel = element % (128 * 128)
             bytes.append(mapping.pointer.advanced(by: (frame * 130 * 128 + pixel) * 4).assumingMemoryBound(to: UInt8.self), count: length * 4)

@@ -812,6 +812,7 @@ public nonisolated struct TIFFSeriesArray: FormatoLazyArray {
             }
         }
         for image in images {
+            try FormatoCancellation.check(FormatoCancellation.task)   // one ask per page of the slab (#106)
             let src = series.source(image)
             if src.layout.isCompressed {
                 guard nx > 0, ny > 0 else { continue }
@@ -855,7 +856,10 @@ public nonisolated struct TIFFSeriesArray: FormatoLazyArray {
         var strides = [Int](repeating: 1, count: rank)
         for k in stride(from: rank - 2, through: 0, by: -1) { strides[k] = strides[k + 1] * shape[k + 1] }
         var idx = [Int](repeating: 0, count: max(rank - 1, 0))
+        var runs = 0
         while true {
+            if runs % FormatoArray.cancelCheckRuns == 0 { try FormatoCancellation.check(FormatoCancellation.task) }   // #106
+            runs += 1
             // Rank 0 (tifffile's shape () series) is the page's one value: flat 0, one element.
             var flat = rank > 0 ? start[rank - 1] : 0
             for k in 0..<max(rank - 1, 0) { flat += (start[k] + idx[k]) * strides[k] }

@@ -234,16 +234,16 @@ private struct DM4GatherArray: FormatoLazyArray {
         // Permuted, with more than one step along the leading axis of smallest file stride: tile (see blockedGather).
         let fast = (0..<3).min { outStrides[$0] < outStrides[$1] }!
         if innerStride != 1 && count[fast] > 1 {
-            out.withUnsafeMutableBytes { raw in
-                blockedGather(base: base, fast: fast, outStrides: outStrides, start: start, count: count, into: raw.baseAddress!)
+            try out.withUnsafeMutableBytes { raw in
+                try blockedGather(base: base, fast: fast, outStrides: outStrides, start: start, count: count, into: raw.baseAddress!)
             }
             return try FormatoArray(dataType: dataType, shape: count, bytes: out)
         }
-        out.withUnsafeMutableBytes { (raw: UnsafeMutableRawBufferPointer) in
+        try out.withUnsafeMutableBytes { (raw: UnsafeMutableRawBufferPointer) in
             var dst = raw.baseAddress!
             // Rows of the last output axis, left to right in the slab: one source start per row, then a constant stride
             // (one element in stored order; a single pattern of a permuted file has no neighbours to tile with).
-            FormatoArray.forEachContiguousRun(start: start, count: count, shape: shape) { first, length in
+            try FormatoArray.forEachContiguousRun(start: start, count: count, shape: shape, cancelled: FormatoCancellation.task) { first, length in
                 var element = first, remaining = length
                 while remaining > 0 {
                     let column = element % inner
@@ -277,7 +277,7 @@ private struct DM4GatherArray: FormatoLazyArray {
     /// `tile` neighbouring outputs, and each output row is written contiguously. The same bytes as the element-by-element
     /// order; only the visiting order changes.
     private func blockedGather(base: UnsafeRawPointer, fast: Int, outStrides: [Int], start: [Int], count: [Int],
-                               into dst: UnsafeMutableRawPointer) {
+                               into dst: UnsafeMutableRawPointer) throws {
         let outer = (0..<3).filter { $0 != fast }
         var slabStrides = [1, 1, 1, 1]
         for i in stride(from: 2, through: 0, by: -1) { slabStrides[i] = slabStrides[i+1] * count[i+1] }
@@ -290,6 +290,8 @@ private struct DM4GatherArray: FormatoLazyArray {
         for axis in 0..<4 { origin += start[axis] * outStrides[axis] }
         let row = rowCopier()
         for a in 0..<count[p] { for b in 0..<count[q] {
+            // One ask per line of the two outer axes: a whole fast-axis line of tiles at most between two (#106).
+            try FormatoCancellation.check(FormatoCancellation.task)
             let source = base + (origin + a * outStrides[p] + b * outStrides[q]) * storedSize
             let target = dst + (a * slabStrides[p] + b * slabStrides[q]) * outSize
             for f0 in stride(from: 0, to: count[fast], by: tile) {

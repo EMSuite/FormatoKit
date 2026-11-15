@@ -398,8 +398,8 @@ private struct MIBArray: FormatoLazyArray {
         var checkedFrame = -1
         var failure: MIBError?
         var written = 0
-        bytes.withUnsafeMutableBytes { out in
-            FormatoArray.forEachContiguousRun(start: start, count: count, shape: shape) { element, length in
+        try bytes.withUnsafeMutableBytes { out in
+            try FormatoArray.forEachContiguousRun(start: start, count: count, shape: shape, cancelled: FormatoCancellation.task) { element, length in
                 guard failure == nil else { return }
                 // A run is cut where the source leaves a frame or the flip's row changes, so each piece is contiguous in the file.
                 var i = element

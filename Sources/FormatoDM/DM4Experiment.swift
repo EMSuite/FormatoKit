@@ -491,6 +491,7 @@ public nonisolated enum DM4Experiment {
         try out.withUnsafeMutableBufferPointer { dst in
             var i0 = 0
             while i0 < count {
+                try FormatoCancellation.check(FormatoCancellation.task)   // one ask per block (#106)
                 let n = min(perBlock, count - i0)
                 let raw = try source.fetchData(object.dataOffset + i0 * size, n * size)
                 raw.withUnsafeBytes { p in
@@ -599,6 +600,7 @@ public nonisolated enum DM4Experiment {
         let block = 32
         var c0 = 0
         while c0 < nch {
+            try FormatoCancellation.check(FormatoCancellation.task)   // one ask per block of channels (#106)
             let b = min(block, nch - c0)
             let raw = try source.fetch(object.dataOffset + c0 * planeBytes, b * planeBytes)
             raw.withUnsafeBytes { p in
@@ -689,6 +691,7 @@ public nonisolated enum DM4Experiment {
         let block = 32
         var c0 = 0
         while c0 < nch {
+            try FormatoCancellation.check(FormatoCancellation.task)   // one ask per block of channels (#106)
             let b = min(block, nch - c0)
             let raw = try source.fetch(object.dataOffset + c0 * planeBytes, b * planeBytes)
             try raw.withUnsafeBytes { p in
