@@ -197,7 +197,9 @@ private final class DM4Mapping: @unchecked Sendable {
             guard let buffer = malloc(max(dataBytes, 1)) else { close(descriptor); throw DM4Error.truncated }
             var done = 0
             while done < dataBytes {
-                let got = pread(descriptor, buffer + done, min(dataBytes - done, 1 << 30), off_t(dataOffset + done))
+                // One ask per 64 MiB read (#106): a cancelled open frees what it read and stops.
+                if FormatoCancellation.task() { free(buffer); close(descriptor); throw FormatoCancelled() }
+                let got = pread(descriptor, buffer + done, min(dataBytes - done, 1 << 26), off_t(dataOffset + done))
                 if got < 0 && errno == EINTR { continue }
                 if got <= 0 { free(buffer); close(descriptor); throw DM4Error.truncated }
                 done += got

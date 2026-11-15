@@ -14,9 +14,11 @@ import FormatoCore
     /// Cancelled from the start, no run is visited. Red under: the walk asking nothing.
     @Test func aCancelledWalkVisitsNoRun() {
         var runs = 0
-        #expect(throws: FormatoCancelled.self) {
+        var thrown: Error?
+        do {
             try FormatoArray.forEachContiguousRun(start: [0, 0], count: [10, 4], shape: [10, 4], cancelled: { true }) { _, _ in runs += 1 }
-        }
+        } catch { thrown = error }
+        #expect(thrown is FormatoCancelled)
         #expect(runs == 0)
     }
 
@@ -26,10 +28,12 @@ import FormatoCore
         let asks = OSAllocatedUnfairLock(initialState: 0)
         let rows = 3 * FormatoArray.cancelCheckRuns
         var runs = 0
-        #expect(throws: FormatoCancelled.self) {
+        var thrown: Error?
+        do {
             try FormatoArray.forEachContiguousRun(start: [0, 0], count: [rows, 2], shape: [rows, 2],
                                                   cancelled: { asks.withLock { $0 += 1; return $0 > 1 } }) { _, _ in runs += 1 }
-        }
+        } catch { thrown = error }
+        #expect(thrown is FormatoCancelled)
         #expect(runs == FormatoArray.cancelCheckRuns)
     }
 
