@@ -34,7 +34,7 @@ public nonisolated struct DM4DatacubeLayout: Sendable, Equatable {
     public var scanFastest: Bool { permutation != [0,1,2,3] }
     /// The stored element type of the file.
     public let storedType: FormatoDataType
-    /// The element type the arrays return (Float32 for the app convention, the stored type otherwise).
+    /// The element type the arrays return (Float32 for the app convention unless `keepStoredType`, the stored type otherwise).
     public let outputType: FormatoDataType
 }
 
@@ -64,10 +64,13 @@ public nonisolated struct DM4Datacube: Sendable {
     ///   - convention: Stored reference order by default, or the separately pinned app layout.
     ///   - options: Existing tag-walk string limits.
     ///   - storage: `.mapped` (default) or `.readIntoMemory`.
+    ///   - keepStoredType: In the app convention, return the stored element type instead of Float32: the same layout and
+    ///     axes, each value the file's own bytes (FormatoKit#115 part 2). The reference convention keeps it always.
     /// - Throws: `DM4Error` for malformed data, unsupported types or absence of a datacube; `.cannotOpen` with a sentence
     ///   for an object of more than four dimensions.
     public init(path: String, objectIndex: Int? = nil, convention: DM4GatherConvention = .rosettaSciIO,
-                options: DMReadOptions = DMReadOptions(), storage: DM4DatacubeStorage = .mapped) throws {
+                options: DMReadOptions = DMReadOptions(), storage: DM4DatacubeStorage = .mapped,
+                keepStoredType: Bool = false) throws {
         let file = try DMFile(path: path, options: options)
         let tree = try DM4Experiment.tagTree(path: path, options: options)
         func scanShape(_ candidate: DM4ImageObject) -> (y: Int, x: Int)? {
@@ -150,8 +153,9 @@ public nonisolated struct DM4Datacube: Sendable {
                 return FormatoAxis(name: ["Ry","Rx","Qy","Qx"][i], size: a.size, scale: a.scale, offset: a.offset, units: a.units, navigate: i < 2)
             }
         }
-        layout = DM4DatacubeLayout(storedShape: shape, permutation: permutation, storedType: type, outputType: app ? .float32 : type)
-        let array = DM4GatherArray(mapping: mapping, offset: mapping.dataStart, storedType: type, dataType: app ? .float32 : type,
+        let outputType: FormatoDataType = app && !keepStoredType ? .float32 : type
+        layout = DM4DatacubeLayout(storedShape: shape, permutation: permutation, storedType: type, outputType: outputType)
+        let array = DM4GatherArray(mapping: mapping, offset: mapping.dataStart, storedType: type, dataType: outputType,
                                   storedShape: shape, shape: outputShape, permutation: permutation)
         signal = FormatoLazySignal(title: object.name, signalType: DMFile.signalType(of: object), axes: axes,
                                   metadata: file.metadata(of: object), array: array)
