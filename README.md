@@ -4,7 +4,7 @@
 
 [![CI](https://github.com/EMSuite/FormatoKit/actions/workflows/ci.yml/badge.svg)](https://github.com/EMSuite/FormatoKit/actions/workflows/ci.yml)
 [![Docs](https://github.com/EMSuite/FormatoKit/actions/workflows/docs.yml/badge.svg)](https://emsuite.github.io/FormatoKit/documentation/)
-[![Release](https://img.shields.io/github/v/tag/mac4DSTEM/FormatoKit?label=release&sort=semver)](https://github.com/EMSuite/FormatoKit/tags)
+[![Release](https://img.shields.io/github/v/tag/EMSuite/FormatoKit?label=release&sort=semver)](https://github.com/EMSuite/FormatoKit/tags)
 [![Licence: GPL-3.0-only](https://img.shields.io/badge/licence-GPL--3.0--only-blue)](LICENSE)
 
 A file-format library for macOS: the Mac counterpart of [RosettaSciIO](https://github.com/hyperspy/rosettasciio).
