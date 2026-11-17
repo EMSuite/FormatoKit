@@ -160,7 +160,7 @@ private let creator = "RosettaSciIO version 0.14.1.dev96+g049e7d707"
     #expect(lines.contains("7.000000, "))
 }
 
-/// The lines are walked in place (macEMSuite/FormatoKit#109): `\r`, `\n` and `\r\n` each end a line, a last line without a
+/// The lines are walked in place (EMSuite/FormatoKit#109): `\r`, `\n` and `\r\n` each end a line, a last line without a
 /// break is read, empty lines and lines of separators carry no values, and Latin-1 and UTF-8 read the same file alike.
 @Test func linesWalkedInPlaceKeepPythonsNewlines() throws {
     let text = "#FORMAT      : EMSA/MAS Spectral Data File\r#VERSION     : 1.0\n#TITLE       : Mixed\r\n#XPERCHAN    : 10\r"

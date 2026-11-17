@@ -1,7 +1,7 @@
 //
 //  EMPADUntrustedXMLTests.swift
 //  An EMPAD header is untrusted: it goes through GuardedXML's bounds, and its raw_file.filename must stay in the header's folder
-//  (macEMSuite/FormatoKit#110).
+//  (EMSuite/FormatoKit#110).
 //  Red before: plain `XMLParser` took any depth and any entity; `../` or an absolute raw path was followed to another file.
 //
 

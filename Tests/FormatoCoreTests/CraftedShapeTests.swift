@@ -1,7 +1,7 @@
 //
 //  CraftedShapeTests.swift
 //  A lazy file array whose shape or offset comes from a crafted header is refused with a typed error, never an overflow trap,
-//  and a truncated file is refused before the slab is allocated (macEMSuite/FormatoKit#103).
+//  and a truncated file is refused before the slab is allocated (EMSuite/FormatoKit#103).
 //  Red before: `offset + element * size + done` and the stride products overflowed on an extreme shape or offset; a declared
 //  shape far past the file allocated the whole slab before the first read failed.
 //

@@ -1,7 +1,7 @@
 //
 //  DM4ImageMemoryBoundTests.swift
 //  A 2D DM image is bounded by what it takes in memory, and its Float32 read holds no second full-size copy
-//  (macEMSuite/FormatoKit#109). Red before: the limit was on the stored bytes only, so an 8-bit image passed at a quarter
+//  (EMSuite/FormatoKit#109). Red before: the limit was on the stored bytes only, so an 8-bit image passed at a quarter
 //  of its Float32 size; and `readImage` held the stored bytes twice and the Float32 image at once.
 //
 

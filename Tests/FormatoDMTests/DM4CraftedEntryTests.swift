@@ -1,6 +1,6 @@
 //
 //  DM4CraftedEntryTests.swift
-//  A DM4 entry whose size is near Int.max is refused as truncated, never an overflow trap (macEMSuite/FormatoKit#103).
+//  A DM4 entry whose size is near Int.max is refused as truncated, never an overflow trap (EMSuite/FormatoKit#103).
 //  Red before: `entryStart + size` overflowed.
 //
 
