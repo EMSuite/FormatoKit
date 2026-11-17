@@ -1,6 +1,6 @@
 //
 //  HDF5MemoryBoundTests.swift
-//  An HDF5 read never allocates more than its limit, or what the file can give (macEMSuite/FormatoKit#109).
+//  An HDF5 read never allocates more than its limit, or what the file can give (EMSuite/FormatoKit#109).
 //  Red before: the slab reader and the datacube had no byte limit, and the slab reader allocated before it checked the slab;
 //  the LZF filter allocated the chunk size the file claims; a variable-length string was copied whatever its length.
 //

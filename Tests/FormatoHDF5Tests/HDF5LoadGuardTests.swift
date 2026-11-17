@@ -1,7 +1,7 @@
 //
 //  HDF5LoadGuardTests.swift
 //  The libhdf5 load: no bare search-path lookup in a release build, every resolved symbol checked before `H5open`, and the
-//  pinned version (macEMSuite/FormatoKit#110). The pinned library itself loads in every other HDF5 suite.
+//  pinned version (EMSuite/FormatoKit#110). The pinned library itself loads in every other HDF5 suite.
 //
 
 import Foundation

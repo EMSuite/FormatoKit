@@ -1,6 +1,6 @@
 //
 //  TIFFVendorXMLGuardTests.swift
-//  The JEOL SightX description XML goes through GuardedXML's bounds before it is built (macEMSuite/FormatoKit#110).
+//  The JEOL SightX description XML goes through GuardedXML's bounds before it is built (EMSuite/FormatoKit#110).
 //  Red before: plain `XMLParser` built any depth and accepted an entity declaration.
 //
 

@@ -1,6 +1,6 @@
 //
 //  VeloxEventStoreOffsetsTests.swift
-//  The event store's count, scatter and per-pixel reads share one offsets array (macEMSuite/FormatoKit#109): every pixel's
+//  The event store's count, scatter and per-pixel reads share one offsets array (EMSuite/FormatoKit#109): every pixel's
 //  spectrum equals a plain count of the streams, with empty first and last pixels, several streams and out-of-range
 //  channels.
 //

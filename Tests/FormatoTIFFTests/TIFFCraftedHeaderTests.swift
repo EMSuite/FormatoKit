@@ -1,6 +1,6 @@
 //
 //  TIFFCraftedHeaderTests.swift
-//  Crafted header values in a TIFF are refused, never an overflow trap (macEMSuite/FormatoKit#103).
+//  Crafted header values in a TIFF are refused, never an overflow trap (EMSuite/FormatoKit#103).
 //  Red before: an FEI date of digits longer than Int trapped on `Int(...)!`; an ImageJ description whose plane counts multiply
 //  past Int trapped on `*`.
 //

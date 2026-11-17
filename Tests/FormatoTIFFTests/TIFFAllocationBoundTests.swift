@@ -1,6 +1,6 @@
 //
 //  TIFFAllocationBoundTests.swift
-//  A TIFF's declared sizes never make the reader copy or decode more than the file holds (macEMSuite/FormatoKit#109).
+//  A TIFF's declared sizes never make the reader copy or decode more than the file holds (EMSuite/FormatoKit#109).
 //  Red before: strips that point at the same bytes were copied once each; tags that point at the same bytes were copied
 //  and decoded once each; an LZW page's claimed size was checked against the whole file, not its strips; a slab of a
 //  compressed page decoded every strip of the page.

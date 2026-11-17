@@ -28,7 +28,7 @@ let binaryTargets: [Target] = xcframeworks.map { framework in
         ? .binaryTarget(name: framework.name, path: "dist/xcframeworks/\(framework.name).xcframework")
         : .binaryTarget(
             name: framework.name,
-            url: "https://github.com/mac4DSTEM/FormatoKit/releases/download/\(xcframeworkRelease)/\(framework.name)\(xcframeworkRebuild).xcframework.zip",
+            url: "https://github.com/EMSuite/FormatoKit/releases/download/\(xcframeworkRelease)/\(framework.name)\(xcframeworkRebuild).xcframework.zip",
             checksum: framework.checksum)
 }
 
