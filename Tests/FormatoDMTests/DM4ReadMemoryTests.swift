@@ -15,7 +15,7 @@ import Testing
 
 @Suite(.serialized) struct DM4ReadMemoryTests {
 
-    /// The process's physical footprint in bytes (`TASK_VM_INFO`, what Activity Monitor and memcap read).
+    /// The process's physical footprint in bytes (`TASK_VM_INFO`, what Activity Monitor shows).
     private static func footprint() -> Int {
         var info = task_vm_info_data_t()
         var count = mach_msg_type_number_t(MemoryLayout<task_vm_info_data_t>.size / MemoryLayout<natural_t>.size)
