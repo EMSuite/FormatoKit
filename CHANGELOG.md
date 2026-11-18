@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.18.0](https://github.com/EMSuite/FormatoKit/compare/0.17.0...0.18.0) (2026-11-18)
+
+
+### Features
+
+* long file reads stop when their task is cancelled ([#133](https://github.com/EMSuite/FormatoKit/issues/133)) ([5526876](https://github.com/EMSuite/FormatoKit/commit/55268767a456a246563dd54ef7efa6938db208dc))
+
+
+### Bug Fixes
+
+* a long DM4 read holds one block at a time, not every block until it returns ([#137](https://github.com/EMSuite/FormatoKit/issues/137)) ([50708e4](https://github.com/EMSuite/FormatoKit/commit/50708e44759eecb980a2173e3389101f67b31998))
+
 ## [0.17.0](https://github.com/macEMSuite/FormatoKit/compare/0.16.1...0.17.0) (2026-11-15)
 
 
