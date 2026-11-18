@@ -423,7 +423,8 @@ public nonisolated enum DM4Experiment {
 
     /// Where bytes come from: a file read through `FileHandle` (seek + bounded reads, on any
     /// volume), or a `Data` for tests. `fetchData` returns exactly `count` bytes or throws; `fetch` gives them as an array.
-    private struct Source {
+    /// Internal, not private: `DM4ReadMemoryTests` reads a large file through it (#136).
+    struct Source {
         let size: Int
         let fetchData: (_ offset: Int, _ count: Int) throws -> Data
         let counter: Counter
@@ -448,8 +449,12 @@ public nonisolated enum DM4Experiment {
             let name = formatoDisplayFileName(path)
             return Source(size: size, fetchData: { offset, count in
                 do {
-                    try handle.seek(toOffset: UInt64(offset))
-                    let got = try handle.read(upToCount: count) ?? Data()
+                    // In a pool of its own: `read(upToCount:)` hands an autoreleased NSData, and a long read on a thread with no pool
+                    // drained in its loop kept every block alive until it returned, the whole object again (#136: +257 MB for a 256 MB read).
+                    let got = try autoreleasepool { () throws -> Data in
+                        try handle.seek(toOffset: UInt64(offset))
+                        return try handle.read(upToCount: count) ?? Data()
+                    }
                     guard got.count == count else { throw DM4Error.truncated }
                     counter.bytes += count
                     return got
