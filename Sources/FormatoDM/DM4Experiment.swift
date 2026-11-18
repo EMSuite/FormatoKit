@@ -423,7 +423,8 @@ public nonisolated enum DM4Experiment {
 
     /// Where bytes come from: a file read through `FileHandle` (seek + bounded reads, on any
     /// volume), or a `Data` for tests. `fetchData` returns exactly `count` bytes or throws; `fetch` gives them as an array.
-    private struct Source {
+    /// Internal, not private: `DM4ReadMemoryTests` reads a large file through it (#136).
+    struct Source {
         let size: Int
         let fetchData: (_ offset: Int, _ count: Int) throws -> Data
         let counter: Counter
