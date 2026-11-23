@@ -9,7 +9,7 @@ abstract: >-
 authors:
   - family-names: Lobpreis
     given-names: Paul
-version: "0.18.1" # x-release-please-version
+version: "0.19.0" # x-release-please-version
 date-released: "2026-11-23" # x-release-please-date
 license: GPL-3.0-only
 repository-code: "https://github.com/EMSuite/FormatoKit"
