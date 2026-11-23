@@ -96,6 +96,7 @@ RULES = [
     ("FormatoTIFFTests/Fixtures/planted/*", "tiff-pins/make_planted.py", "planted; truth tifffile 2026.9.20"),
     ("FormatoTIFFTests/Fixtures/tiff-pins.json", "tiff-pins/pins.py", RSCIIO + ", tifffile 2026.9.20"),
     ("FormatoTIFFTests/Fixtures/lzw/*", "tiff-lzw/generate.py", "tifffile 2026.9.20, imagecodecs 2026.10.10"),
+    ("FormatoTIFFTests/Fixtures/colour/*", "tiff-colour/generate.py", "tifffile 2026.9.20, imagecodecs 2026.10.10; truth NumPy 2.5.4 rgb.max(axis=-1)"),
     ("FormatoTIFFTests/Fixtures/shaped/*", "shaped-tiff/pins.py", "tifffile 2026.9.20"),
     ("FormatoTIFFTests/Fixtures/shaped-pins.json", "shaped-tiff/pins.py", RSCIIO + ", tifffile 2026.9.20"),
     ("FormatoTIFFTests/Fixtures/refuter/*", "velox-titles/refuter_pins.py", "planted review file"),

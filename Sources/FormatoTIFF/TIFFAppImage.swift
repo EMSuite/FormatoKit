@@ -8,7 +8,8 @@
 //  Predictor 2 on integers or 3 on floats; TIFFCompression.swift, FormatoKit#90, beyond the consumer's source), in strips, chunky. One
 //  sample per pixel: unsigned or signed 8/16/32-bit integers, 32/64-bit floats, each as Float32. Three samples (RGB, 8 bit
 //  only): only when R = G = B holds exactly at every pixel (an exported grey render), read as one grey channel and noted
-//  "8-bit render, not counts". Refused by name (`Refusal`): not a TIFF, BigTIFF, a file that ends before its image does,
+//  "8-bit render, not counts"; with `colour: .brightestChannel` a colour image (a display export with a colour table and
+//  annotations burnt in) is read as grey too, each pixel the brightest of its channels, noted as a colour render (FormatoKit#93). Refused by name (`Refusal`): not a TIFF, BigTIFF, a file that ends before its image does,
 //  a second page or an ImageJ stack (more than one plane), any compression but LZW, tiles, unequal colour channels, any other
 //  sample layout (WhiteIsZero, palette, 16-bit colour, planar 2, mixed sample sizes). Nothing is guessed.
 //
@@ -88,46 +89,76 @@ public nonisolated enum TIFFAppImage {
     /// The notes a reading can attach, worded once.
     public enum Note {
         public static let render = "8-bit render, not counts"
+        /// A colour TIFF read as grey with ``ColourReading/brightestChannel`` (FormatoKit#93): what is read is the file's picture,
+        /// not its data.
+        public static let colourRender = "Colour render (the file's colour table and any annotations burnt in), shown as grey: "
+            + "each pixel is the brightest of its red, green and blue, not counts"
         public static let veloxStoredScale = TIFFVeloxCalibration.storedScaleNote
         /// The same note under its older name.
         public static let veloxUnvalidated = veloxStoredScale
         public static let veloxDisagree = TIFFVeloxCalibration.disagreeNote
     }
 
+    /// What an 8-bit RGB TIFF whose channels differ becomes (a display export with a colour table and annotations burnt in,
+    /// as Gatan DigitalMicrograph writes one).
+    public enum ColourReading: Sendable, Equatable {
+        /// Refused by name (`Refusal.unequalChannels`): only an exact grey render (R = G = B) is read. The default.
+        case refuse
+        /// Read as grey, each pixel the brightest of its three channels (HSV value, NumPy's `rgb.max(axis=-1)`), which keeps a
+        /// one-colour table's ramp exact and leaves annotations visible. Noted `Note.colourRender`, not counts.
+        case brightestChannel
+    }
+
     // MARK: - Reading
 
-    public static func read(path: String, acceptUnequalChannels: Bool = false) throws -> Image {
+    public static func read(path: String, acceptUnequalChannels: Bool = false, colour: ColourReading = .refuse) throws -> Image {
         let data: Data
         do { data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped) } catch {
             throw FormatoReadError.cannotOpen(formatoDisplayFileName(path), error.localizedDescription)
         }
-        return try read(data: data, fileName: formatoDisplayFileName(path), acceptUnequalChannels: acceptUnequalChannels)
+        return try read(data: data, fileName: formatoDisplayFileName(path), acceptUnequalChannels: acceptUnequalChannels,
+                        colour: colour)
     }
 
     /// `acceptUnequalChannels` exists for one caller: the negative control that must show the unequal-channel refusal is
-    /// live. It reads the red channel instead of refusing.
-    public static func read(data: Data, fileName: String, acceptUnequalChannels: Bool = false) throws -> Image {
+    /// live. It reads the red channel instead of refusing. `colour` says what a colour image becomes (`ColourReading`); it
+    /// wins over `acceptUnequalChannels`.
+    public static func read(data: Data, fileName: String, acceptUnequalChannels: Bool = false,
+                            colour: ColourReading = .refuse) throws -> Image {
         let page = try decodePage(data: data, fileName: fileName)
         let (width, height, bytesPerSample) = (page.width, page.height, page.bytesPerSample)
         let decode = try decoder(bits: page.bitsPerSample, format: page.format, bigEndian: page.samplesBigEndian)
         var pixels = [Float](repeating: 0, count: width * height)
+        var coloured = false
         try page.raw.withUnsafeBytes { (buffer: UnsafeRawBufferPointer) in
             if page.isRGB {
                 for i in 0..<(width * height) {
                     let base = i * 3 * bytesPerSample
                     let r = decode(buffer, base), g = decode(buffer, base + bytesPerSample),
                         b = decode(buffer, base + 2 * bytesPerSample)
-                    guard acceptUnequalChannels || r == g && g == b else {
-                        throw Refusal.unequalChannels(row: i / width, column: i % width)
+                    if r == g && g == b { pixels[i] = r; continue }
+                    switch colour {
+                    case .brightestChannel:
+                        coloured = true
+                        pixels[i] = max(r, g, b)
+                    case .refuse:
+                        guard acceptUnequalChannels else { throw Refusal.unequalChannels(row: i / width, column: i % width) }
+                        pixels[i] = r
                     }
-                    pixels[i] = r
                 }
             } else {
                 for i in 0..<(width * height) { pixels[i] = decode(buffer, i * bytesPerSample) }
             }
         }
+        let (source, notes) = coloured ? colourReading(page) : (page.source, page.notes)
         return Image(width: width, height: height, pixels: pixels, x: page.x, y: page.y, fileName: fileName,
-                     source: page.source, notes: page.notes)
+                     source: source, notes: notes)
+    }
+
+    /// The source line and notes of a colour TIFF read as grey: the render note becomes the colour-render note.
+    private static func colourReading(_ page: Page) -> (source: String, notes: [String]) {
+        (page.source.replacingOccurrences(of: Note.render, with: "colour render shown as grey, not counts"),
+         page.notes.filter { $0 != Note.render } + [Note.colourRender])
     }
 
     // MARK: - Reading at the stored bit depth (FormatoKit#115)
@@ -148,31 +179,35 @@ public nonisolated enum TIFFAppImage {
     }
 
     /// `read(path:)` at the stored bit depth: no Float32 array is made on the way.
-    public static func readStored(path: String) throws -> StoredImage {
+    public static func readStored(path: String, colour: ColourReading = .refuse) throws -> StoredImage {
         let data: Data
         do { data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped) } catch {
             throw FormatoReadError.cannotOpen(formatoDisplayFileName(path), error.localizedDescription)
         }
-        return try readStored(data: data, fileName: formatoDisplayFileName(path))
+        return try readStored(data: data, fileName: formatoDisplayFileName(path), colour: colour)
     }
 
     /// `read(data:fileName:)` at the stored bit depth: the samples, swapped to little-endian where the file is big-endian,
     /// in one array the size of the stored image.
-    public static func readStored(data: Data, fileName: String) throws -> StoredImage {
+    public static func readStored(data: Data, fileName: String, colour: ColourReading = .refuse) throws -> StoredImage {
         let page = try decodePage(data: data, fileName: fileName)
         let (width, height, size) = (page.width, page.height, page.bytesPerSample)
         let count = width * height
         let type = try storedType(bits: page.bitsPerSample, format: page.format)
         var bytes: Data
+        var coloured = false
         if page.isRGB {
-            // 8-bit only (checked in decodePage): the grey channel, with the same equal-channel refusal as `read`.
+            // 8-bit only (checked in decodePage): the grey channel, with the same equal-channel rule as `read`. The brightest of
+            // three bytes is a byte, so a colour render stays one byte a pixel.
             bytes = Data(count: count)
             try page.raw.withUnsafeBytes { (src: UnsafeRawBufferPointer) in
                 try bytes.withUnsafeMutableBytes { (dst: UnsafeMutableRawBufferPointer) in
                     for i in 0..<count {
                         let r = src[3 * i], g = src[3 * i + 1], b = src[3 * i + 2]
-                        guard r == g && g == b else { throw Refusal.unequalChannels(row: i / width, column: i % width) }
-                        dst[i] = r
+                        if r == g && g == b { dst[i] = r; continue }
+                        guard colour == .brightestChannel else { throw Refusal.unequalChannels(row: i / width, column: i % width) }
+                        coloured = true
+                        dst[i] = max(r, g, b)
                     }
                 }
             }
@@ -190,8 +225,9 @@ public nonisolated enum TIFFAppImage {
                 }
             }
         }
+        let (source, notes) = coloured ? colourReading(page) : (page.source, page.notes)
         return StoredImage(width: width, height: height, pixels: try FormatoArray(dataType: type, shape: [height, width], bytes: bytes),
-                           x: page.x, y: page.y, fileName: fileName, source: page.source, notes: page.notes)
+                           x: page.x, y: page.y, fileName: fileName, source: source, notes: notes)
     }
 
     private static func storedType(bits: Int, format: Int) throws -> FormatoDataType {
