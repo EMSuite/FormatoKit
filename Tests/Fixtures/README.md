@@ -5,7 +5,7 @@ the index is rewritten in the same commit (CI runs `index.py --check`). A regene
 commit, with the reason and a CHANGELOG line.
 
 One row per tracked file under `Tests/*/Fixtures/`: its size, the script under `tools/` that writes it (or *copied*),
-and its source: the pinned reference that wrote or read it, or where a copied file comes from. 705 files.
+and its source: the pinned reference that wrote or read it, or where a copied file comes from. 706 files.
 
 The generators run in the one Python environment of `tools/requirements.txt` (`tools/README.md`). The tests never run
 Python: they read these committed files, so `swift test` needs none of it.
@@ -347,6 +347,7 @@ others stay in SpectroKit or the first consumer, named in the rows.
 | `FormatoHDF5Tests/Fixtures/root-attributes/not-a-string.h5` | 880 B | `tools/hdf5-write/generate.py` | h5py 3.16.0 |
 | `FormatoHDF5Tests/Fixtures/root-attributes/not-hdf5.h5` | 100 B | `tools/hdf5-write/generate.py` | h5py 3.16.0 |
 | `FormatoHDF5Tests/Fixtures/root-attributes/variable-length.h5` | 6.0 KB | `tools/hdf5-write/generate.py` | h5py 3.16.0 |
+| `FormatoHSPYTests/Fixtures/hyperspy-layout.json` | 112.3 KB | `tools/hspy-writer/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
 | `FormatoMIBTests/Fixtures/app-U08-2x2.data.gz` | 10.4 KB | `tools/mib/generate.py` | planted; pins the first consumer's pinned reader (via `tools/mib/app-scaffold.swift`) |
 | `FormatoMIBTests/Fixtures/app-U08-2x2.hdr` | 18 B | `tools/mib/generate.py` | planted; pins the first consumer's pinned reader (via `tools/mib/app-scaffold.swift`) |
 | `FormatoMIBTests/Fixtures/app-U08-2x2.mib.gz` | 2.5 KB | `tools/mib/generate.py` | planted; pins the first consumer's pinned reader (via `tools/mib/app-scaffold.swift`) |
