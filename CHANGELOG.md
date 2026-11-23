@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.1](https://github.com/EMSuite/FormatoKit/compare/0.18.0...0.18.1) (2026-11-23)
+
+
+### Bug Fixes
+
+* the Bragg vector writer publishes nothing when closing its file fails ([#138](https://github.com/EMSuite/FormatoKit/issues/138)) ([8a13338](https://github.com/EMSuite/FormatoKit/commit/8a133384d80d9910732591a96cd3cbd883107349))
+
 ## [0.18.0](https://github.com/EMSuite/FormatoKit/compare/0.17.0...0.18.0) (2026-11-18)
 
 
