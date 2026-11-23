@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.19.0](https://github.com/EMSuite/FormatoKit/compare/0.18.1...0.19.0) (2026-11-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* FormatoHSPY reads HyperSpy files of one to four dimensions ([#152](https://github.com/EMSuite/FormatoKit/issues/152))
+
+### Features
+
+* an HDF5 attribute can hold a boolean as h5py writes it ([#146](https://github.com/EMSuite/FormatoKit/issues/146)) ([173cccd](https://github.com/EMSuite/FormatoKit/commit/173cccdd436bc429758257a22d65c90236cf4560))
+* FormatoHSPY reads HyperSpy files of one to four dimensions ([#152](https://github.com/EMSuite/FormatoKit/issues/152)) ([b010466](https://github.com/EMSuite/FormatoKit/commit/b01046610d2ca3f606e303d60a00a88efabde978))
+* FormatoHSPY writes a signal as a HyperSpy file ([#150](https://github.com/EMSuite/FormatoKit/issues/150)) ([9ff2520](https://github.com/EMSuite/FormatoKit/commit/9ff252018c79d27ed60ea97bc8123e6c6e0143da))
+* TIFFAppImage reads a colour TIFF as grey, each pixel its brightest channel ([#143](https://github.com/EMSuite/FormatoKit/issues/143)) ([4eebd5c](https://github.com/EMSuite/FormatoKit/commit/4eebd5c6cf29f0168380f90efa2e2e79a05b1969))
+
 ## [0.18.1](https://github.com/EMSuite/FormatoKit/compare/0.18.0...0.18.1) (2026-11-23)
 
 
