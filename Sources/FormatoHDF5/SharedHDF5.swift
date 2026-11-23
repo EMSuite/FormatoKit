@@ -102,6 +102,14 @@ package nonisolated struct SharedHDF5: @unchecked Sendable {
     package typealias H5LgetInfo2 = @convention(c) (hid_t, UnsafePointer<CChar>?, UnsafeMutableRawPointer?, hid_t) -> herr_t
     package typealias H5OgetInfoByName3 = @convention(c) (hid_t, UnsafePointer<CChar>?, UnsafeMutableRawPointer?, UInt32, hid_t) -> herr_t
     package let h5lgetInfo2: H5LgetInfo2?, h5ogetInfoByName3: H5OgetInfoByName3?
+    // Enumeration types read back (FormatoKit#141: the writers' tests compare a boolean attribute's type with h5py's).
+    package typealias H5TgetSuper = @convention(c) (hid_t) -> hid_t
+    package typealias H5TgetNmembers = @convention(c) (hid_t) -> Int32
+    package typealias H5TgetMemberName = @convention(c) (hid_t, UInt32) -> UnsafeMutablePointer<CChar>?
+    package typealias H5TgetMemberValue = @convention(c) (hid_t, UInt32, UnsafeMutableRawPointer?) -> herr_t
+    package typealias H5TgetOrder = @convention(c) (hid_t) -> Int32
+    package let h5tgetSuper: H5TgetSuper, h5tgetNmembers: H5TgetNmembers, h5tgetMemberName: H5TgetMemberName
+    package let h5tgetMemberValue: H5TgetMemberValue, h5tgetOrder: H5TgetOrder
 
     /// The standard lookup shared by the HDF5 readers and writers in this package: the `FORMATO_HDF5_PATH` override, the host
     /// app's `Frameworks/libhdf5.dylib`, the copy FormatoKit ships, then the loader's search path. Call under `HDF5Serial`.
@@ -153,8 +161,9 @@ package nonisolated struct SharedHDF5: @unchecked Sendable {
         "H5Sget_simple_extent_ndims", "H5Sget_simple_extent_npoints", "H5Sselect_hyperslab", "H5T_C_S1_g",
         "H5T_NATIVE_DOUBLE_g", "H5T_NATIVE_FLOAT_g", "H5T_NATIVE_INT16_g", "H5T_NATIVE_INT32_g", "H5T_NATIVE_INT64_g",
         "H5T_NATIVE_INT8_g", "H5T_NATIVE_UINT16_g", "H5T_NATIVE_UINT32_g", "H5T_NATIVE_UINT64_g", "H5T_NATIVE_UINT8_g",
-        "H5Tclose", "H5Tcopy", "H5Tcreate", "H5Tenum_create", "H5Tenum_insert", "H5Tget_class", "H5Tget_sign", "H5Tget_size",
-        "H5Tinsert", "H5Tis_variable_str", "H5Tset_cset", "H5Tset_size", "H5Tset_strpad", "H5Tvlen_create", "H5free_memory",
+        "H5Tclose", "H5Tcopy", "H5Tcreate", "H5Tenum_create", "H5Tenum_insert", "H5Tget_class", "H5Tget_member_name",
+        "H5Tget_member_value", "H5Tget_nmembers", "H5Tget_order", "H5Tget_sign", "H5Tget_size", "H5Tget_super", "H5Tinsert",
+        "H5Tis_variable_str", "H5Tset_cset", "H5Tset_size", "H5Tset_strpad", "H5Tvlen_create", "H5free_memory",
         "H5open", "H5get_libversion"
     ]
 
@@ -249,7 +258,12 @@ package nonisolated struct SharedHDF5: @unchecked Sendable {
             h5pgetChunk: try symbol("H5Pget_chunk", as: H5PgetChunk.self),
             datasetCreateClass: try global("H5P_CLS_DATASET_CREATE_ID_g"),
             h5lgetInfo2: dlsym(handle, "H5Lget_info2").map { unsafeBitCast($0, to: H5LgetInfo2.self) },
-            h5ogetInfoByName3: dlsym(handle, "H5Oget_info_by_name3").map { unsafeBitCast($0, to: H5OgetInfoByName3.self) })
+            h5ogetInfoByName3: dlsym(handle, "H5Oget_info_by_name3").map { unsafeBitCast($0, to: H5OgetInfoByName3.self) },
+            h5tgetSuper: try symbol("H5Tget_super", as: H5TgetSuper.self),
+            h5tgetNmembers: try symbol("H5Tget_nmembers", as: H5TgetNmembers.self),
+            h5tgetMemberName: try symbol("H5Tget_member_name", as: H5TgetMemberName.self),
+            h5tgetMemberValue: try symbol("H5Tget_member_value", as: H5TgetMemberValue.self),
+            h5tgetOrder: try symbol("H5Tget_order", as: H5TgetOrder.self))
     }
 
     // MARK: Scratch files (FormatoKit#53)

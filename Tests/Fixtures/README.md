@@ -5,7 +5,7 @@ the index is rewritten in the same commit (CI runs `index.py --check`). A regene
 commit, with the reason and a CHANGELOG line.
 
 One row per tracked file under `Tests/*/Fixtures/`: its size, the script under `tools/` that writes it (or *copied*),
-and its source: the pinned reference that wrote or read it, or where a copied file comes from. 703 files.
+and its source: the pinned reference that wrote or read it, or where a copied file comes from. 705 files.
 
 The generators run in the one Python environment of `tools/requirements.txt` (`tools/README.md`). The tests never run
 Python: they read these committed files, so `swift test` needs none of it.
@@ -310,6 +310,8 @@ others stay in SpectroKit or the first consumer, named in the rows.
 | `FormatoHDF5Tests/Fixtures/append/swift-appended.h5` | 23.5 KB | `tools/hdf5-append/generate.py` | h5py 3.16.0 |
 | `FormatoHDF5Tests/Fixtures/append/swift-new.h5` | 2.0 KB | `tools/hdf5-append/generate.py` | h5py 3.16.0 |
 | `FormatoHDF5Tests/Fixtures/append/swift-replaced.h5` | 14.1 KB | `tools/hdf5-append/generate.py` | h5py 3.16.0 |
+| `FormatoHDF5Tests/Fixtures/bool/h5py-bool.h5` | 4.8 KB | `tools/hdf5-bool/generate.py` | h5py 3.16.0 |
+| `FormatoHDF5Tests/Fixtures/bool/h5py-pins.json` | 1.9 KB | `tools/hdf5-bool/generate.py` | h5py 3.16.0 |
 | `FormatoHDF5Tests/Fixtures/bragg/basic.h5` | 22.7 KB | `tools/bragg-writer/generate.py` | py4DSTEM f050d207 |
 | `FormatoHDF5Tests/Fixtures/bragg/basic.peaks.bin` | 168 B | `tools/bragg-writer/generate.py` | py4DSTEM f050d207 |
 | `FormatoHDF5Tests/Fixtures/bragg/check-result.json` | 1.2 KB | `tools/bragg-writer/check.py` | py4DSTEM f050d207 |

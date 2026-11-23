@@ -1,0 +1,121 @@
+{
+ "attributes": {
+  "/@no": {
+   "base": {
+    "class": "integer",
+    "order": "little",
+    "signed": true,
+    "size": 1
+   },
+   "class": "enum",
+   "dtype": "bool",
+   "members": {
+    "FALSE": 0,
+    "TRUE": 1
+   },
+   "numpy_type": "numpy.bool",
+   "scalar": true,
+   "size": 1,
+   "stored": 0,
+   "value": false
+  },
+  "/@yes": {
+   "base": {
+    "class": "integer",
+    "order": "little",
+    "signed": true,
+    "size": 1
+   },
+   "class": "enum",
+   "dtype": "bool",
+   "members": {
+    "FALSE": 0,
+    "TRUE": 1
+   },
+   "numpy_type": "numpy.bool",
+   "scalar": true,
+   "size": 1,
+   "stored": 1,
+   "value": true
+  },
+  "/g/d@no": {
+   "base": {
+    "class": "integer",
+    "order": "little",
+    "signed": true,
+    "size": 1
+   },
+   "class": "enum",
+   "dtype": "bool",
+   "members": {
+    "FALSE": 0,
+    "TRUE": 1
+   },
+   "numpy_type": "numpy.bool",
+   "scalar": true,
+   "size": 1,
+   "stored": 0,
+   "value": false
+  },
+  "/g/d@yes": {
+   "base": {
+    "class": "integer",
+    "order": "little",
+    "signed": true,
+    "size": 1
+   },
+   "class": "enum",
+   "dtype": "bool",
+   "members": {
+    "FALSE": 0,
+    "TRUE": 1
+   },
+   "numpy_type": "numpy.bool",
+   "scalar": true,
+   "size": 1,
+   "stored": 1,
+   "value": true
+  },
+  "/g@no": {
+   "base": {
+    "class": "integer",
+    "order": "little",
+    "signed": true,
+    "size": 1
+   },
+   "class": "enum",
+   "dtype": "bool",
+   "members": {
+    "FALSE": 0,
+    "TRUE": 1
+   },
+   "numpy_type": "numpy.bool",
+   "scalar": true,
+   "size": 1,
+   "stored": 0,
+   "value": false
+  },
+  "/g@yes": {
+   "base": {
+    "class": "integer",
+    "order": "little",
+    "signed": true,
+    "size": 1
+   },
+   "class": "enum",
+   "dtype": "bool",
+   "members": {
+    "FALSE": 0,
+    "TRUE": 1
+   },
+   "numpy_type": "numpy.bool",
+   "scalar": true,
+   "size": 1,
+   "stored": 1,
+   "value": true
+  }
+ },
+ "h5py_version": "3.16.0",
+ "hdf5_version": "2.0.0",
+ "numpy_version": "2.5.4"
+}
