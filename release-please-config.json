@@ -23,7 +23,8 @@
       "package-name": "FormatoKit",
       "changelog-path": "CHANGELOG.md",
       "extra-files": [
-        "CITATION.cff"
+        "CITATION.cff",
+        "docs/status.md"
       ]
     }
   }
