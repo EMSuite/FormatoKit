@@ -5,7 +5,7 @@ the index is rewritten in the same commit (CI runs `index.py --check`). A regene
 commit, with the reason and a CHANGELOG line.
 
 One row per tracked file under `Tests/*/Fixtures/`: its size, the script under `tools/` that writes it (or *copied*),
-and its source: the pinned reference that wrote or read it, or where a copied file comes from. 729 files.
+and its source: the pinned reference that wrote or read it, or where a copied file comes from. 730 files.
 
 The generators run in the one Python environment of `tools/requirements.txt` (`tools/README.md`). The tests never run
 Python: they read these committed files, so `swift test` needs none of it.
@@ -359,6 +359,7 @@ others stay in SpectroKit or the first consumer, named in the rows.
 | `FormatoHSPYTests/Fixtures/reader/image-i16-unnamed.hspy` | 24.2 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
 | `FormatoHSPYTests/Fixtures/reader/image-u8-twelve-elements.hspy` | 27.6 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
 | `FormatoHSPYTests/Fixtures/reader/image-u8.hspy` | 24.1 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/layout-2.0.hspy` | 32.3 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
 | `FormatoHSPYTests/Fixtures/reader/lazy-saved.hspy` | 24.2 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
 | `FormatoHSPYTests/Fixtures/reader/line-i16-slash-title.hspy` | 24.3 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
 | `FormatoHSPYTests/Fixtures/reader/more-types.hspy` | 55.1 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
