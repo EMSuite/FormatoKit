@@ -1,0 +1,5758 @@
+{
+ "signals": [
+  {
+   "axes": [
+    {
+     "name": "y",
+     "navigate": false,
+     "offset": 0.0,
+     "scale": 0.25,
+     "size": 5,
+     "units": "µm"
+    },
+    {
+     "name": "x",
+     "navigate": false,
+     "offset": 0.5,
+     "scale": 0.25,
+     "size": 6,
+     "units": "µm"
+    }
+   ],
+   "data_sha256": "96125bc6ed33e80efb88d58666933493580f5aaf85c23b9737d3af7edef9b0bb",
+   "dtype": "uint8",
+   "hyperspy_class": "Signal2D",
+   "kind": "generic",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "hyperspy",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "2.5.0",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "y",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p-2"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 5
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "µm",
+       "variable": true
+      }
+     },
+     "axis-1": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "x",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p-1"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p-2"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 6
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "µm",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/General": {
+      "original_filename": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "image Å.dm4",
+       "variable": true
+      },
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Image µm",
+       "variable": true
+      }
+     },
+     "metadata/Signal": {
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       5,
+       6
+      ],
+      "compression": "gzip",
+      "dtype": "|u1",
+      "sha256": "96125bc6ed33e80efb88d58666933493580f5aaf85c23b9737d3af7edef9b0bb",
+      "shape": [
+       5,
+       6
+      ]
+     }
+    },
+    "experiment": "Image µm",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "axis-1",
+     "learning_results",
+     "metadata",
+     "metadata/General",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [
+    {
+     "key": "General.original_filename",
+     "type": "text",
+     "value": "image Å.dm4",
+     "via": "signal"
+    }
+   ],
+   "name": "image-u8",
+   "shape": [
+    5,
+    6
+   ],
+   "title": "Image µm"
+  },
+  {
+   "axes": [
+    {
+     "name": "kx",
+     "navigate": false,
+     "offset": -0.0369,
+     "scale": 0.0123,
+     "size": 6,
+     "units": "1/nm"
+    },
+    {
+     "name": "ky",
+     "navigate": false,
+     "offset": -0.0369,
+     "scale": 0.0123,
+     "size": 7,
+     "units": "1/nm"
+    }
+   ],
+   "data_sha256": "a194f097464eb78ead0c320719f05b95cd3e548736b816f92e06c0fbd3a62567",
+   "dtype": "uint16",
+   "hyperspy_class": "ElectronDiffraction2D",
+   "kind": "electronDiffraction",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "pyxem",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "0.21.0",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "kx",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "-0x1.2e48e8a71de6ap-5"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.930be0ded288dp-7"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 6
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "1/nm",
+       "variable": true
+      }
+     },
+     "axis-1": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "ky",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "-0x1.2e48e8a71de6ap-5"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.930be0ded288dp-7"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 7
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "1/nm",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/Acquisition_instrument": {},
+     "metadata/Acquisition_instrument/TEM": {
+      "beam_energy": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.2c00000000000p+8"
+      }
+     },
+     "metadata/General": {
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Pattern",
+       "variable": true
+      }
+     },
+     "metadata/Signal": {
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "electron_diffraction",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       6,
+       7
+      ],
+      "compression": "gzip",
+      "dtype": "<u2",
+      "sha256": "a194f097464eb78ead0c320719f05b95cd3e548736b816f92e06c0fbd3a62567",
+      "shape": [
+       6,
+       7
+      ]
+     }
+    },
+    "experiment": "Pattern",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "axis-1",
+     "learning_results",
+     "metadata",
+     "metadata/Acquisition_instrument",
+     "metadata/Acquisition_instrument/TEM",
+     "metadata/General",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [
+    {
+     "key": "Acquisition_instrument.TEM.beam_energy",
+     "type": "number",
+     "value": 300.0,
+     "via": "signal"
+    }
+   ],
+   "name": "pattern-u16",
+   "shape": [
+    6,
+    7
+   ],
+   "title": "Pattern"
+  },
+  {
+   "axes": [
+    {
+     "name": null,
+     "navigate": false,
+     "offset": 0.0,
+     "scale": 1.0,
+     "size": 4,
+     "units": ""
+    },
+    {
+     "name": null,
+     "navigate": false,
+     "offset": 0.0,
+     "scale": 1.0,
+     "size": 5,
+     "units": ""
+    }
+   ],
+   "data_sha256": "d7358815fc87aec0f0cb05108263d5b13b63a35a3bf3b8ef92847cd79ea651f2",
+   "dtype": "int16",
+   "hyperspy_class": "Signal2D",
+   "kind": "generic",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "hyperspy",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "2.5.0",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p+0"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 4
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      }
+     },
+     "axis-1": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p+0"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 5
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/General": {
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Unnamed axes",
+       "variable": true
+      }
+     },
+     "metadata/Signal": {
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       4,
+       5
+      ],
+      "compression": "gzip",
+      "dtype": "<i2",
+      "sha256": "d7358815fc87aec0f0cb05108263d5b13b63a35a3bf3b8ef92847cd79ea651f2",
+      "shape": [
+       4,
+       5
+      ]
+     }
+    },
+    "experiment": "Unnamed axes",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "axis-1",
+     "learning_results",
+     "metadata",
+     "metadata/General",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [],
+   "name": "image-i16-unnamed",
+   "shape": [
+    4,
+    5
+   ],
+   "title": "Unnamed axes"
+  },
+  {
+   "axes": [
+    {
+     "name": "y",
+     "navigate": false,
+     "offset": -3.0,
+     "scale": 1.5,
+     "size": 5,
+     "units": "nm"
+    },
+    {
+     "name": "x",
+     "navigate": false,
+     "offset": -3.0,
+     "scale": 1.5,
+     "size": 4,
+     "units": "nm"
+    }
+   ],
+   "data_sha256": "e6055797e2efb0d5c9b9575da85f259918d111e30edef7c729c4f7e3c2575e88",
+   "dtype": "float32",
+   "hyperspy_class": "Signal2D",
+   "kind": "generic",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "hyperspy",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "2.5.0",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "y",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "-0x1.8000000000000p+1"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.8000000000000p+0"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 5
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "axis-1": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "x",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "-0x1.8000000000000p+1"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.8000000000000p+0"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 4
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/General": {
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Float image",
+       "variable": true
+      }
+     },
+     "metadata/Signal": {
+      "quantity": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Intensity (counts)",
+       "variable": true
+      },
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       5,
+       4
+      ],
+      "compression": "gzip",
+      "dtype": "<f4",
+      "sha256": "e6055797e2efb0d5c9b9575da85f259918d111e30edef7c729c4f7e3c2575e88",
+      "shape": [
+       5,
+       4
+      ]
+     }
+    },
+    "experiment": "Float image",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "axis-1",
+     "learning_results",
+     "metadata",
+     "metadata/General",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [
+    {
+     "key": "Signal.quantity",
+     "type": "text",
+     "value": "Intensity (counts)",
+     "via": "signal"
+    }
+   ],
+   "name": "image-f32",
+   "shape": [
+    5,
+    4
+   ],
+   "title": "Float image"
+  },
+  {
+   "axes": [
+    {
+     "name": "Time",
+     "navigate": true,
+     "offset": 0.0,
+     "scale": 0.5,
+     "size": 3,
+     "units": "s"
+    },
+    {
+     "name": "y",
+     "navigate": false,
+     "offset": 0.0,
+     "scale": 2.0,
+     "size": 4,
+     "units": "Å"
+    },
+    {
+     "name": "x",
+     "navigate": false,
+     "offset": 0.0,
+     "scale": 2.0,
+     "size": 5,
+     "units": "Å"
+    }
+   ],
+   "data_sha256": "fc182f79cd801aebc8f039abba96d7744602a747dad9c558aa349970636a706d",
+   "dtype": "int32",
+   "hyperspy_class": "Signal2D",
+   "kind": "generic",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "hyperspy",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "2.5.0",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Time",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p-1"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 3
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "s",
+       "variable": true
+      }
+     },
+     "axis-1": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "y",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p+1"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 4
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Å",
+       "variable": true
+      }
+     },
+     "axis-2": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "x",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p+1"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 5
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Å",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/General": {
+      "date": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "2026-11-23",
+       "variable": true
+      },
+      "time": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "14:05:00",
+       "variable": true
+      },
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Stack",
+       "variable": true
+      }
+     },
+     "metadata/Signal": {
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       3,
+       4,
+       5
+      ],
+      "compression": "gzip",
+      "dtype": "<i4",
+      "sha256": "fc182f79cd801aebc8f039abba96d7744602a747dad9c558aa349970636a706d",
+      "shape": [
+       3,
+       4,
+       5
+      ]
+     }
+    },
+    "experiment": "Stack",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "axis-1",
+     "axis-2",
+     "learning_results",
+     "metadata",
+     "metadata/General",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [
+    {
+     "key": "General.date",
+     "type": "text",
+     "value": "2026-11-23",
+     "via": "signal"
+    },
+    {
+     "key": "General.time",
+     "type": "text",
+     "value": "14:05:00",
+     "via": "signal"
+    }
+   ],
+   "name": "stack-i32",
+   "shape": [
+    3,
+    4,
+    5
+   ],
+   "title": "Stack"
+  },
+  {
+   "axes": [
+    {
+     "name": "Energy loss",
+     "navigate": false,
+     "offset": 280.0,
+     "scale": 0.1,
+     "size": 16,
+     "units": "eV"
+    }
+   ],
+   "data_sha256": "5b56ab93209461ed400f997949b7e8aad1fa97204d3b55daa2cd242dd351987e",
+   "dtype": "float64",
+   "hyperspy_class": "Signal1D",
+   "kind": "generic",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "hyperspy",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "2.5.0",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Energy loss",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.1800000000000p+8"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.999999999999ap-4"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 16
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "eV",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/General": {
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Spectrum",
+       "variable": true
+      }
+     },
+     "metadata/Signal": {
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       16
+      ],
+      "compression": "gzip",
+      "dtype": "<f8",
+      "sha256": "5b56ab93209461ed400f997949b7e8aad1fa97204d3b55daa2cd242dd351987e",
+      "shape": [
+       16
+      ]
+     }
+    },
+    "experiment": "Spectrum",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "learning_results",
+     "metadata",
+     "metadata/General",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [],
+   "name": "spectrum-f64",
+   "shape": [
+    16
+   ],
+   "title": "Spectrum"
+  },
+  {
+   "axes": [
+    {
+     "name": "Energy",
+     "navigate": false,
+     "offset": -0.2,
+     "scale": 0.01,
+     "size": 32,
+     "units": "keV"
+    }
+   ],
+   "data_sha256": "10eb061cc232be5906efbabc64387c3e3fcb1e2dcccb606b5263c2de8d08eb31",
+   "dtype": "uint32",
+   "hyperspy_class": "EDSTEMSpectrum",
+   "kind": "edsTEM",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "exspy",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "0.3.2",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Energy",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "-0x1.999999999999ap-3"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.47ae147ae147bp-7"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 32
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "keV",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/Acquisition_instrument": {},
+     "metadata/Acquisition_instrument/TEM": {
+      "beam_energy": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.9000000000000p+7"
+      }
+     },
+     "metadata/General": {
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "EDS spectrum",
+       "variable": true
+      }
+     },
+     "metadata/Sample": {},
+     "metadata/Signal": {
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "EDS_TEM",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       32
+      ],
+      "compression": "gzip",
+      "dtype": "<u4",
+      "sha256": "10eb061cc232be5906efbabc64387c3e3fcb1e2dcccb606b5263c2de8d08eb31",
+      "shape": [
+       32
+      ]
+     },
+     "metadata/Sample/_list_elements": {
+      "attributes": {},
+      "chunks": [
+       2
+      ],
+      "compression": "gzip",
+      "dtype": "vlen-str",
+      "shape": [
+       2
+      ],
+      "strings": [
+       "Fe",
+       "O"
+      ]
+     }
+    },
+    "experiment": "EDS spectrum",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "learning_results",
+     "metadata",
+     "metadata/Acquisition_instrument",
+     "metadata/Acquisition_instrument/TEM",
+     "metadata/General",
+     "metadata/Sample",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [
+    {
+     "key": "Sample.elements",
+     "type": "texts",
+     "value": [
+      "Fe",
+      "O"
+     ],
+     "via": "signal"
+    },
+    {
+     "key": "Acquisition_instrument.TEM.beam_energy",
+     "type": "number",
+     "value": 200.0,
+     "via": "signal"
+    }
+   ],
+   "name": "eds-tem-spectrum-u32",
+   "shape": [
+    32
+   ],
+   "title": "EDS spectrum"
+  },
+  {
+   "axes": [
+    {
+     "name": "y",
+     "navigate": true,
+     "offset": 0.0,
+     "scale": 0.1,
+     "size": 3,
+     "units": "µm"
+    },
+    {
+     "name": "x",
+     "navigate": true,
+     "offset": 0.0,
+     "scale": 0.1,
+     "size": 4,
+     "units": "µm"
+    },
+    {
+     "name": "Energy",
+     "navigate": false,
+     "offset": 0.0,
+     "scale": 0.02,
+     "size": 20,
+     "units": "keV"
+    }
+   ],
+   "data_sha256": "51c776818fd31b9550718ff563212a48e1248bd93880c791d5e5146159ea7552",
+   "dtype": "uint16",
+   "hyperspy_class": "EDSSEMSpectrum",
+   "kind": "edsSEM",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "exspy",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "0.3.2",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "y",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.999999999999ap-4"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 3
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "µm",
+       "variable": true
+      }
+     },
+     "axis-1": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "x",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.999999999999ap-4"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 4
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "µm",
+       "variable": true
+      }
+     },
+     "axis-2": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Energy",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.47ae147ae147bp-6"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 20
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "keV",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/Acquisition_instrument": {},
+     "metadata/Acquisition_instrument/SEM": {
+      "beam_energy": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.e000000000000p+3"
+      }
+     },
+     "metadata/General": {
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "EDS map",
+       "variable": true
+      }
+     },
+     "metadata/Sample": {
+      "_list_empty_xray_lines": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      }
+     },
+     "metadata/Signal": {
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "EDS_SEM",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       3,
+       4,
+       20
+      ],
+      "compression": "gzip",
+      "dtype": "<u2",
+      "sha256": "51c776818fd31b9550718ff563212a48e1248bd93880c791d5e5146159ea7552",
+      "shape": [
+       3,
+       4,
+       20
+      ]
+     },
+     "metadata/Sample/_list_elements": {
+      "attributes": {},
+      "chunks": [
+       3
+      ],
+      "compression": "gzip",
+      "dtype": "vlen-str",
+      "shape": [
+       3
+      ],
+      "strings": [
+       "Al",
+       "Cu",
+       "Si"
+      ]
+     }
+    },
+    "experiment": "EDS map",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "axis-1",
+     "axis-2",
+     "learning_results",
+     "metadata",
+     "metadata/Acquisition_instrument",
+     "metadata/Acquisition_instrument/SEM",
+     "metadata/General",
+     "metadata/Sample",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [
+    {
+     "key": "Sample.elements",
+     "type": "texts",
+     "value": [
+      "Al",
+      "Cu",
+      "Si"
+     ],
+     "via": "signal"
+    },
+    {
+     "key": "Sample.xray_lines",
+     "type": "texts",
+     "value": [],
+     "via": "signal"
+    },
+    {
+     "key": "Acquisition_instrument.SEM.beam_energy",
+     "type": "number",
+     "value": 15.0,
+     "via": "signal"
+    }
+   ],
+   "name": "eds-sem-map-u16",
+   "shape": [
+    3,
+    4,
+    20
+   ],
+   "title": "EDS map"
+  },
+  {
+   "axes": [
+    {
+     "name": "Energy loss",
+     "navigate": false,
+     "offset": -2.5,
+     "scale": 0.125,
+     "size": 24,
+     "units": "eV"
+    }
+   ],
+   "data_sha256": "ed6bc090f989ebebc6c1436bfe1c06a530ed79335207f8a16a63f715c48ada0f",
+   "dtype": "float32",
+   "hyperspy_class": "EELSSpectrum",
+   "kind": "eels",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "exspy",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "0.3.2",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Energy loss",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "-0x1.4000000000000p+1"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p-3"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 24
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "eV",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/Acquisition_instrument": {},
+     "metadata/Acquisition_instrument/TEM": {
+      "beam_energy": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.9000000000000p+7"
+      }
+     },
+     "metadata/General": {
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "EELS spectrum",
+       "variable": true
+      }
+     },
+     "metadata/Signal": {
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "EELS",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       24
+      ],
+      "compression": "gzip",
+      "dtype": "<f4",
+      "sha256": "ed6bc090f989ebebc6c1436bfe1c06a530ed79335207f8a16a63f715c48ada0f",
+      "shape": [
+       24
+      ]
+     }
+    },
+    "experiment": "EELS spectrum",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "learning_results",
+     "metadata",
+     "metadata/Acquisition_instrument",
+     "metadata/Acquisition_instrument/TEM",
+     "metadata/General",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [
+    {
+     "key": "Acquisition_instrument.TEM.beam_energy",
+     "type": "number",
+     "value": 200.0,
+     "via": "signal"
+    }
+   ],
+   "name": "eels-spectrum-f32",
+   "shape": [
+    24
+   ],
+   "title": "EELS spectrum"
+  },
+  {
+   "axes": [
+    {
+     "name": "y",
+     "navigate": true,
+     "offset": 0.0,
+     "scale": 0.5,
+     "size": 2,
+     "units": "nm"
+    },
+    {
+     "name": "x",
+     "navigate": true,
+     "offset": 0.0,
+     "scale": 0.5,
+     "size": 3,
+     "units": "nm"
+    },
+    {
+     "name": "Energy loss",
+     "navigate": false,
+     "offset": 100.0,
+     "scale": 0.25,
+     "size": 24,
+     "units": "eV"
+    }
+   ],
+   "data_sha256": "b733381e3776859ad7a48355b3f8810ef0cb7679eb470e156b36e0be44d844c1",
+   "dtype": "float64",
+   "hyperspy_class": "EELSSpectrum",
+   "kind": "eels",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "exspy",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "0.3.2",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "y",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p-1"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 2
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "axis-1": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "x",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p-1"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 3
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "axis-2": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Energy loss",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.9000000000000p+6"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p-2"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 24
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "eV",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/General": {
+      "authors": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Å. Ångström, µ-lab",
+       "variable": true
+      },
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "EELS Å map",
+       "variable": true
+      }
+     },
+     "metadata/Processing": {
+      "dose_e_per_A2": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.38a0000000000p+10"
+      },
+      "exported_by_kit": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      }
+     },
+     "metadata/Signal": {
+      "quantity": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Intensity (counts)",
+       "variable": true
+      },
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "EELS",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       2,
+       3,
+       24
+      ],
+      "compression": "gzip",
+      "dtype": "<f8",
+      "sha256": "b733381e3776859ad7a48355b3f8810ef0cb7679eb470e156b36e0be44d844c1",
+      "shape": [
+       2,
+       3,
+       24
+      ]
+     }
+    },
+    "experiment": "EELS Å map",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "axis-1",
+     "axis-2",
+     "learning_results",
+     "metadata",
+     "metadata/General",
+     "metadata/Processing",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [
+    {
+     "key": "General.authors",
+     "type": "text",
+     "value": "Å. Ångström, µ-lab",
+     "via": "signal"
+    },
+    {
+     "key": "Signal.quantity",
+     "type": "text",
+     "value": "Intensity (counts)",
+     "via": "signal"
+    },
+    {
+     "key": "Processing.exported_by_kit",
+     "type": "flag",
+     "value": true,
+     "via": "options"
+    },
+    {
+     "key": "Processing.dose_e_per_A2",
+     "type": "number",
+     "value": 1250.5,
+     "via": "options"
+    }
+   ],
+   "name": "eels-map-f64",
+   "shape": [
+    2,
+    3,
+    24
+   ],
+   "title": "EELS Å map"
+  },
+  {
+   "axes": [
+    {
+     "name": "y",
+     "navigate": true,
+     "offset": 0.0,
+     "scale": 1.25,
+     "size": 2,
+     "units": "nm"
+    },
+    {
+     "name": "x",
+     "navigate": true,
+     "offset": 0.0,
+     "scale": 1.25,
+     "size": 3,
+     "units": "nm"
+    },
+    {
+     "name": "kx",
+     "navigate": false,
+     "offset": -0.06,
+     "scale": 0.02,
+     "size": 6,
+     "units": "1/Å"
+    },
+    {
+     "name": "ky",
+     "navigate": false,
+     "offset": -0.07,
+     "scale": 0.02,
+     "size": 7,
+     "units": "1/Å"
+    }
+   ],
+   "data_sha256": "200ce9b5be9a45b0e7f5e995f81edce4cacf305a2da2b8cfcffa131b2cc3d341",
+   "dtype": "uint8",
+   "hyperspy_class": "ElectronDiffraction2D",
+   "kind": "electronDiffraction",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "pyxem",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "0.21.0",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "y",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.4000000000000p+0"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 2
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "axis-1": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "x",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.4000000000000p+0"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 3
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "axis-2": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "kx",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "-0x1.eb851eb851eb8p-5"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.47ae147ae147bp-6"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 6
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "1/Å",
+       "variable": true
+      }
+     },
+     "axis-3": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "ky",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "-0x1.1eb851eb851ecp-4"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.47ae147ae147bp-6"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 7
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "1/Å",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/Acquisition_instrument": {},
+     "metadata/Acquisition_instrument/TEM": {
+      "beam_energy": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.2c00000000000p+8"
+      }
+     },
+     "metadata/General": {
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "4D patterns",
+       "variable": true
+      }
+     },
+     "metadata/Signal": {
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "electron_diffraction",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       2,
+       3,
+       6,
+       7
+      ],
+      "compression": "gzip",
+      "dtype": "|u1",
+      "sha256": "200ce9b5be9a45b0e7f5e995f81edce4cacf305a2da2b8cfcffa131b2cc3d341",
+      "shape": [
+       2,
+       3,
+       6,
+       7
+      ]
+     }
+    },
+    "experiment": "4D patterns",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "axis-1",
+     "axis-2",
+     "axis-3",
+     "learning_results",
+     "metadata",
+     "metadata/Acquisition_instrument",
+     "metadata/Acquisition_instrument/TEM",
+     "metadata/General",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [
+    {
+     "key": "Acquisition_instrument.TEM.beam_energy",
+     "type": "number",
+     "value": 300.0,
+     "via": "signal"
+    }
+   ],
+   "name": "patterns-4d-u8",
+   "shape": [
+    2,
+    3,
+    6,
+    7
+   ],
+   "title": "4D patterns"
+  },
+  {
+   "axes": [
+    {
+     "name": "a",
+     "navigate": true,
+     "offset": 0.0,
+     "scale": 1.0,
+     "size": 2,
+     "units": ""
+    },
+    {
+     "name": "b",
+     "navigate": true,
+     "offset": 0.0,
+     "scale": 1.0,
+     "size": 2,
+     "units": ""
+    },
+    {
+     "name": "y",
+     "navigate": false,
+     "offset": 0.0,
+     "scale": 0.1,
+     "size": 5,
+     "units": "nm"
+    },
+    {
+     "name": "x",
+     "navigate": false,
+     "offset": 0.0,
+     "scale": 0.1,
+     "size": 6,
+     "units": "nm"
+    }
+   ],
+   "data_sha256": "9d12b6367a5d94730b66093760863668aaef414184ae5baa3fa98967f05cdf46",
+   "dtype": "float32",
+   "hyperspy_class": "Signal2D",
+   "kind": "generic",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "hyperspy",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "2.5.0",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "a",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p+0"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 2
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      }
+     },
+     "axis-1": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "b",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p+0"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 2
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      }
+     },
+     "axis-2": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "y",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.999999999999ap-4"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 5
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "axis-3": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "x",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.999999999999ap-4"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 6
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/General": {
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Generic 4D",
+       "variable": true
+      }
+     },
+     "metadata/Signal": {
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       2,
+       2,
+       5,
+       6
+      ],
+      "compression": "gzip",
+      "dtype": "<f4",
+      "sha256": "9d12b6367a5d94730b66093760863668aaef414184ae5baa3fa98967f05cdf46",
+      "shape": [
+       2,
+       2,
+       5,
+       6
+      ]
+     }
+    },
+    "experiment": "Generic 4D",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "axis-1",
+     "axis-2",
+     "axis-3",
+     "learning_results",
+     "metadata",
+     "metadata/General",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [],
+   "name": "generic-4d-f32",
+   "shape": [
+    2,
+    2,
+    5,
+    6
+   ],
+   "title": "Generic 4D"
+  },
+  {
+   "axes": [
+    {
+     "name": "y",
+     "navigate": false,
+     "offset": 0.0,
+     "scale": 1.0,
+     "size": 3,
+     "units": "nm"
+    },
+    {
+     "name": "x",
+     "navigate": false,
+     "offset": 0.0,
+     "scale": 1.0,
+     "size": 4,
+     "units": "nm"
+    }
+   ],
+   "data_sha256": "8abb851f0907b8871445fe03ad326ba56520b29dc2a5bffdd1876f9073b9af37",
+   "dtype": "uint8",
+   "hyperspy_class": "Signal2D",
+   "kind": "generic",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "hyperspy",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "2.5.0",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "y",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p+0"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 3
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "axis-1": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "x",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p+0"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 4
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/General": {
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Twelve elements",
+       "variable": true
+      }
+     },
+     "metadata/Sample": {},
+     "metadata/Signal": {
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       3,
+       4
+      ],
+      "compression": "gzip",
+      "dtype": "|u1",
+      "sha256": "8abb851f0907b8871445fe03ad326ba56520b29dc2a5bffdd1876f9073b9af37",
+      "shape": [
+       3,
+       4
+      ]
+     },
+     "metadata/Sample/_list_elements": {
+      "attributes": {},
+      "chunks": [
+       12
+      ],
+      "compression": "gzip",
+      "dtype": "vlen-str",
+      "shape": [
+       12
+      ],
+      "strings": [
+       "Al",
+       "C",
+       "Ca",
+       "Cu",
+       "Fe",
+       "K",
+       "Mg",
+       "Mn",
+       "Na",
+       "O",
+       "Si",
+       "Ti"
+      ]
+     }
+    },
+    "experiment": "Twelve elements",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "axis-1",
+     "learning_results",
+     "metadata",
+     "metadata/General",
+     "metadata/Sample",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [
+    {
+     "key": "Sample.elements",
+     "type": "texts",
+     "value": [
+      "Al",
+      "C",
+      "Ca",
+      "Cu",
+      "Fe",
+      "K",
+      "Mg",
+      "Mn",
+      "Na",
+      "O",
+      "Si",
+      "Ti"
+     ],
+     "via": "options"
+    }
+   ],
+   "name": "image-u8-twelve-elements",
+   "shape": [
+    3,
+    4
+   ],
+   "title": "Twelve elements"
+  },
+  {
+   "axes": [
+    {
+     "name": "Position",
+     "navigate": true,
+     "offset": 0.0,
+     "scale": 1.0,
+     "size": 2,
+     "units": "nm"
+    },
+    {
+     "name": "Energy",
+     "navigate": false,
+     "offset": 0.0,
+     "scale": 0.5,
+     "size": 10,
+     "units": "keV"
+    }
+   ],
+   "data_sha256": "d7358815fc87aec0f0cb05108263d5b13b63a35a3bf3b8ef92847cd79ea651f2",
+   "dtype": "int16",
+   "hyperspy_class": "Signal1D",
+   "kind": "generic",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "hyperspy",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "2.5.0",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Position",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p+0"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 2
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "axis-1": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Energy",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p-1"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 10
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "keV",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/General": {
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "a/b line",
+       "variable": true
+      },
+      "title_note": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "the title holds a slash",
+       "variable": true
+      }
+     },
+     "metadata/Signal": {
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       2,
+       10
+      ],
+      "compression": "gzip",
+      "dtype": "<i2",
+      "sha256": "d7358815fc87aec0f0cb05108263d5b13b63a35a3bf3b8ef92847cd79ea651f2",
+      "shape": [
+       2,
+       10
+      ]
+     }
+    },
+    "experiment": "a-b line",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "axis-1",
+     "learning_results",
+     "metadata",
+     "metadata/General",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [
+    {
+     "key": "General.title_note",
+     "type": "text",
+     "value": "the title holds a slash",
+     "via": "signal"
+    }
+   ],
+   "name": "line-i16-slash-title",
+   "shape": [
+    2,
+    10
+   ],
+   "title": "a/b line"
+  },
+  {
+   "axes": [
+    {
+     "name": "y",
+     "navigate": true,
+     "offset": 0.0,
+     "scale": 1.0,
+     "size": 64,
+     "units": "nm"
+    },
+    {
+     "name": "x",
+     "navigate": true,
+     "offset": 0.0,
+     "scale": 1.0,
+     "size": 48,
+     "units": "nm"
+    },
+    {
+     "name": "Energy",
+     "navigate": false,
+     "offset": 0.0,
+     "scale": 0.01,
+     "size": 512,
+     "units": "keV"
+    }
+   ],
+   "data_sha256": "e4bb2ba9c183f0c06ef3fd61ae3d3d4e7cc357c0deb26c829aea98a7383cc22a",
+   "dtype": "uint16",
+   "hyperspy_class": "EDSTEMSpectrum",
+   "kind": "edsTEM",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "exspy",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "0.3.2",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "y",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p+0"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 64
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "axis-1": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "x",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p+0"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 48
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "axis-2": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Energy",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.47ae147ae147bp-7"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 512
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "keV",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/General": {
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Chunked EDS map",
+       "variable": true
+      }
+     },
+     "metadata/Signal": {
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "EDS_TEM",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       31,
+       31,
+       512
+      ],
+      "compression": "gzip",
+      "dtype": "<u2",
+      "sha256": "e4bb2ba9c183f0c06ef3fd61ae3d3d4e7cc357c0deb26c829aea98a7383cc22a",
+      "shape": [
+       64,
+       48,
+       512
+      ]
+     }
+    },
+    "experiment": "Chunked EDS map",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "axis-1",
+     "axis-2",
+     "learning_results",
+     "metadata",
+     "metadata/General",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [],
+   "name": "eds-tem-map-chunked-u16",
+   "shape": [
+    64,
+    48,
+    512
+   ],
+   "title": "Chunked EDS map"
+  },
+  {
+   "axes": [
+    {
+     "name": "y",
+     "navigate": true,
+     "offset": 0.0,
+     "scale": 1.0,
+     "size": 16,
+     "units": "nm"
+    },
+    {
+     "name": "x",
+     "navigate": true,
+     "offset": 0.0,
+     "scale": 1.0,
+     "size": 20,
+     "units": "nm"
+    },
+    {
+     "name": "kx",
+     "navigate": false,
+     "offset": -0.32,
+     "scale": 0.01,
+     "size": 64,
+     "units": "1/nm"
+    },
+    {
+     "name": "ky",
+     "navigate": false,
+     "offset": -0.32,
+     "scale": 0.01,
+     "size": 64,
+     "units": "1/nm"
+    }
+   ],
+   "data_sha256": "b61af40cd548cbff31daf910024acbe668eabfbcff266b39751ead285c9eeeff",
+   "dtype": "uint16",
+   "hyperspy_class": "ElectronDiffraction2D",
+   "kind": "electronDiffraction",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "pyxem",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "0.21.0",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "y",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p+0"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 16
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "axis-1": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "x",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p+0"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 20
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "axis-2": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "kx",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "-0x1.47ae147ae147bp-2"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.47ae147ae147bp-7"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 64
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "1/nm",
+       "variable": true
+      }
+     },
+     "axis-3": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "ky",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "-0x1.47ae147ae147bp-2"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.47ae147ae147bp-7"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 64
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "1/nm",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/General": {
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Chunked patterns",
+       "variable": true
+      }
+     },
+     "metadata/Signal": {
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "electron_diffraction",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       11,
+       11,
+       64,
+       64
+      ],
+      "compression": "gzip",
+      "dtype": "<u2",
+      "sha256": "b61af40cd548cbff31daf910024acbe668eabfbcff266b39751ead285c9eeeff",
+      "shape": [
+       16,
+       20,
+       64,
+       64
+      ]
+     }
+    },
+    "experiment": "Chunked patterns",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "axis-1",
+     "axis-2",
+     "axis-3",
+     "learning_results",
+     "metadata",
+     "metadata/General",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [],
+   "name": "patterns-4d-chunked-u16",
+   "shape": [
+    16,
+    20,
+    64,
+    64
+   ],
+   "title": "Chunked patterns"
+  },
+  {
+   "axes": [
+    {
+     "name": "Scan",
+     "navigate": true,
+     "offset": 0.0,
+     "scale": 1.0,
+     "size": 4,
+     "units": ""
+    },
+    {
+     "name": "Position",
+     "navigate": true,
+     "offset": 0.0,
+     "scale": 0.1,
+     "size": 1000,
+     "units": "nm"
+    },
+    {
+     "name": "Energy loss",
+     "navigate": false,
+     "offset": 0.0,
+     "scale": 0.5,
+     "size": 256,
+     "units": "eV"
+    }
+   ],
+   "data_sha256": "d5738ea26261c198d6df51f4fc915704bcbf3d68192f371afcf0d2081e18d910",
+   "dtype": "float32",
+   "hyperspy_class": "EELSSpectrum",
+   "kind": "eels",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "exspy",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "0.3.2",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Scan",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p+0"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 4
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      }
+     },
+     "axis-1": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Position",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.999999999999ap-4"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 1000
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "axis-2": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Energy loss",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p-1"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 256
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "eV",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/General": {
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Chunked line scans",
+       "variable": true
+      }
+     },
+     "metadata/Signal": {
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "EELS",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       4,
+       244,
+       256
+      ],
+      "compression": "gzip",
+      "dtype": "<f4",
+      "sha256": "d5738ea26261c198d6df51f4fc915704bcbf3d68192f371afcf0d2081e18d910",
+      "shape": [
+       4,
+       1000,
+       256
+      ]
+     }
+    },
+    "experiment": "Chunked line scans",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "axis-1",
+     "axis-2",
+     "learning_results",
+     "metadata",
+     "metadata/General",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [],
+   "name": "eels-small-axis-chunked-f32",
+   "shape": [
+    4,
+    1000,
+    256
+   ],
+   "title": "Chunked line scans"
+  },
+  {
+   "axes": [
+    {
+     "name": "Frame",
+     "navigate": true,
+     "offset": 0.0,
+     "scale": 1.0,
+     "size": 3,
+     "units": ""
+    },
+    {
+     "name": "y",
+     "navigate": false,
+     "offset": 0.0,
+     "scale": 0.5,
+     "size": 1024,
+     "units": "nm"
+    },
+    {
+     "name": "x",
+     "navigate": false,
+     "offset": 0.0,
+     "scale": 0.5,
+     "size": 1024,
+     "units": "nm"
+    }
+   ],
+   "data_sha256": "e2f9e2bf30116c6e22c680a58de393dd318513921b7e673cf4ba9c4abc66430f",
+   "dtype": "uint8",
+   "hyperspy_class": "Signal2D",
+   "kind": "generic",
+   "layout": {
+    "attributes": {
+     "": {
+      "package": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "hyperspy",
+       "variable": true
+      },
+      "package_version": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "2.5.0",
+       "variable": true
+      }
+     },
+     "attributes": {
+      "_lazy": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "ragged": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "axis-0": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Frame",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": true
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p+0"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 3
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      }
+     },
+     "axis-1": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "y",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p-1"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 1024
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "axis-2": {
+      "_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "UniformDataAxis",
+       "variable": true
+      },
+      "is_binned": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "name": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "x",
+       "variable": true
+      },
+      "navigate": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "offset": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x0.0p+0"
+      },
+      "scale": {
+       "class": "float",
+       "scalar": true,
+       "size": 8,
+       "value": "0x1.0000000000000p-1"
+      },
+      "size": {
+       "class": "integer",
+       "scalar": true,
+       "signed": true,
+       "size": 8,
+       "value": 1024
+      },
+      "units": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "nm",
+       "variable": true
+      }
+     },
+     "learning_results": {},
+     "metadata": {},
+     "metadata/General": {
+      "title": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "Big frames",
+       "variable": true
+      }
+     },
+     "metadata/Signal": {
+      "signal_type": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "",
+       "variable": true
+      }
+     },
+     "metadata/_HyperSpy": {},
+     "metadata/_HyperSpy/Folding": {
+      "original_axes_manager": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "original_shape": {
+       "class": "string",
+       "scalar": true,
+       "utf8": true,
+       "value": "_None_",
+       "variable": true
+      },
+      "signal_unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      },
+      "unfolded": {
+       "class": "bool",
+       "scalar": true,
+       "value": false
+      }
+     },
+     "original_metadata": {}
+    },
+    "datasets": {
+     "data": {
+      "attributes": {},
+      "chunks": [
+       1,
+       1024,
+       1024
+      ],
+      "compression": "gzip",
+      "dtype": "|u1",
+      "sha256": "e2f9e2bf30116c6e22c680a58de393dd318513921b7e673cf4ba9c4abc66430f",
+      "shape": [
+       3,
+       1024,
+       1024
+      ]
+     }
+    },
+    "experiment": "Big frames",
+    "experiments_attributes": {},
+    "file_io": {
+     "metadata/General/FileIO/0": [
+      "hyperspy_version",
+      "io_plugin",
+      "operation",
+      "timestamp"
+     ]
+    },
+    "groups": [
+     "attributes",
+     "axis-0",
+     "axis-1",
+     "axis-2",
+     "learning_results",
+     "metadata",
+     "metadata/General",
+     "metadata/Signal",
+     "metadata/_HyperSpy",
+     "metadata/_HyperSpy/Folding",
+     "original_metadata"
+    ],
+    "root_attributes": {
+     "file_format": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "HyperSpy",
+      "variable": true
+     },
+     "file_format_version": {
+      "class": "string",
+      "scalar": true,
+      "utf8": true,
+      "value": "3.3",
+      "variable": true
+     }
+    }
+   },
+   "metadata": [],
+   "name": "stack-big-frames-u8",
+   "shape": [
+    3,
+    1024,
+    1024
+   ],
+   "title": "Big frames"
+  }
+ ],
+ "versions": {
+  "exspy": "0.3.2",
+  "h5py": "3.16.0",
+  "hyperspy": "2.5.0",
+  "libhdf5": "2.0.0",
+  "numpy": "2.5.5",
+  "pyxem": "0.21.0",
+  "rosettasciio": "0.14.0"
+ }
+}

@@ -63,6 +63,17 @@ package nonisolated struct HDF5EnumAttributeFacts: Sendable, Equatable {
     package let values: [Int64]
 }
 
+/// How an attribute is stored, as `HDF5Reader.attributeTypeFacts(_:of:)` reads it (for the writers' tests).
+package nonisolated struct HDF5AttributeTypeFacts: Sendable, Equatable {
+    /// The HDF5 class (`H5Tget_class`: 0 integer, 1 float, 3 string, 8 enumeration), the type's size in bytes (a
+    /// variable-length string's is the size of its pointer) and the attribute's shape (`[]` for a scalar).
+    package let typeClass: Int32, size: Int, shape: [Int]
+    /// For text: variable-length, and in the UTF-8 character set. False for anything else.
+    package let variableLengthText: Bool, utf8Text: Bool
+    /// For an integer: two's complement. False for anything else.
+    package let signed: Bool
+}
+
 public nonisolated struct HDF5Reader: Sendable {
     /// The file this reader opens for every call.
     public let url: URL
@@ -203,6 +214,49 @@ public nonisolated struct HDF5Reader: Sendable {
             let values = stride(from: 0, to: stored.count, by: baseSize).map { integer(stored[$0..<($0 + baseSize)]) }
             return HDF5EnumAttributeFacts(size: h5.h5tgetSize(type), shape: shape, baseClass: h5.h5tgetClass(base), baseSize: baseSize,
                                           baseSigned: signed, baseLittleEndian: order == 0, members: members, values: values)
+        } }
+    }
+
+    /// How the attribute `name` on the object at `path` is stored: its HDF5 class, size, shape and, for text, whether it is
+    /// variable-length and UTF-8; `notFound` when absent. For the writers' tests (FormatoKit#142: the .hspy writer's text must
+    /// be variable-length UTF-8, as h5py writes a Python `str`): `attribute(_:of:)` reads both kinds of text alike.
+    package func attributeTypeFacts(_ name: String, of path: String) throws -> HDF5AttributeTypeFacts {
+        let parts = try HDF5Ops.components(path)
+        guard !name.isEmpty, !name.utf8.contains(0) else { throw HDF5FileError.invalidPath(name) }
+        let label = path + "@" + name
+        return try withFile { h5, file in try HDF5Ops.withObject(h5, file, path, parts) { (obj: hid_t) throws -> HDF5AttributeTypeFacts in
+            let exists = name.withCString { h5.h5aexists(obj, $0) }
+            guard exists >= 0 else { throw HDF5RootAttributes.hdf5Failure("looking for the \(name) attribute", h5) }
+            guard exists > 0 else { throw HDF5FileError.notFound(label) }
+            let attribute = name.withCString { h5.h5aopen(obj, $0, 0) }
+            guard attribute >= 0 else { throw HDF5RootAttributes.hdf5Failure("opening the \(name) attribute", h5) }
+            defer { _ = h5.h5aclose(attribute) }
+            let type = h5.h5agetType(attribute)
+            guard type >= 0 else { throw HDF5RootAttributes.hdf5Failure("opening the type of \(label)", h5) }
+            defer { _ = h5.h5tclose(type) }
+            let space = h5.h5agetSpace(attribute)
+            guard space >= 0 else { throw HDF5RootAttributes.hdf5Failure("opening the space of \(label)", h5) }
+            defer { _ = h5.h5sclose(space) }
+            let typeClass = h5.h5tgetClass(type)
+            let text = typeClass == 3                                                               // H5T_STRING
+            return HDF5AttributeTypeFacts(typeClass: typeClass, size: h5.h5tgetSize(type), shape: try HDF5Ops.dimensions(h5, space, label),
+                                          variableLengthText: text && h5.h5tisVariableStr(type) > 0,
+                                          utf8Text: text && h5.h5tgetCset(type) == 1,               // H5T_CSET_UTF8
+                                          signed: typeClass == 0 && h5.h5tgetSign(type) == 1)        // H5T_INTEGER, H5T_SGN_2
+        } }
+    }
+
+    /// How many filters (compression, shuffle, checksums) the dataset at `path` passes its chunks through: 0 for data stored
+    /// as it is. For the writers' tests (FormatoKit#142: the .hspy writer's data is chunked and not compressed).
+    package func filterCount(of path: String) throws -> Int {
+        let parts = try HDF5Ops.components(path)
+        return try withFile { h5, file in try HDF5Ops.withDataset(h5, file, path, parts) { (ds: hid_t) throws -> Int in
+            let plist = h5.h5dgetCreatePlist(ds)
+            guard plist >= 0 else { throw HDF5RootAttributes.hdf5Failure("reading the layout of \(path)", h5) }
+            defer { _ = h5.h5pclose(plist) }
+            let count = h5.h5pgetNfilters(plist)
+            guard count >= 0 else { throw HDF5RootAttributes.hdf5Failure("counting the filters of \(path)", h5) }
+            return Int(count)
         } }
     }
 

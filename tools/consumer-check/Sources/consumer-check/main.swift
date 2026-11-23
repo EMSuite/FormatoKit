@@ -7,6 +7,7 @@ import FormatoDM
 import FormatoEMD
 import FormatoEMPAD
 import FormatoHDF5
+import FormatoHSPY
 import FormatoMIB
 import FormatoMRC
 import FormatoMSA
@@ -186,7 +187,7 @@ do {
 check(FormatoUnits.convertScaleUnits(1.5e-9, units: "m", factor: 100)?.units == "nm", "FormatoUnits")
 check(FormatoUnits.parse("µm")?.shortForm == "μm", "units parse")
 
-// Every other product (MSA, EMPAD, MIB, the Formato loader, FormatoPeek): one public read each, on the committed fixtures.
+// Every other product (MSA, EMPAD, MIB, HSPY, the Formato loader, FormatoPeek): one public call each, on the committed fixtures.
 func inflate(_ gz: URL, to destination: URL) throws {
     let process = Process()
     process.executableURL = URL(fileURLWithPath: "/usr/bin/gzip")
@@ -219,6 +220,26 @@ do {
     check(merlin.pixelCode == "U16" && merlin.signal.array.shape == [2, 3, 3, 4], "MIBReader")
     check(FormatoLoader.sniff(path: dir.appendingPathComponent("processed12-trigger.mib").path) == .merlinMIB, "FormatoLoader.sniff MIB")
 } catch { check(false, "EMPAD and MIB: \(error)") }
+do {
+    // FormatoHSPY: a signal written whole, and a stream written a slab at a time, read back with the public HDF5 reader.
+    let dir = FileManager.default.temporaryDirectory.appendingPathComponent("formato-consumer-hspy-\(UUID().uuidString)")
+    try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+    defer { try? FileManager.default.removeItem(at: dir) }
+    let spectrum = try MSAReader.read(path: msa).signal
+    let whole = dir.appendingPathComponent("spectrum.hspy")
+    try HSPYWriter.write(spectrum, kind: HSPYSignalKind(signalType: spectrum.signalType) ?? .generic,
+                         options: HSPYWriteOptions(title: "MSA", software: "consumer-check"), to: whole)
+    check(try HDF5Reader(url: whole).datasetInfo("/Experiments/MSA/data").shape == [21], "HSPYWriter.write")
+    let axes = [FormatoAxis(name: "x", size: 2, scale: 1, offset: 0, units: "nm", navigate: true),
+                FormatoAxis(name: "Energy", size: 4, scale: 0.01, offset: 0, units: "keV", navigate: false)]
+    let streamed = dir.appendingPathComponent("streamed.hspy")
+    let stream: HSPYStreamWriter = try HSPYWriter.open(shape: [2, 4], dataType: .uint16, axes: axes, kind: .edsTEM,
+                                                       options: HSPYWriteOptions(title: "map"), to: streamed)
+    for row in 0..<2 { try stream.write(slab: try FormatoArray(dataType: .uint16, shape: [1, 4], bytes: Data(count: 8)), at: [row, 0]) }
+    try stream.publish()
+    check(try HDF5Reader(url: streamed).chunkShape(of: "/Experiments/map/data") == [2, 4], "HSPYStreamWriter")
+    check((try? HSPYWriter.open(shape: [2], dataType: .rgb8, axes: [axes[1]], kind: .generic, to: streamed)) == nil, "HSPYError refusal")
+} catch { check(false, "FormatoHSPY: \(error)") }
 check(FormatoLoader.sniff(path: velox) == .veloxEMD && FormatoLoader.sniff(path: msa) == .msa, "FormatoLoader.sniff")
 do {
     let signals = try FormatoLoader.load(path: planted)

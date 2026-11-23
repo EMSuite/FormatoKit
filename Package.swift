@@ -45,6 +45,8 @@ let package = Package(
         .library(name: "FormatoEMPAD", targets: ["FormatoEMPAD"]),
         .library(name: "FormatoMIB", targets: ["FormatoMIB"]),
         .library(name: "FormatoMSA", targets: ["FormatoMSA"]),
+        // HyperSpy's .hspy files, layout 3.3 (0.19.0): a signal written whole or a slab at a time.
+        .library(name: "FormatoHSPY", targets: ["FormatoHSPY"]),
         // One import and one `FormatoLoader.load(path:)` for every format that reads as signals (0.9.0).
         .library(name: "Formato", targets: ["Formato"]),
         // One decimated frame and the header facts of a file, never more than one frame read (0.10.0): Quick Look and Finder-style consumers.
@@ -53,7 +55,7 @@ let package = Package(
     targets: binaryTargets + [
         // The data model every reader returns: arrays, axes, units, metadata with provenance, lazy signals; cancellation.
         .target(name: "FormatoCore", swiftSettings: settings),
-        // HDF5: the process-wide HDF5 lock and quit barrier (HDF5Serial), the shipped libhdf5. Later: hspy, the sidecar.
+        // HDF5: the process-wide HDF5 lock and quit barrier (HDF5Serial), the shipped libhdf5, the slab writer under the hspy writer.
         .target(name: "FormatoHDF5",
                 dependencies: ["FormatoCore"] + xcframeworks.map { .target(name: $0.name, condition: .when(platforms: [.macOS])) },
                 swiftSettings: settings),
@@ -67,6 +69,8 @@ let package = Package(
         .target(name: "FormatoEMPAD", dependencies: ["FormatoCore"], swiftSettings: settings),
         .target(name: "FormatoMIB", dependencies: ["FormatoCore"], swiftSettings: settings),
         .target(name: "FormatoMSA", dependencies: ["FormatoCore"], swiftSettings: settings),
+        // HyperSpy's .hspy layout over FormatoHDF5's slab writer; no numerics.
+        .target(name: "FormatoHSPY", dependencies: ["FormatoCore", "FormatoHDF5"], swiftSettings: settings),
         .target(name: "Formato", dependencies: ["FormatoCore", "FormatoDM", "FormatoEMD", "FormatoMRC", "FormatoMSA", "FormatoTIFF"],
                 swiftSettings: settings),
         .target(name: "FormatoPeek",
@@ -111,6 +115,9 @@ let package = Package(
         .testTarget(name: "FormatoMIBTests", dependencies: ["FormatoMIB", "FormatoCore", "FormatoKitTestSupport"], exclude: ["Fixtures"],
                     swiftSettings: settings),
         .testTarget(name: "FormatoMSATests", dependencies: ["FormatoMSA", "FormatoCore"], exclude: ["Fixtures"], swiftSettings: settings),
+        // The .hspy writer against the layout HyperSpy 2.5.0 writes (pin H2, tools/hspy-writer), the slab writer's footprint.
+        .testTarget(name: "FormatoHSPYTests", dependencies: ["FormatoHSPY", "FormatoHDF5", "FormatoCore"], exclude: ["Fixtures"],
+                    swiftSettings: settings),
         .testTarget(name: "FormatoPeekTests", dependencies: ["FormatoPeek", "FormatoCore", "FormatoHDF5", "FormatoKitTestSupport"], swiftSettings: settings),
         .testTarget(name: "FormatoLoaderTests", dependencies: ["Formato", "FormatoCore"], swiftSettings: settings),
         // The comparisons with the pinned RosettaSciIO, Pint and tifffile values and the inherited golden baseline, byte for byte
