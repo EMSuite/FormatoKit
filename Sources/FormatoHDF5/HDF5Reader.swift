@@ -161,6 +161,7 @@ public nonisolated struct HDF5Reader: Sendable {
             guard base >= 0 else { throw HDF5RootAttributes.hdf5Failure("opening the base type of \(label)", h5) }
             defer { _ = h5.h5tclose(base) }
             let baseSize = h5.h5tgetSize(base), order = h5.h5tgetOrder(base)
+            guard order >= 0 else { throw HDF5RootAttributes.hdf5Failure("reading the byte order of \(label)", h5) }
             guard (1...8).contains(baseSize) else { throw HDF5FileError.unsupportedType(path: label, type: "enum of \(baseSize) bytes") }
             let signed = h5.h5tgetSign(base) == 1                                                    // H5T_SGN_2
             // One value of the base type, in its stored byte order (H5T_ORDER_BE = 1, else little-endian), sign extended.

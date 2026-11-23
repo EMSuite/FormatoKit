@@ -3,7 +3,8 @@
 //  `HDF5WriteSession.setBoolAttribute` against h5py 3.16.0 (pin H1, FormatoKit#141; tools/hdf5-bool/generate.py): the type the kit
 //  writes equals the type h5py writes for a NumPy `bool` (an enumeration over a signed 8-bit integer, FALSE = 0, TRUE = 1, scalar),
 //  read back with the kit's own HDF5 layer and compared with the facts h5py recorded (Fixtures/bool/h5py-pins.json), exactly; the
-//  file h5py wrote has those facts too; and h5py reads the committed kit-written file as `numpy.bool_` (check-result.json).
+//  file h5py wrote has those facts too; and, once the Mac step below has committed swift-bool.h5 and check-result.json, h5py reads
+//  that kit-written file as `numpy.bool_` (the test is skipped until then).
 //
 //  Regenerating the kit-written file (a change on purpose): FORMATO_WRITE_GOLDEN=1 swift test -c release --filter
 //  HDF5BoolAttributeTests, then tools/hdf5-bool/generate.py (it writes check-result.json), then commit both.
