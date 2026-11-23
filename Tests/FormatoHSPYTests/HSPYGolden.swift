@@ -140,10 +140,11 @@ enum HSPYGolden {
     static let software = "FormatoKit tests (FormatoHSPYTests)"
 
     static func dataType(_ numpy: String) -> FormatoDataType? {
-        ["uint8": .uint8, "int8": .int8, "uint16": .uint16, "int16": .int16, "uint32": .uint32, "int32": .int32, "int64": .int64,
+        let table: [String: FormatoDataType] = ["uint8": .uint8, "int8": .int8, "uint16": .uint16, "int16": .int16, "uint32": .uint32, "int32": .int32, "int64": .int64,
          "uint64": .uint64, "float32": .float32, "float64": .float64,
          "|u1": .uint8, "|i1": .int8, "<u2": .uint16, "<i2": .int16, "<u4": .uint32, "<i4": .int32, "<i8": .int64, "<u8": .uint64,
-         "<f4": .float32, "<f8": .float64][numpy]
+         "<f4": .float32, "<f8": .float64]
+        return table[numpy]
     }
 
     /// tools/hspy-writer/generate.py `data_rule`: v(i) = (i * 2654435761 + 12345) mod 2^32 for the flat index i, mapped into the
@@ -252,7 +253,7 @@ enum HSPYGolden {
         #expect(try reader.chunkShape(of: experiment + "/data") == data.chunks, "\(label): HyperSpy's chunk shape")
         #expect(data.compression == "gzip", "\(label): HyperSpy compresses")
         #expect(try reader.filterCount(of: experiment + "/data") == 0, "\(label): the kit does not")
-        #expect(data.attributes.isEmpty && (try reader.attributeNames(of: experiment + "/data")).isEmpty, "\(label)")
+        #expect(try reader.attributeNames(of: experiment + "/data").isEmpty && data.attributes.isEmpty, "\(label)")
         let stored = try reader.readDataset(experiment + "/data")
         #expect(sha256(stored.bytes) == data.sha256 && data.sha256 == planted.dataSHA256, "\(label): the data")
 
