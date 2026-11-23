@@ -16,12 +16,12 @@ import Testing
 import FormatoCore
 import FormatoHDF5
 
-private struct BoolBasePin: Decodable {
+struct BoolBasePin: Decodable {
     var kind: String, size: Int, signed: Bool, order: String
     enum CodingKeys: String, CodingKey { case kind = "class", size, signed, order }
 }
 
-private struct BoolAttributePin: Decodable {
+struct BoolAttributePin: Decodable {
     var kind: String, size: Int, scalar: Bool, base: BoolBasePin?, members: [String: Int64]?, stored: Int64
     var numpyType: String, dtype: String, value: Bool
     enum CodingKeys: String, CodingKey {
@@ -29,12 +29,12 @@ private struct BoolAttributePin: Decodable {
     }
 }
 
-private struct BoolPins: Decodable {
+struct BoolPins: Decodable {
     var h5pyVersion: String, attributes: [String: BoolAttributePin]
     enum CodingKeys: String, CodingKey { case h5pyVersion = "h5py_version", attributes }
 }
 
-private struct BoolCheckResult: Decodable {
+struct BoolCheckResult: Decodable {
     struct File: Decodable {
         var sha256: String, attributes: [String: BoolAttributePin], readsAsNumpyBool: Bool
         enum CodingKeys: String, CodingKey { case sha256, attributes, readsAsNumpyBool = "reads_as_numpy_bool" }
