@@ -297,4 +297,31 @@ import FormatoHDF5
         }
         #expect(try listing(dir) == ["vectors.h5"])
     }
+
+    /// FormatoKit#105: a close that fails (its last flush) is a failed write. Nothing is published over the destination and
+    /// no scratch file is left; a new destination is not created.
+    @Test func aFailedCloseIsAFailedWriteAndPublishesNothing() throws {
+        let dir = try scratch(); defer { try? FileManager.default.removeItem(at: dir) }
+        let url = dir.appendingPathComponent("vectors.h5")
+        let before = Data("old contents".utf8)
+        try before.write(to: url)
+        let peaks = [[BraggPeak(qx: 1, qy: 2, intensity: 3)]]
+        let scan = BraggGridShape(rows: 1, columns: 1), detector = BraggGridShape(rows: 4, columns: 4)
+        #expect(throws: BraggVectorsEMDError.writeFailed("closing the temporary file")) {
+            try BraggVectorsEMD.writeFailingTheClose(peaks: peaks, scan: scan, detector: detector, to: url)
+        }
+        #expect(try Data(contentsOf: url) == before)
+        #expect(try listing(dir) == ["vectors.h5"])
+
+        let fresh = dir.appendingPathComponent("fresh.h5")
+        #expect(throws: BraggVectorsEMDError.self) {
+            try BraggVectorsEMD.writeFailingTheClose(peaks: peaks, scan: scan, detector: detector, to: fresh)
+        }
+        #expect(try listing(dir) == ["vectors.h5"])
+
+        // The same call with the close intact publishes.
+        try BraggVectorsEMD.write(peaks: peaks, scan: scan, detector: detector, to: url)
+        #expect(try BraggVectorsEMD.read(path: url.path).peaks == peaks)
+        #expect(try listing(dir) == ["vectors.h5"])
+    }
 }

@@ -166,6 +166,16 @@ public nonisolated struct BraggVectorsEMD: Sendable {
             sourcePath: sourcePath, extraAttributes: extraAttributes, cancelled: cancelled)
     }
 
+    /// `write` with the file's close reported as failed, for the tests of the publish: the destination must stay as it was.
+    package static func writeFailingTheClose(
+        peaks: [[BraggPeak]], scan: BraggGridShape, detector: BraggGridShape, to destination: URL
+    ) throws {
+        try EMDWriter.publish(
+            peaks: peaks, scan: scan, detector: detector, calibration: BraggCalibration(), destination: destination,
+            convention: .py4DSTEM, rootName: "braggvectors_root", nodeName: "braggvectors", authoringProgram: "FormatoKit",
+            sourcePath: nil, extraAttributes: nil, cancelled: { false }, failingTheClose: true)
+    }
+
     // MARK: Read
 
     /// Read BraggVectors from a py4DSTEM EMD 1.0 file.
@@ -231,7 +241,7 @@ private nonisolated struct EMDWriter {
         peaks: [[BraggPeak]], scan: BraggGridShape, detector: BraggGridShape, calibration: BraggCalibration,
         destination: URL, convention: BraggAxisConvention, rootName: String, nodeName: String, authoringProgram: String,
         sourcePath: String?, extraAttributes: (@Sendable (BraggAttributeTarget) -> [String: String])?,
-        cancelled: @Sendable () -> Bool
+        cancelled: @Sendable () -> Bool, failingTheClose: Bool = false
     ) throws {
         guard scan.rows > 0, scan.columns > 0, scan.rows <= Int(Int32.max), scan.columns <= Int(Int32.max),
               scan.rows * scan.columns <= maxPositions else {
@@ -269,16 +279,18 @@ private nonisolated struct EMDWriter {
         for text in [calibration.qPixelUnits, calibration.rPixelUnits] where text?.contains("\0") == true {
             throw BraggVectorsEMDError.invalidInput("calibration units contain NUL")
         }
-        if let sourcePath, sameFile(destination, URL(fileURLWithPath: sourcePath)) {
+        if let sourcePath, HDF5PendingFile.sameFile(destination.path, sourcePath) {
             throw BraggVectorsEMDError.destinationIsSource("the destination is the source file: \(destination.path)")
         }
         try FormatoCancellation.check(cancelled)
 
-        // Built in the system's item-replacement directory (writable under the sandbox, same volume), else beside the destination.
+        // Built in the system's item-replacement directory (writable under the sandbox, same volume), else beside the destination,
+        // and published only over the item that was at the destination before the build began (the same publish as
+        // `HDF5PendingFile`), so a file that appears or is replaced meanwhile is left alone.
+        let checked = HDF5FileIdentity(ofItemAt: destination.path)
         let (temporary, scratchDirectory) = HDF5RootAttributes.temporaryURL(for: destination, namePrefix: ".bragg-")
-        var published = false
         defer {
-            if !published { _ = unlink(temporary.path) }
+            try? FileManager.default.removeItem(at: temporary)
             if let scratchDirectory { try? FileManager.default.removeItem(at: scratchDirectory) }
         }
         try HDF5Serial.run {
@@ -286,33 +298,44 @@ private nonisolated struct EMDWriter {
             try writer.writeFile(
                 at: temporary.path, peaks: peaks, scan: scan, detector: detector, calibration: calibration,
                 convention: convention, rootName: rootName, nodeName: nodeName, authoringProgram: authoringProgram,
-                extras: extras, cancelled: cancelled)
+                extras: extras, cancelled: cancelled, failingTheClose: failingTheClose)
         }
         try FormatoCancellation.check(cancelled)
-        guard rename(temporary.path, destination.path) == 0 else {
-            throw BraggVectorsEMDError.publishFailed(String(cString: strerror(errno)))
+        let descriptor = temporary.path.withCString { Darwin.open($0, O_RDONLY) }
+        if descriptor >= 0 { _ = fcntl(descriptor, F_FULLFSYNC); _ = Darwin.close(descriptor) }
+        do { try HDF5RootAttributes.publish(temporary, onto: destination, replacing: checked) } catch let error as HDF5FileError {
+            throw BraggVectorsEMDError.publishFailed(error.localizedDescription)
         }
-        published = true
     }
 
-    /// One file under two spellings (a symlink, a differently written path): by file identity as well as by path.
-    private static func sameFile(_ a: URL, _ b: URL) -> Bool {
-        let ra = a.standardizedFileURL.resolvingSymlinksInPath(), rb = b.standardizedFileURL.resolvingSymlinksInPath()
-        if ra == rb { return true }
-        var sa = stat(), sb = stat()
-        if stat(ra.path, &sa) == 0, stat(rb.path, &sb) == 0 { return sa.st_dev == sb.st_dev && sa.st_ino == sb.st_ino }
-        return false
-    }
-
+    /// Creates the file at `path`, writes it and closes it, the close checked: a close that fails (the last flush of the data)
+    /// throws `writeFailed`, so a damaged file is never published. Every object opened inside is closed before the file.
+    /// `failingTheClose` is a test hook: the file is closed and the close is then reported as failed.
     func writeFile(
         at path: String, peaks: [[BraggPeak]], scan: BraggGridShape, detector: BraggGridShape, calibration: BraggCalibration,
         convention: BraggAxisConvention, rootName: String, nodeName: String, authoringProgram: String,
-        extras: [BraggAttributeTarget: [String: String]], cancelled: @Sendable () -> Bool
+        extras: [BraggAttributeTarget: [String: String]], cancelled: @Sendable () -> Bool, failingTheClose: Bool = false
     ) throws {
         // The scratch file, with file locking off: no write lock to outlive the close in a child process (FormatoKit#53).
         let file = try h5.withScratchFileAccess { access in path.withCString { h5.h5fcreate($0, h5Truncate, h5Default, access) } }
         guard file >= 0 else { throw BraggVectorsEMDError.publishFailed("cannot create the temporary file") }
-        defer { _ = h5.h5fclose(file) }
+        do {
+            try writeContent(in: file, peaks: peaks, scan: scan, detector: detector, calibration: calibration,
+                             convention: convention, rootName: rootName, nodeName: nodeName,
+                             authoringProgram: authoringProgram, extras: extras, cancelled: cancelled)
+        } catch {
+            _ = h5.h5fclose(file)
+            throw error
+        }
+        let status = h5.h5fclose(file)
+        guard status >= 0, !failingTheClose else { throw fail("closing the temporary file") }
+    }
+
+    private func writeContent(
+        in file: hid_t, peaks: [[BraggPeak]], scan: BraggGridShape, detector: BraggGridShape, calibration: BraggCalibration,
+        convention: BraggAxisConvention, rootName: String, nodeName: String, authoringProgram: String,
+        extras: [BraggAttributeTarget: [String: String]], cancelled: @Sendable () -> Bool
+    ) throws {
         try stringAttribute("emd_group_type", "file", on: file)
         try int64Attribute("version_major", 1, on: file)
         try int64Attribute("version_minor", 0, on: file)
