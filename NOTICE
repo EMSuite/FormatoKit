@@ -61,9 +61,20 @@ for byte; the bytes are the same at the pinned commit above and at commit
 pixel pitch (Sources/FormatoDM/AcquisitionMetadataDM.swift) follows the mapping
 of Acquisition.Device.CCD.Pixel Size (um) to Detector.pixel_size, the same line
 at both commits.
+Sources/FormatoHSPY/HSPYReader.swift follows RosettaSciIO 0.14.0's reading of
+HyperSpy's own layout (rsciio/_hierarchical.py HierarchicalReader) and is
+compared with it on files HyperSpy 2.5.0 saves (tools/hspy-reader/generate.py).
+Tests/FormatoHSPYTests/Fixtures/reader/EDS_SEM_TM002.hspy is exspy 0.3.2's
+public example file exspy/data/EDS_SEM_TM002.hspy (sha256
+b5a5828dc694c7ed6e33745b7022594f48457e33140fb8d7371472fe18b6b359), copied byte
+for byte from exspy's wheel.
 
     RosettaSciIO - https://github.com/hyperspy/rosettasciio
     Copyright (C) 2007-2026 The HyperSpy developers
+    Licensed under the GNU General Public License v3.0 or later
+
+    exspy - https://github.com/hyperspy/exspy
+    Copyright (C) 2007-2024 The eXSpy developers
     Licensed under the GNU General Public License v3.0 or later
 
 

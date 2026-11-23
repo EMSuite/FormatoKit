@@ -1,7 +1,8 @@
 //
 //  HSPYTypes.swift
 //  Role: what a caller says about a .hspy file it writes: the signal's kind (which names HyperSpy's class and the Python
-//        package that owns it), the options (title, software line, extra metadata, chunk shape) and every refusal by name.
+//        package that owns it), the options (title, software line, extra metadata, chunk shape); what the reader lists of a
+//        file's experiments; and every refusal of either by name.
 //
 
 import Foundation
@@ -105,11 +106,45 @@ public nonisolated struct HSPYWriteOptions: Sendable, Equatable {
     }
 }
 
-/// Why a .hspy file was not written. Nothing is left at the destination after any of them.
+/// One experiment of a .hspy file (a signal under `/Experiments`), as `HSPYReader.experiments(url:)` lists it: no data read.
+public nonisolated struct HSPYExperiment: Sendable, Equatable {
+    /// The experiment's group name under `/Experiments`: what `HSPYReader.read(url:experiment:)` takes. HyperSpy names it after
+    /// the title (a `/` becomes `-`, an empty title `__unnamed__`).
+    public let name: String
+    /// `metadata.General.title` ("" when the file states none, or `__unnamed__`, as RosettaSciIO reads it).
+    public let title: String
+    /// `metadata.Signal.signal_type` as stored ("" when the file states none).
+    public let signalType: String
+    /// The data's shape in array order (slowest first).
+    public let shape: [Int]
+    /// The data's stored type; nil when the experiment is refused.
+    public let dataType: FormatoDataType?
+    /// One per dimension, in array order; empty when the experiment is refused.
+    public let axes: [FormatoAxis]
+    /// Why `HSPYReader.read` refuses this experiment, nil when it reads it.
+    public let refusal: HSPYError?
+
+    /// The kind whose `signalType` this is, nil for a word the writer does not write (`CL`, `DielectricFunction`, ...).
+    public var kind: HSPYSignalKind? { HSPYSignalKind(signalType: signalType) }
+
+    public init(name: String, title: String, signalType: String, shape: [Int], dataType: FormatoDataType?, axes: [FormatoAxis],
+                refusal: HSPYError?) {
+        self.name = name
+        self.title = title
+        self.signalType = signalType
+        self.shape = shape
+        self.dataType = dataType
+        self.axes = axes
+        self.refusal = refusal
+    }
+}
+
+/// Why a .hspy file was not written, or one of its experiments not read. Nothing is left at a write's destination after any
+/// of them.
 public nonisolated enum HSPYError: Error, Sendable, Equatable, LocalizedError {
     /// A colour type (RGB, RGBA): HyperSpy stores colour as a structured type the writer does not write.
     case unsupportedDataType(FormatoDataType)
-    /// A rank outside 1 to 4.
+    /// A rank outside 1 to 4, written or read.
     case unsupportedRank(Int)
     /// The axes are not one per dimension with the dimension's size (`sizes` against `shape`).
     case axesDoNotMatchShape(sizes: [Int], shape: [Int])
@@ -147,10 +182,31 @@ public nonisolated enum HSPYError: Error, Sendable, Equatable, LocalizedError {
     /// A call on a stream writer that was already published, cancelled, or ended by a failed write.
     case finished
 
+    // Reading.
+
+    /// An HDF5 file that is not HyperSpy's: no `file_format_version` attribute and no `Experiments` group (the file's name).
+    case notHyperSpyFile(String)
+    /// A layout version the reader does not read: older than 1.2 (`mapped_parameters`), or not a version number.
+    case unsupportedVersion(String)
+    /// A HyperSpy file without an experiment that holds data (the file's name): models only, say.
+    case noExperiment(String)
+    /// No experiment of that group name in the file.
+    case unknownExperiment(String)
+    /// A ragged signal (`attributes.ragged`, variable-length data): an array of arrays, not one array.
+    case raggedSignal(experiment: String)
+    /// Complex data (h5py's compound `{r, i}`): FormatoKit holds no complex type.
+    case complexData(experiment: String)
+    /// Data of a type FormatoKit does not hold: a structured (colour) type, text, h5py's bool, an enumeration, ...
+    case unsupportedStoredType(experiment: String, type: String)
+    /// An axis that is not uniform: a `DataAxis` (its values listed) or a `FunctionalDataAxis` (its values from an expression).
+    case nonUniformAxis(experiment: String, index: Int, type: String)
+    /// An axis that is missing, has no navigate flag, a size other than the data's, or a scale or offset that is not a number.
+    case invalidAxis(experiment: String, index: Int, reason: String)
+
     public var errorDescription: String? {
         switch self {
         case .unsupportedDataType(let type): "A \(type.rawValue) signal is not written as a HyperSpy file; only integer and float data are."
-        case .unsupportedRank(let rank): "A signal of \(rank) dimensions is not written as a HyperSpy file; one to four are."
+        case .unsupportedRank(let rank): "A HyperSpy signal of \(rank) dimensions is not written or read; one to four are."
         case .axesDoNotMatchShape(let sizes, let shape): "The axes \(sizes) do not match the data's shape \(shape)."
         case .emptyDimension(let index): "Dimension \(index) of the data is empty."
         case .nonFiniteAxis(let index): "Axis \(index) has a scale or offset that is not a finite number."
@@ -169,6 +225,16 @@ public nonisolated enum HSPYError: Error, Sendable, Equatable, LocalizedError {
         case .slabByteCount(let expected, let found): "The slab holds \(found) bytes where its shape needs \(expected)."
         case .incomplete(let written, let expected): "\(written) of the \(expected) values were written."
         case .finished: "The HyperSpy file was already published or abandoned."
+        case .notHyperSpyFile(let name): "\(name) is an HDF5 file but not a HyperSpy file."
+        case .unsupportedVersion(let version): "HyperSpy file layout \(version) is not read; 1.2 and later are."
+        case .noExperiment(let name): "\(name) holds no HyperSpy signal with data."
+        case .unknownExperiment(let name): "The HyperSpy file holds no signal named \"\(name)\"."
+        case .raggedSignal(let experiment): "\"\(experiment)\" is a ragged signal (an array of arrays), which is not read."
+        case .complexData(let experiment): "\"\(experiment)\" holds complex data, which is not read."
+        case .unsupportedStoredType(let experiment, let type): "\"\(experiment)\" holds \(type) data, which is not read; integers and floats are."
+        case .nonUniformAxis(let experiment, let index, let type):
+            "Axis \(index) of \"\(experiment)\" is a non-uniform \(type), which is not read; uniform axes are."
+        case .invalidAxis(let experiment, let index, let reason): "Axis \(index) of \"\(experiment)\" cannot be read: \(reason)."
         }
     }
 }

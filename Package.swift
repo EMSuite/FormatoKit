@@ -45,7 +45,7 @@ let package = Package(
         .library(name: "FormatoEMPAD", targets: ["FormatoEMPAD"]),
         .library(name: "FormatoMIB", targets: ["FormatoMIB"]),
         .library(name: "FormatoMSA", targets: ["FormatoMSA"]),
-        // HyperSpy's .hspy files, layout 3.3 (0.19.0): a signal written whole or a slab at a time.
+        // HyperSpy's .hspy files, layout 3.3 (0.19.0): a signal written whole or a slab at a time, and read back.
         .library(name: "FormatoHSPY", targets: ["FormatoHSPY"]),
         // One import and one `FormatoLoader.load(path:)` for every format that reads as signals (0.9.0).
         .library(name: "Formato", targets: ["Formato"]),
@@ -69,12 +69,13 @@ let package = Package(
         .target(name: "FormatoEMPAD", dependencies: ["FormatoCore"], swiftSettings: settings),
         .target(name: "FormatoMIB", dependencies: ["FormatoCore"], swiftSettings: settings),
         .target(name: "FormatoMSA", dependencies: ["FormatoCore"], swiftSettings: settings),
-        // HyperSpy's .hspy layout over FormatoHDF5's slab writer; no numerics.
+        // HyperSpy's .hspy layout over FormatoHDF5's slab writer and reader; no numerics.
         .target(name: "FormatoHSPY", dependencies: ["FormatoCore", "FormatoHDF5"], swiftSettings: settings),
-        .target(name: "Formato", dependencies: ["FormatoCore", "FormatoDM", "FormatoEMD", "FormatoMRC", "FormatoMSA", "FormatoTIFF"],
+        .target(name: "Formato", dependencies: ["FormatoCore", "FormatoDM", "FormatoEMD", "FormatoHSPY", "FormatoMRC", "FormatoMSA", "FormatoTIFF"],
                 swiftSettings: settings),
         .target(name: "FormatoPeek",
-                dependencies: ["FormatoCore", "FormatoDM", "FormatoEMD", "FormatoHDF5", "FormatoMRC", "FormatoMSA", "FormatoTIFF", "Formato"],
+                dependencies: ["FormatoCore", "FormatoDM", "FormatoEMD", "FormatoHDF5", "FormatoHSPY", "FormatoMRC", "FormatoMSA", "FormatoTIFF",
+                               "Formato"],
                 swiftSettings: settings),
         // Examples, not products. `swift run formato-peek <file>`: one decimated frame and the header facts.
         .executableTarget(name: "formato-peek", dependencies: ["FormatoPeek"], path: "Examples/formato-peek", swiftSettings: settings),
@@ -115,11 +116,13 @@ let package = Package(
         .testTarget(name: "FormatoMIBTests", dependencies: ["FormatoMIB", "FormatoCore", "FormatoKitTestSupport"], exclude: ["Fixtures"],
                     swiftSettings: settings),
         .testTarget(name: "FormatoMSATests", dependencies: ["FormatoMSA", "FormatoCore"], exclude: ["Fixtures"], swiftSettings: settings),
-        // The .hspy writer against the layout HyperSpy 2.5.0 writes (pin H2, tools/hspy-writer), the slab writer's footprint.
+        // The .hspy writer against the layout HyperSpy 2.5.0 writes (pin H2, tools/hspy-writer), the slab writer's footprint;
+        // the reader against RosettaSciIO's reading of HyperSpy's own files (pin H4, tools/hspy-reader).
         .testTarget(name: "FormatoHSPYTests", dependencies: ["FormatoHSPY", "FormatoHDF5", "FormatoCore"], exclude: ["Fixtures"],
                     swiftSettings: settings),
-        .testTarget(name: "FormatoPeekTests", dependencies: ["FormatoPeek", "FormatoCore", "FormatoHDF5", "FormatoKitTestSupport"], swiftSettings: settings),
-        .testTarget(name: "FormatoLoaderTests", dependencies: ["Formato", "FormatoCore"], swiftSettings: settings),
+        .testTarget(name: "FormatoPeekTests", dependencies: ["FormatoPeek", "FormatoCore", "FormatoHDF5", "FormatoHSPY", "FormatoKitTestSupport"],
+                    swiftSettings: settings),
+        .testTarget(name: "FormatoLoaderTests", dependencies: ["Formato", "FormatoCore", "FormatoHSPY"], swiftSettings: settings),
         // The comparisons with the pinned RosettaSciIO, Pint and tifffile values and the inherited golden baseline, byte for byte
         // (`swift test -c release --parallel --skip FormatoKitParityTests` leaves them out). Fixtures stay in the old test folders.
         .testTarget(name: "FormatoKitParityTests",
