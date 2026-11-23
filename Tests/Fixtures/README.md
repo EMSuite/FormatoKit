@@ -5,7 +5,7 @@ the index is rewritten in the same commit (CI runs `index.py --check`). A regene
 commit, with the reason and a CHANGELOG line.
 
 One row per tracked file under `Tests/*/Fixtures/`: its size, the script under `tools/` that writes it (or *copied*),
-and its source: the pinned reference that wrote or read it, or where a copied file comes from. 699 files.
+and its source: the pinned reference that wrote or read it, or where a copied file comes from. 703 files.
 
 The generators run in the one Python environment of `tools/requirements.txt` (`tools/README.md`). The tests never run
 Python: they read these committed files, so `swift test` needs none of it.
@@ -594,6 +594,10 @@ others stay in SpectroKit or the first consumer, named in the rows.
 | `FormatoTIFFTests/Fixtures/app-image/white-is-zero.tif` | 134 B | `tools/acq-metadata/generate.py` | planted; pins the consumer's readers |
 | `FormatoTIFFTests/Fixtures/app-image/wrong-magic.tif` | 134 B | `tools/acq-metadata/generate.py` | planted; pins the consumer's readers |
 | `FormatoTIFFTests/Fixtures/app-image/zero-height.tif` | 134 B | `tools/acq-metadata/generate.py` | planted; pins the consumer's readers |
+| `FormatoTIFFTests/Fixtures/colour/colour-II.tif` | 329 B | `tools/tiff-colour/generate.py` | tifffile 2026.9.20, imagecodecs 2026.10.10; truth NumPy 2.5.4 rgb.max(axis=-1) |
+| `FormatoTIFFTests/Fixtures/colour/colour-MM.tif` | 296 B | `tools/tiff-colour/generate.py` | tifffile 2026.9.20, imagecodecs 2026.10.10; truth NumPy 2.5.4 rgb.max(axis=-1) |
+| `FormatoTIFFTests/Fixtures/colour/colour-lzw.tif` | 635 B | `tools/tiff-colour/generate.py` | tifffile 2026.9.20, imagecodecs 2026.10.10; truth NumPy 2.5.4 rgb.max(axis=-1) |
+| `FormatoTIFFTests/Fixtures/colour/pins.json` | 2.3 KB | `tools/tiff-colour/generate.py` | tifffile 2026.9.20, imagecodecs 2026.10.10; truth NumPy 2.5.4 rgb.max(axis=-1) |
 | `FormatoTIFFTests/Fixtures/image-readers/pins.json` | 9.0 KB | `tools/acq-metadata/generate.py` | planted; pins RosettaSciIO 049e7d70 and the consumer's readers |
 | `FormatoTIFFTests/Fixtures/image-readers/plain.tif` | 126 B | `tools/acq-metadata/generate.py` | planted; pins RosettaSciIO 049e7d70 and the consumer's readers |
 | `FormatoTIFFTests/Fixtures/image-readers/velox-agree.tif` | 362 B | `tools/acq-metadata/generate.py` | planted; pins RosettaSciIO 049e7d70 and the consumer's readers |

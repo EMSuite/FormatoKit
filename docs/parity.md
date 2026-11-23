@@ -76,7 +76,7 @@ every one of these, as D17 prescribes for readers.
 | py4DSTEM BraggVectors | `BraggVectorsEMD`, `HDF5WriteSession.writeBraggVectors` | read and write pinned; origin maps and `_v_cal` not written |
 | EMD 1.0 bundle writers | `EMDDatacubeWriter`, `writeEMDCalibration`, maps | write pinned |
 | PNG with text chunks | `FormatoPNG` | write pinned; no interlacing, palette |
-| TIFF app image (named option) | `TIFFAppImage` | pinned to macTEM cb6e164 on 149 cases |
+| TIFF app image (named option) | `TIFFAppImage` | pinned to macTEM cb6e164 on 149 cases; a colour TIFF read as its brightest channel (`colour: .brightestChannel`, FormatoKit#93) equals NumPy 2.5.4 `rgb.max(axis=-1)` exactly on 3 tifffile-written files |
 | `rsciio.load` (extension guess then plugin check) | `FormatoLoader.sniff/load` (product `Formato`, 0.9.0) | extension plus first bytes; 4D formats named, not loaded |
 
 ## MSA (0.9.0)
