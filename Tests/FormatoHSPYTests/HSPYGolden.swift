@@ -289,7 +289,7 @@ enum HSPYGolden {
                 let e = try #require(found, "\(at) is not h5py's bool")
                 #expect(e.size == 1 && e.baseClass == 0 && e.baseSize == 1 && e.baseSigned, "\(at)")
                 #expect(e.members == ["FALSE": 0, "TRUE": 1], "\(at)")
-                let flag = try #require(want.flag)
+                let flag = try #require(want.flag as Bool?)
                 #expect(e.values == [flag ? 1 : 0], "\(at)")
             case "float":
                 #expect(facts.typeClass == 1 && facts.size == want.size && want.size == 8, "\(at): float64")

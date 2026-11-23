@@ -81,7 +81,7 @@ import FormatoHSPY
         #expect(throws: HSPYError.slabOutsideData(start: [3, 0, 0], count: [1, 4, 20], shape: [3, 4, 20])) { try writer.write(slab: row, at: [3, 0, 0]) }
         #expect(throws: HSPYError.slabOutsideData(start: [0, 0], count: [1, 4, 20], shape: [3, 4, 20])) { try writer.write(slab: row, at: [0, 0]) }
         #expect(throws: HSPYError.slabOutsideData(start: [0, 1, 0], count: [1, 4, 20], shape: [3, 4, 20])) { try writer.write(slab: row, at: [0, 1, 0]) }
-        try Data(count: 10).withUnsafeBytes { bytes in
+        _ = Data(count: 10).withUnsafeBytes { bytes in
             #expect(throws: HSPYError.slabByteCount(expected: 160, found: 10)) { try writer.write(bytes: bytes, count: [1, 4, 20], at: [0, 0, 0]) }
         }
         // A refused slab leaves the file open; too few values refuse the publish and keep it open too.
