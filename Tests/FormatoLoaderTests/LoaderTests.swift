@@ -58,6 +58,12 @@ private func path(_ relative: String) -> String { tests.appendingPathComponent(r
     let text = dir.appendingPathComponent("text.hspy")
     try Data("not an HDF5 file".utf8).write(to: text)
     #expect(FormatoLoader.sniff(path: text.path) == .unknown)
+    // RosettaSciIO's hspy plugin also takes .hdf5, older HyperSpy's default: HyperSpy's root names it; other HDF5 stays .hdf5.
+    let old = dir.appendingPathComponent("old.hdf5"), plain = dir.appendingPathComponent("plain.h5")
+    try FileManager.default.copyItem(at: URL(fileURLWithPath: path(folder + "image-u8.hspy")), to: old)
+    try FileManager.default.copyItem(at: URL(fileURLWithPath: path(folder + "refused-not-hyperspy.hspy")), to: plain)
+    #expect(FormatoLoader.sniff(path: old.path) == .hyperSpy)
+    #expect(FormatoLoader.sniff(path: plain.path) == .hdf5)
     // One signal per experiment, in the file's order; a refused experiment is its failure.
     let types = try FormatoLoader.load(path: path(folder + "more-types.hspy"))
     #expect(try types.map { try $0.get().array.dataType } == [.int64, .int8, .uint64])

@@ -15,6 +15,7 @@ Into Tests/FormatoHSPYTests/Fixtures/reader/ it writes, each with HyperSpy's own
     HyperSpy and copied into one file as its own experiment (h5py `copy`, bytes and attributes unchanged): one file of
     three experiments, which HyperSpy's own writer never makes but RosettaSciIO reads;
   - `lazy-saved.hspy`: a signal saved from a lazy HyperSpy signal (`attributes._lazy` true): read like any other;
+  - `layout-2.0.hspy`: a HyperSpy save with its layout version set to 2.0: RosettaSciIO's metadata moves for layouts before 3.0;
   - `EDS_SEM_TM002.hspy`: exspy 0.3.2's public example file (in its wheel, `exspy/data`; GPL-3.0 as exspy), copied
     unchanged: layout 3.0, no `_type` on its axis, an empty axis name, a `_list_elements` dataset;
   - `refusals.hspy`: what the kit refuses, five experiments merged the same way: complex data, a non-uniform axis
@@ -116,6 +117,19 @@ def save(signal, path, **kwds):
     signal.save(path, overwrite=True, **kwds)
 
 
+def layout2(path):
+    s = hs.signals.Signal1D(writer.data_rule('float32', [2, 3]))
+    s.metadata.General.title = 'Layout 2.0'
+    for key, value in [('Acquisition_instrument.TEM.beam_energy', 200.0), ('Acquisition_instrument.TEM.tilt_stage', 12.5),
+                       ('Acquisition_instrument.TEM.exposure_time', 0.5), ('Acquisition_instrument.TEM.Stage.x', 1.0),
+                       ('Acquisition_instrument.TEM.Stage.y', 2.0), ('Acquisition_instrument.TEM.camera_length', 80.0),
+                       ('Acquisition_instrument.SEM.beam_energy', 15.0), ('Acquisition_instrument.SEM.tilt_stage', 3.0)]:
+        s.metadata.set_item(key, value)
+    save(s, path)
+    with h5py.File(path, 'r+') as f:
+        f.attrs['file_format_version'] = '2.0'
+
+
 def main():
     if OUT.exists():
         shutil.rmtree(OUT)
@@ -174,6 +188,13 @@ def main():
     save(lazy, path)
     with h5py.File(path, 'r') as f:
         assert bool(f['Experiments/Saved lazily/attributes'].attrs['_lazy'])
+    record(path)
+
+    # Layout 2.0: RosettaSciIO moves TEM and SEM `tilt_stage` to `Stage.tilt_alpha` (replacing the old Stage group in its
+    # place) and TEM `exposure_time` to `Detector.Camera.exposure` (a new group, last in TEM). HyperSpy saves 3.3; the
+    # root's version is then set to 2.0 by h5py.
+    path = OUT / 'layout-2.0.hspy'
+    layout2(path)
     record(path)
 
     # exspy's public example, unchanged.

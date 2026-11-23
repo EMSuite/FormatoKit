@@ -241,7 +241,7 @@ private func temporary(_ name: String, _ data: Data) throws -> URL {
         let map = fixture(folder + "eds-sem-map-u16.hspy")
         let frame = try Peek.thumbnailFrame(url: map, maxPixels: 64)
         let centre = try HSPYReader.readStored(url: map).data.slab(start: [1, 2, 0], count: [1, 1, 20]).doubles()
-        #expect(frame.kind == .spectrum && frame.width == 20 && frame.height == 1 && frame.stride == 1)
+        #expect(frame.kind == .spectrum && frame.width == 20 && frame.height == 1 && frame.stride == 1 && frame.enteredAt == [1, 2])
         #expect(frame.pixels == centre.map { Float($0) })
         let m = try Peek.summary(url: map)
         #expect(m.height == 1 && m.width == 20 && m.highTensionKV == 15 && m.signalType == "EDS_SEM")

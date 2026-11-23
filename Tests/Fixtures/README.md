@@ -364,7 +364,7 @@ others stay in SpectroKit or the first consumer, named in the rows.
 | `FormatoHSPYTests/Fixtures/reader/more-types.hspy` | 55.1 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
 | `FormatoHSPYTests/Fixtures/reader/pattern-u16.hspy` | 26.0 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
 | `FormatoHSPYTests/Fixtures/reader/patterns-4d-u8.hspy` | 29.9 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
-| `FormatoHSPYTests/Fixtures/reader/reader-truth.json` | 39.2 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/reader-truth.json` | 41.6 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
 | `FormatoHSPYTests/Fixtures/reader/refusals.hspy` | 93.0 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
 | `FormatoHSPYTests/Fixtures/reader/refused-no-experiment.hspy` | 6.0 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
 | `FormatoHSPYTests/Fixtures/reader/refused-not-hyperspy.hspy` | 2.0 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |

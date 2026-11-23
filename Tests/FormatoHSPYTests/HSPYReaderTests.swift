@@ -126,7 +126,7 @@ enum HSPYReaderPin {
         #expect(truth.versions["hyperspy"] == "2.5.0" && truth.versions["rosettasciio"] == "0.14.0")
         #expect(truth.versions["exspy"] == "0.3.2" && truth.versions["pyxem"] == "0.21.0" && truth.versions["h5py"] == "3.16.0")
         let experiments = truth.files.compactMap(\.experiments).flatMap { $0 }
-        #expect(HSPYReaderPin.readable.count == 18 && truth.files.count == 22)
+        #expect(HSPYReaderPin.readable.count == 19 && truth.files.count == 23)
         #expect(Set(experiments.map(\.shape.count)) == [1, 2, 3, 4])
         #expect(Set(experiments.map(\.dtype)) == ["uint8", "int8", "uint16", "int16", "uint32", "int32", "int64", "uint64", "float32",
                                                   "float64"])

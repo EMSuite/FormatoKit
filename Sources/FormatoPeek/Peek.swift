@@ -140,7 +140,10 @@ public nonisolated enum Peek {
         case .hyperSpy:
             let found = try hyperSpySignal(url)
             let source = "/Experiments/\(found.name)/data"
-            if isSpectrum(found.signal) { return try spectrum(CentreSpectrum(base: found.signal.array), limit: limit, source: source) }
+            if isSpectrum(found.signal) {
+                let centre = CentreSpectrum(base: found.signal.array)
+                return try spectrum(centre, limit: limit, source: source, enteredAt: centre.lead)
+            }
             let kind: Kind = found.signal.signalType == "electron_diffraction" ? .diffractionPattern : .image
             return try frame(of: found.signal.array, limit: limit, kind: kind, source: source)
         case .empad, .merlinMIB:
@@ -346,7 +349,7 @@ public nonisolated enum Peek {
 
     /// A one-dimensional array as a spectrum frame: at most `limit` bins, each the largest value of its samples (NaN ignored),
     /// read in chunks so a very long spectrum costs O(limit) memory. `stride` is the samples per bin, rounded up.
-    private static func spectrum(_ array: any FormatoLazyArray, limit: Int, source: String) throws -> Frame {
+    private static func spectrum(_ array: any FormatoLazyArray, limit: Int, source: String, enteredAt: [Int] = []) throws -> Frame {
         guard array.shape.count == 1, array.shape[0] > 0 else { throw PeekError.unsupported("This is not a one-dimensional spectrum.") }
         let n = array.shape[0]
         let bins = Swift.min(n, limit)
@@ -365,7 +368,7 @@ public nonisolated enum Peek {
         }
         for b in 0..<bins where !seen[b] { out[b] = 0 }
         return Frame(width: bins, height: 1, pixels: out, sourceWidth: n, sourceHeight: 1, stride: (n + bins - 1) / bins, kind: .spectrum,
-                     enteredAt: [], source: source)
+                     enteredAt: enteredAt, source: source)
     }
 }
 
@@ -395,9 +398,10 @@ private nonisolated struct CentreSpectrum: FormatoLazyArray {
     let base: any FormatoLazyArray
     var dataType: FormatoDataType { base.dataType }
     var shape: [Int] { [base.shape.last ?? 0] }
+    /// The centre navigation position the spectrum is read at.
+    var lead: [Int] { base.shape.dropLast().map { $0 / 2 } }
     func read(start: [Int], count: [Int]) throws -> FormatoArray {
         try FormatoArray.validateSlab(start: start, count: count, shape: shape)
-        let lead = base.shape.dropLast().map { $0 / 2 }
         let part = try base.read(start: lead + start, count: [Int](repeating: 1, count: lead.count) + count)
         return try FormatoArray(dataType: part.dataType, shape: count, bytes: part.bytes)
     }

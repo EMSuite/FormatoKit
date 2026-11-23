@@ -14,8 +14,10 @@
 //
 //  What RosettaSciIO returns and a `FormatoValue` cannot hold is left out of the metadata: "_None_" (None), lists that are
 //  not all text, tuples, arrays, binary strings, nested signals (`_sig_`), the old `_datetime_` keys. `original_metadata`,
-//  learning results and models are not read. A layout newer than 3.3 is read as RosettaSciIO reads it (it warns, then
-//  tries); one older than 1.2 is refused. The metadata renames RosettaSciIO applies to files older than 3.0 are not applied.
+//  learning results and models are not read; an attribute RosettaSciIO keeps that FormatoValue cannot hold (a uint64 past
+//  Int64.max, a one-character fixed-length string array) is left out, and an axis is refused as functional only by its
+//  `_type`. A layout newer than 3.3 is read as RosettaSciIO reads it (it warns, then tries); one older than 1.2 is refused.
+//  Files older than 3.0 get RosettaSciIO's two metadata moves (tilt_stage, exposure).
 //
 //  Refused by name (`HSPYError`), per experiment: ragged signals, complex data, any other non-numeric type, a rank outside
 //  1 to 4, non-uniform axes (DataAxis, FunctionalDataAxis), an axis missing or without its navigate flag. A file saved from
@@ -36,8 +38,9 @@ public nonisolated enum HSPYReader {
         var listed: [HSPYExperiment] = []
         for name in try experimentNames(reader, file: formatoDisplayFileName(url.path)) {
             let group = HSPYLayout.experimentsPath + "/" + name
-            let stated = try statedTitle(reader, group), type = try statedSignalType(reader, group)
-            let shape = try reader.datasetInfo(group + "/data").shape
+            // One experiment the reader cannot take is listed with its refusal; the others are still listed.
+            let stated = (try? statedTitle(reader, group)) ?? name, type = (try? statedSignalType(reader, group)) ?? ""
+            let shape = (try? reader.datasetInfo(group + "/data").shape) ?? []
             do {
                 let found = try inspect(reader, name)
                 listed.append(HSPYExperiment(name: name, title: stated, signalType: type, shape: shape, dataType: found.dataType,
@@ -45,6 +48,9 @@ public nonisolated enum HSPYReader {
             } catch let refusal as HSPYError {
                 listed.append(HSPYExperiment(name: name, title: stated, signalType: type, shape: shape, dataType: nil, axes: [],
                                              refusal: refusal))
+            } catch let error as HDF5FileError {
+                listed.append(HSPYExperiment(name: name, title: stated, signalType: type, shape: shape, dataType: nil, axes: [],
+                                             refusal: .unreadable(experiment: name, reason: error.localizedDescription)))
             }
         }
         return listed
@@ -68,6 +74,7 @@ public nonisolated enum HSPYReader {
         let group = HSPYLayout.experimentsPath + "/" + name
         var metadata = FormatoMetadata()
         try readTree(reader, group: group + "/metadata", prefix: "", file: file, into: &metadata, depth: 0)
+        if try isBefore3(formatVersion(reader, file: file)) { metadata = movedBefore3(metadata, file: file) }
         let stated = try statedTitle(reader, group), type = try statedSignalType(reader, group)
         let array = HSPYDataArray(reader: reader, path: group + "/data", dataType: found.dataType, shape: found.shape)
         return FormatoLazySignal(title: stated, signalType: type, axes: found.axes, metadata: metadata, array: array)
@@ -76,6 +83,13 @@ public nonisolated enum HSPYReader {
     /// `read(url:experiment:)` with the data read whole, at its stored type: the signal `HSPYWriter.write` takes back.
     public static func readStored(url: URL, experiment: String? = nil) throws -> FormatoSignal {
         try read(url: url, experiment: experiment).load()
+    }
+
+    /// Whether the HDF5 file at `path` is HyperSpy's: its root says `file_format` "HyperSpy", or it has `/Experiments`.
+    package static func isHyperSpyFile(path: String) -> Bool {
+        guard let reader = try? HDF5Reader(url: URL(fileURLWithPath: path)) else { return false }
+        if (try? textAttribute(reader, "file_format", of: "/")) == "HyperSpy" { return true }
+        return (try? reader.exists(HSPYLayout.experimentsPath)) == true
     }
 
     // MARK: The file
@@ -112,6 +126,54 @@ public nonisolated enum HSPYReader {
         }
         guard !names.isEmpty else { throw HSPYError.noExperiment(file) }
         return names
+    }
+
+    /// Whether `version` is older than layout 3.0.
+    static func isBefore3(_ version: String) -> Bool {
+        let parts = version.split(separator: ".").compactMap { Int($0) }
+        return (parts.first ?? 0) < 3
+    }
+
+    /// RosettaSciIO's moves for layouts older than 3.0 (`group2signaldict`): `TEM.tilt_stage` and `SEM.tilt_stage` become
+    /// `Stage.tilt_alpha`, and `TEM.exposure_time` (else `TEM.exposure`) becomes `Detector.Camera.exposure`. As in Python, the
+    /// new group replaces an old one in its place, or else goes last in its parent group.
+    static func movedBefore3(_ metadata: FormatoMetadata, file: String) -> FormatoMetadata {
+        var entries = metadata.entries
+        func move(_ from: String, to: String) {
+            guard let old = entries.first(where: { $0.key == from }) else { return }
+            var parents = to.split(separator: ".").map(String.init)
+            parents.removeLast()
+            let group = parents.joined(separator: ".")
+            func isGone(_ key: String) -> Bool { key == from || key.hasPrefix(group + ".") }
+            let kept = entries.filter { !isGone($0.key) }
+            var at = kept.count
+            if let first = entries.firstIndex(where: { $0.key.hasPrefix(group + ".") }) {
+                at = entries[..<first].filter { !isGone($0.key) }.count
+            } else {
+                // The nearest ancestor group that is left: the new group goes after its last entry.
+                while parents.count > 2 {
+                    parents.removeLast()
+                    let ancestor = parents.joined(separator: ".") + "."
+                    if let last = kept.lastIndex(where: { $0.key.hasPrefix(ancestor) }) {
+                        at = last + 1
+                        break
+                    }
+                }
+            }
+            let moved = FormatoMetadataEntry(key: to, value: old.value, units: old.units,
+                                             provenance: FormatoProvenance(file: file, source: old.provenance.source,
+                                                                           rule: "rsciio hspy group2signaldict, layout before 3.0"))
+            entries = kept
+            entries.insert(moved, at: at)
+        }
+        for microscope in ["TEM", "SEM"] {
+            let base = "Acquisition_instrument." + microscope
+            move(base + ".tilt_stage", to: base + ".Stage.tilt_alpha")
+        }
+        let tem = "Acquisition_instrument.TEM"
+        let exposure = entries.contains { $0.key == tem + ".exposure_time" } ? tem + ".exposure_time" : tem + ".exposure"
+        move(exposure, to: tem + ".Detector.Camera.exposure")
+        return FormatoMetadata(entries)
     }
 
     // MARK: One experiment
@@ -268,8 +330,11 @@ public nonisolated enum HSPYReader {
         do {
             stored = try reader.attribute(name, of: path)
         } catch let error as HDF5FileError {
-            if case .unsupportedType = error { return nil }
-            throw error
+            // A value FormatoValue cannot hold (another type, a uint64 past Int64.max, text that is not UTF-8) is left out.
+            switch error {
+            case .unsupportedType, .limitExceeded, .invalidUTF8: return nil
+            default: throw error
+            }
         }
         switch stored {
         case .text(let text): return text == "_None_" ? nil : .text(text)
@@ -288,7 +353,7 @@ public nonisolated enum HSPYReader {
         guard try reader.children(of: path).isEmpty else { return nil }
         var texts: [String] = []
         for name in try reader.attributeNames(of: path) {
-            guard let item = try text(reader.attribute(name, of: path)), item != "_None_" else { return nil }
+            guard case .text(let item)? = try plainValue(reader, name, of: path) else { return nil }
             texts.append(item)
         }
         return texts

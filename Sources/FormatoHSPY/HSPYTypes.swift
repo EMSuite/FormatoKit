@@ -202,6 +202,9 @@ public nonisolated enum HSPYError: Error, Sendable, Equatable, LocalizedError {
     case nonUniformAxis(experiment: String, index: Int, type: String)
     /// An axis that is missing, has no navigate flag, a size other than the data's, or a scale or offset that is not a number.
     case invalidAxis(experiment: String, index: Int, reason: String)
+    /// An experiment whose group the HDF5 library could not read (its title, data or an axis), listed by `experiments(url:)`
+    /// so that the file's other experiments still are.
+    case unreadable(experiment: String, reason: String)
 
     public var errorDescription: String? {
         switch self {
@@ -235,6 +238,7 @@ public nonisolated enum HSPYError: Error, Sendable, Equatable, LocalizedError {
         case .nonUniformAxis(let experiment, let index, let type):
             "Axis \(index) of \"\(experiment)\" is a non-uniform \(type), which is not read; uniform axes are."
         case .invalidAxis(let experiment, let index, let reason): "Axis \(index) of \"\(experiment)\" cannot be read: \(reason)."
+        case .unreadable(let experiment, let reason): "\"\(experiment)\" cannot be read: \(reason)"
         }
     }
 }

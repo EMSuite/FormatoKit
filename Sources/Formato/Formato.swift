@@ -71,7 +71,9 @@ public nonisolated enum FormatoLoader {
         case "xml": return .empad
         case "emd", "h5", "hdf5":
             guard isHDF5() else { return .unknown }
-            return VeloxEMDReader.hasVeloxVersion(path: path) ? .veloxEMD : .hdf5
+            if VeloxEMDReader.hasVeloxVersion(path: path) { return .veloxEMD }
+            // RosettaSciIO's hspy plugin also claims .hdf5 (older HyperSpy saved that by default).
+            return HSPYReader.isHyperSpyFile(path: path) ? .hyperSpy : .hdf5
         case "hspy": return isHDF5() ? .hyperSpy : .unknown
         default: return .unknown
         }
