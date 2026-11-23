@@ -260,6 +260,29 @@ public nonisolated struct HDF5Reader: Sendable {
         } }
     }
 
+    /// The member names of the compound dataset at `path`, in their stored order; nil when its type is not compound. For the
+    /// .hspy reader (FormatoKit#98), which refuses complex data by name: h5py stores a complex number as the compound `{r, i}`.
+    package func compoundMemberNames(of path: String) throws -> [String]? {
+        let parts = try HDF5Ops.components(path)
+        return try withFile { h5, file in try HDF5Ops.withDataset(h5, file, path, parts) { (ds: hid_t) throws -> [String]? in
+            let type = h5.h5dgetType(ds)
+            guard type >= 0 else { throw HDF5RootAttributes.hdf5Failure("reading the type of \(path)", h5) }
+            defer { _ = h5.h5tclose(type) }
+            guard h5.h5tgetClass(type) == 6 else { return nil }                                      // H5T_COMPOUND
+            let count = h5.h5tgetNmembers(type)
+            guard count >= 0 else { throw HDF5RootAttributes.hdf5Failure("counting the members of \(path)", h5) }
+            var names: [String] = []
+            for index in 0..<UInt32(count) {
+                guard let pointer = h5.h5tgetMemberName(type, index) else {
+                    throw HDF5RootAttributes.hdf5Failure("reading a member name of \(path)", h5)
+                }
+                names.append(String(cString: pointer))
+                _ = h5.h5freeMemory(pointer)
+            }
+            return names
+        } }
+    }
+
     /// The shape and stored type of the dataset at `path`.
     public func datasetInfo(_ path: String) throws -> HDF5DatasetInfo {
         let parts = try HDF5Ops.components(path)

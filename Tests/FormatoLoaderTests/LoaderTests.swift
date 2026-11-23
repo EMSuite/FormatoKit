@@ -1,6 +1,7 @@
 import Testing
 import Foundation
 import FormatoCore
+import FormatoHSPY
 import Formato
 
 private let tests = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
@@ -42,4 +43,35 @@ private func path(_ relative: String) -> String { tests.appendingPathComponent(r
     #expect(signal.data.dataType == .float32 && signal.data.shape == [5, 7, 9])
     let two = try FormatoLoader.load(path: path("FormatoTIFFTests/Fixtures/shaped/series_two.tif"))
     #expect(try two.map { try $0.get().array.shape } == [[2, 7, 9], [7, 9]])
+}
+
+@Test func sniffsAndLoadsHyperSpyFiles() throws {
+    let folder = "FormatoHSPYTests/Fixtures/reader/"
+    #expect(FormatoLoader.sniff(path: path(folder + "image-u8.hspy")) == .hyperSpy)
+    #expect(FormatoLoader.sniff(path: path(folder + "EDS_SEM_TM002.hspy")) == .hyperSpy)
+    // HDF5's signature under .hspy is HyperSpy's kind; the reader then refuses a file that is not HyperSpy's.
+    #expect(FormatoLoader.sniff(path: path(folder + "refused-not-hyperspy.hspy")) == .hyperSpy)
+    // The .hspy extension on other bytes is unknown.
+    let dir = FileManager.default.temporaryDirectory.appendingPathComponent("loader-\(UUID().uuidString)")
+    try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+    defer { try? FileManager.default.removeItem(at: dir) }
+    let text = dir.appendingPathComponent("text.hspy")
+    try Data("not an HDF5 file".utf8).write(to: text)
+    #expect(FormatoLoader.sniff(path: text.path) == .unknown)
+    // RosettaSciIO's hspy plugin also takes .hdf5, older HyperSpy's default: HyperSpy's root names it; other HDF5 stays .hdf5.
+    let old = dir.appendingPathComponent("old.hdf5"), plain = dir.appendingPathComponent("plain.h5")
+    try FileManager.default.copyItem(at: URL(fileURLWithPath: path(folder + "image-u8.hspy")), to: old)
+    try FileManager.default.copyItem(at: URL(fileURLWithPath: path(folder + "refused-not-hyperspy.hspy")), to: plain)
+    #expect(FormatoLoader.sniff(path: old.path) == .hyperSpy)
+    #expect(FormatoLoader.sniff(path: plain.path) == .hdf5)
+    // One signal per experiment, in the file's order; a refused experiment is its failure.
+    let types = try FormatoLoader.load(path: path(folder + "more-types.hspy"))
+    #expect(try types.map { try $0.get().array.dataType } == [.int64, .int8, .uint64])
+    let image = try FormatoLoader.load(path: path(folder + "image-u8.hspy"))
+    #expect(try image.count == 1 && image[0].get().title == "Image µm" && image[0].get().load().data.shape == [5, 6])
+    let refused = try FormatoLoader.load(path: path(folder + "refusals.hspy"))
+    #expect(refused.count == 5 && refused.allSatisfy { (try? $0.get()) == nil })
+    #expect(throws: HSPYError.notHyperSpyFile("refused-not-hyperspy.hspy")) {
+        _ = try FormatoLoader.load(path: path(folder + "refused-not-hyperspy.hspy"))
+    }
 }

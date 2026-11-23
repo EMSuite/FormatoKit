@@ -239,6 +239,12 @@ do {
     try stream.publish()
     check(try HDF5Reader(url: streamed).chunkShape(of: "/Experiments/map/data") == [2, 4], "HSPYStreamWriter")
     check((try? HSPYWriter.open(shape: [2], dataType: .rgb8, axes: [axes[1]], kind: .generic, to: streamed)) == nil, "HSPYError refusal")
+    // And read back with HSPYReader: the experiments listed, the signal whole and lazily; `.hspy` sniffed as HyperSpy's.
+    let listed: [HSPYExperiment] = try HSPYReader.experiments(url: whole)
+    let back: FormatoSignal = try HSPYReader.readStored(url: whole)
+    check(listed.map(\.name) == ["MSA"] && listed[0].refusal == nil && back.data == spectrum.data, "HSPYReader.experiments, readStored")
+    let lazy: FormatoLazySignal = try HSPYReader.read(url: streamed, experiment: "map")
+    check(lazy.array.shape == [2, 4] && FormatoLoader.sniff(path: streamed.path) == .hyperSpy, "HSPYReader.read, sniff .hspy")
 } catch { check(false, "FormatoHSPY: \(error)") }
 check(FormatoLoader.sniff(path: velox) == .veloxEMD && FormatoLoader.sniff(path: msa) == .msa, "FormatoLoader.sniff")
 do {

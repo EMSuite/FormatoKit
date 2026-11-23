@@ -1,6 +1,7 @@
 # ``FormatoHSPY``
 
-Writes a signal as a HyperSpy file (`.hspy`, layout 3.3), the way HyperSpy 2.5.0 and RosettaSciIO 0.14.0 write it.
+Writes a signal as a HyperSpy file (`.hspy`, layout 3.3), the way HyperSpy 2.5.0 and RosettaSciIO 0.14.0 write it, and reads
+HyperSpy's files of one to four dimensions the way RosettaSciIO 0.14.0 reads them.
 
 ## Overview
 
@@ -16,6 +17,14 @@ software line written to `metadata.General.FileIO`, more metadata and the chunk 
 The data keeps its stored type and is chunked as HyperSpy chunks it, without compression. Text is variable-length UTF-8,
 booleans are h5py's, and a list of texts is a `_list_<N>_<key>` group. Every refusal is an ``HSPYError`` case.
 
+``HSPYReader/experiments(url:)`` lists a file's experiments (title, signal type, shape, stored type, axes, or why one is
+refused) without reading data. ``HSPYReader/read(url:experiment:)`` returns one as a lazy signal whose data is read a
+hyperslab at a time at its stored type; ``HSPYReader/readStored(url:experiment:)`` reads it whole, the signal the writer
+takes back. Gzip-compressed and chunked files, as HyperSpy writes them, read as well as the writer's own. The metadata tree
+comes back with dotted keys (`Acquisition_instrument.TEM.beam_energy`, `Sample.elements` as a list of text). Refused by
+name: ragged signals, complex data, other non-numeric types, more than four dimensions, non-uniform axes, layouts older
+than 1.2.
+
 ## Topics
 
 ### Writing
@@ -25,3 +34,8 @@ booleans are h5py's, and a list of texts is a `_list_<N>_<key>` group. Every ref
 - ``HSPYSignalKind``
 - ``HSPYWriteOptions``
 - ``HSPYError``
+
+### Reading
+
+- ``HSPYReader``
+- ``HSPYExperiment``

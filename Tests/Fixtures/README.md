@@ -5,13 +5,13 @@ the index is rewritten in the same commit (CI runs `index.py --check`). A regene
 commit, with the reason and a CHANGELOG line.
 
 One row per tracked file under `Tests/*/Fixtures/`: its size, the script under `tools/` that writes it (or *copied*),
-and its source: the pinned reference that wrote or read it, or where a copied file comes from. 706 files.
+and its source: the pinned reference that wrote or read it, or where a copied file comes from. 730 files.
 
 The generators run in the one Python environment of `tools/requirements.txt` (`tools/README.md`). The tests never run
 Python: they read these committed files, so `swift test` needs none of it.
 
 Licence: every fixture is generated from this kit's own code and the pinned Python references and ships under the kit's
-licence, except the 14 rows marked *third party*: keep their licence line when the files move. Nothing here is the
+licence, except the 15 rows marked *third party*: keep their licence line when the files move. Nothing here is the
 owner's data: real datasets are read from `$MACEM_DATA` and never copied into the repository.
 
 The files copied from SpectroKit 0.3.0 (tag `14c6acf8`) are byte-identical to it (the moved test names and git blob ids
@@ -348,6 +348,30 @@ others stay in SpectroKit or the first consumer, named in the rows.
 | `FormatoHDF5Tests/Fixtures/root-attributes/not-hdf5.h5` | 100 B | `tools/hdf5-write/generate.py` | h5py 3.16.0 |
 | `FormatoHDF5Tests/Fixtures/root-attributes/variable-length.h5` | 6.0 KB | `tools/hdf5-write/generate.py` | h5py 3.16.0 |
 | `FormatoHSPYTests/Fixtures/hyperspy-layout.json` | 112.3 KB | `tools/hspy-writer/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/EDS_SEM_TM002.hspy` | 30.3 KB | *copied* | third party: exspy 0.3.2's public example (`exspy/data`, GPL-3.0), copied unchanged by `tools/hspy-reader/generate.py`; its sha256 is the wheel's (`reader-truth.json`, checked by `HSPYReaderTests`) |
+| `FormatoHSPYTests/Fixtures/reader/chunked-edges.hspy` | 32.2 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/eds-sem-map-u16.hspy` | 31.2 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/eds-tem-spectrum-u32.hspy` | 27.6 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/eels-map-f64.hspy` | 26.8 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/eels-spectrum-f32.hspy` | 24.3 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/generic-4d-f32.hspy` | 28.1 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/image-f32.hspy` | 24.3 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/image-i16-unnamed.hspy` | 24.2 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/image-u8-twelve-elements.hspy` | 27.6 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/image-u8.hspy` | 24.1 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/layout-2.0.hspy` | 32.3 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/lazy-saved.hspy` | 24.2 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/line-i16-slash-title.hspy` | 24.3 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/more-types.hspy` | 55.1 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/pattern-u16.hspy` | 26.0 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/patterns-4d-u8.hspy` | 29.9 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/reader-truth.json` | 41.6 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/refusals.hspy` | 93.0 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/refused-no-experiment.hspy` | 6.0 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/refused-not-hyperspy.hspy` | 2.0 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/refused-version-1.1.hspy` | 6.0 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/spectrum-f64.hspy` | 22.5 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
+| `FormatoHSPYTests/Fixtures/reader/stack-i32.hspy` | 26.1 KB | `tools/hspy-reader/generate.py` | HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0 |
 | `FormatoMIBTests/Fixtures/app-U08-2x2.data.gz` | 10.4 KB | `tools/mib/generate.py` | planted; pins the first consumer's pinned reader (via `tools/mib/app-scaffold.swift`) |
 | `FormatoMIBTests/Fixtures/app-U08-2x2.hdr` | 18 B | `tools/mib/generate.py` | planted; pins the first consumer's pinned reader (via `tools/mib/app-scaffold.swift`) |
 | `FormatoMIBTests/Fixtures/app-U08-2x2.mib.gz` | 2.5 KB | `tools/mib/generate.py` | planted; pins the first consumer's pinned reader (via `tools/mib/app-scaffold.swift`) |

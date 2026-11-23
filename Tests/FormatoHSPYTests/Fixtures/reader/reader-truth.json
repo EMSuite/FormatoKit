@@ -1,0 +1,1932 @@
+{
+ "files": [
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": "y",
+       "navigate": false,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p-2",
+       "size": 5,
+       "units": "µm"
+      },
+      {
+       "name": "x",
+       "navigate": false,
+       "offset": "0x1.0000000000000p-1",
+       "scale": "0x1.0000000000000p-2",
+       "size": 6,
+       "units": "µm"
+      }
+     ],
+     "data_sha256": "96125bc6ed33e80efb88d58666933493580f5aaf85c23b9737d3af7edef9b0bb",
+     "dtype": "uint8",
+     "metadata": [
+      {
+       "key": "General.original_filename",
+       "type": "text",
+       "value": "image Å.dm4"
+      },
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "Image µm"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:52.740382+00:00"
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": ""
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "Image µm",
+     "shape": [
+      5,
+      6
+     ],
+     "signal_type": "",
+     "title": "Image µm"
+    }
+   ],
+   "file": "image-u8.hspy",
+   "sha256": "452fddd55c3712c41f2b0ca74103e44afd1cc32a4b2c0c3a606d46409911da73"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": "kx",
+       "navigate": false,
+       "offset": "-0x1.2e48e8a71de6ap-5",
+       "scale": "0x1.930be0ded288dp-7",
+       "size": 6,
+       "units": "1/nm"
+      },
+      {
+       "name": "ky",
+       "navigate": false,
+       "offset": "-0x1.2e48e8a71de6ap-5",
+       "scale": "0x1.930be0ded288dp-7",
+       "size": 7,
+       "units": "1/nm"
+      }
+     ],
+     "data_sha256": "a194f097464eb78ead0c320719f05b95cd3e548736b816f92e06c0fbd3a62567",
+     "dtype": "uint16",
+     "metadata": [
+      {
+       "key": "Acquisition_instrument.TEM.beam_energy",
+       "type": "number",
+       "value": "0x1.2c00000000000p+8"
+      },
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "Pattern"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:52.753631+00:00"
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": "electron_diffraction"
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "Pattern",
+     "shape": [
+      6,
+      7
+     ],
+     "signal_type": "electron_diffraction",
+     "title": "Pattern"
+    }
+   ],
+   "file": "pattern-u16.hspy",
+   "sha256": "51584405665ad3478677d8614536261939a10922ab6c0b671f9d4269836657e4"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": null,
+       "navigate": false,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p+0",
+       "size": 4,
+       "units": ""
+      },
+      {
+       "name": null,
+       "navigate": false,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p+0",
+       "size": 5,
+       "units": ""
+      }
+     ],
+     "data_sha256": "d7358815fc87aec0f0cb05108263d5b13b63a35a3bf3b8ef92847cd79ea651f2",
+     "dtype": "int16",
+     "metadata": [
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "Unnamed axes"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:52.762410+00:00"
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": ""
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "Unnamed axes",
+     "shape": [
+      4,
+      5
+     ],
+     "signal_type": "",
+     "title": "Unnamed axes"
+    }
+   ],
+   "file": "image-i16-unnamed.hspy",
+   "sha256": "75b07e155ddea9d7531ab0b081096905cc8d27e2800a77fd43d991751621a931"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": "y",
+       "navigate": false,
+       "offset": "-0x1.8000000000000p+1",
+       "scale": "0x1.8000000000000p+0",
+       "size": 5,
+       "units": "nm"
+      },
+      {
+       "name": "x",
+       "navigate": false,
+       "offset": "-0x1.8000000000000p+1",
+       "scale": "0x1.8000000000000p+0",
+       "size": 4,
+       "units": "nm"
+      }
+     ],
+     "data_sha256": "e6055797e2efb0d5c9b9575da85f259918d111e30edef7c729c4f7e3c2575e88",
+     "dtype": "float32",
+     "metadata": [
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "Float image"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:52.770412+00:00"
+      },
+      {
+       "key": "Signal.quantity",
+       "type": "text",
+       "value": "Intensity (counts)"
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": ""
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "Float image",
+     "shape": [
+      5,
+      4
+     ],
+     "signal_type": "",
+     "title": "Float image"
+    }
+   ],
+   "file": "image-f32.hspy",
+   "sha256": "bf233089be067f713ee2f62db12544f5274b8074835418ea920adc3a45e000ff"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": "Time",
+       "navigate": true,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p-1",
+       "size": 3,
+       "units": "s"
+      },
+      {
+       "name": "y",
+       "navigate": false,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p+1",
+       "size": 4,
+       "units": "Å"
+      },
+      {
+       "name": "x",
+       "navigate": false,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p+1",
+       "size": 5,
+       "units": "Å"
+      }
+     ],
+     "data_sha256": "fc182f79cd801aebc8f039abba96d7744602a747dad9c558aa349970636a706d",
+     "dtype": "int32",
+     "metadata": [
+      {
+       "key": "General.date",
+       "type": "text",
+       "value": "2026-11-23"
+      },
+      {
+       "key": "General.time",
+       "type": "text",
+       "value": "14:05:00"
+      },
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "Stack"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:52.779048+00:00"
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": ""
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "Stack",
+     "shape": [
+      3,
+      4,
+      5
+     ],
+     "signal_type": "",
+     "title": "Stack"
+    }
+   ],
+   "file": "stack-i32.hspy",
+   "sha256": "196327212e26aa7431bee8ea920cb7f19be667a0b4ef5df6cc9899492af30a85"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": "Energy loss",
+       "navigate": false,
+       "offset": "0x1.1800000000000p+8",
+       "scale": "0x1.999999999999ap-4",
+       "size": 16,
+       "units": "eV"
+      }
+     ],
+     "data_sha256": "5b56ab93209461ed400f997949b7e8aad1fa97204d3b55daa2cd242dd351987e",
+     "dtype": "float64",
+     "metadata": [
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "Spectrum"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:52.787261+00:00"
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": ""
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "Spectrum",
+     "shape": [
+      16
+     ],
+     "signal_type": "",
+     "title": "Spectrum"
+    }
+   ],
+   "file": "spectrum-f64.hspy",
+   "sha256": "fb9ab6e7a892f5659af4bc52b286a7fca52e06ada7a273d854da87cc54e86eee"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": "Energy",
+       "navigate": false,
+       "offset": "-0x1.999999999999ap-3",
+       "scale": "0x1.47ae147ae147bp-7",
+       "size": 32,
+       "units": "keV"
+      }
+     ],
+     "data_sha256": "10eb061cc232be5906efbabc64387c3e3fcb1e2dcccb606b5263c2de8d08eb31",
+     "dtype": "uint32",
+     "metadata": [
+      {
+       "key": "Acquisition_instrument.TEM.beam_energy",
+       "type": "number",
+       "value": "0x1.9000000000000p+7"
+      },
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "EDS spectrum"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:52.799915+00:00"
+      },
+      {
+       "key": "Sample.elements",
+       "type": "texts",
+       "value": [
+        "Fe",
+        "O"
+       ]
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": "EDS_TEM"
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "EDS spectrum",
+     "shape": [
+      32
+     ],
+     "signal_type": "EDS_TEM",
+     "title": "EDS spectrum"
+    }
+   ],
+   "file": "eds-tem-spectrum-u32.hspy",
+   "sha256": "3c60bdbe353af716ed729f99730bd7b89185bc052a4de0e92b19fd141b0315f1"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": "y",
+       "navigate": true,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.999999999999ap-4",
+       "size": 3,
+       "units": "µm"
+      },
+      {
+       "name": "x",
+       "navigate": true,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.999999999999ap-4",
+       "size": 4,
+       "units": "µm"
+      },
+      {
+       "name": "Energy",
+       "navigate": false,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.47ae147ae147bp-6",
+       "size": 20,
+       "units": "keV"
+      }
+     ],
+     "data_sha256": "51c776818fd31b9550718ff563212a48e1248bd93880c791d5e5146159ea7552",
+     "dtype": "uint16",
+     "metadata": [
+      {
+       "key": "Acquisition_instrument.SEM.beam_energy",
+       "type": "number",
+       "value": "0x1.e000000000000p+3"
+      },
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "EDS map"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:52.810189+00:00"
+      },
+      {
+       "key": "Sample.xray_lines",
+       "type": "texts",
+       "value": []
+      },
+      {
+       "key": "Sample.elements",
+       "type": "texts",
+       "value": [
+        "Al",
+        "Cu",
+        "Si"
+       ]
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": "EDS_SEM"
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "EDS map",
+     "shape": [
+      3,
+      4,
+      20
+     ],
+     "signal_type": "EDS_SEM",
+     "title": "EDS map"
+    }
+   ],
+   "file": "eds-sem-map-u16.hspy",
+   "sha256": "309c5c8d9736df89c93ffc66132047c8a80c8e51baf912dbdfff6e9fc6f5e2b6"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": "Energy loss",
+       "navigate": false,
+       "offset": "-0x1.4000000000000p+1",
+       "scale": "0x1.0000000000000p-3",
+       "size": 24,
+       "units": "eV"
+      }
+     ],
+     "data_sha256": "ed6bc090f989ebebc6c1436bfe1c06a530ed79335207f8a16a63f715c48ada0f",
+     "dtype": "float32",
+     "metadata": [
+      {
+       "key": "Acquisition_instrument.TEM.beam_energy",
+       "type": "number",
+       "value": "0x1.9000000000000p+7"
+      },
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "EELS spectrum"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:52.820127+00:00"
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": "EELS"
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "EELS spectrum",
+     "shape": [
+      24
+     ],
+     "signal_type": "EELS",
+     "title": "EELS spectrum"
+    }
+   ],
+   "file": "eels-spectrum-f32.hspy",
+   "sha256": "7b17e3812823554e3e6d17decd76300d92f65ee14fea3cb28808005e2704978e"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": "y",
+       "navigate": true,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p-1",
+       "size": 2,
+       "units": "nm"
+      },
+      {
+       "name": "x",
+       "navigate": true,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p-1",
+       "size": 3,
+       "units": "nm"
+      },
+      {
+       "name": "Energy loss",
+       "navigate": false,
+       "offset": "0x1.9000000000000p+6",
+       "scale": "0x1.0000000000000p-2",
+       "size": 24,
+       "units": "eV"
+      }
+     ],
+     "data_sha256": "b733381e3776859ad7a48355b3f8810ef0cb7679eb470e156b36e0be44d844c1",
+     "dtype": "float64",
+     "metadata": [
+      {
+       "key": "General.authors",
+       "type": "text",
+       "value": "Å. Ångström, µ-lab"
+      },
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "EELS Å map"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:52.828349+00:00"
+      },
+      {
+       "key": "Processing.dose_e_per_A2",
+       "type": "number",
+       "value": "0x1.38a0000000000p+10"
+      },
+      {
+       "key": "Processing.exported_by_kit",
+       "type": "flag",
+       "value": true
+      },
+      {
+       "key": "Signal.quantity",
+       "type": "text",
+       "value": "Intensity (counts)"
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": "EELS"
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "EELS Å map",
+     "shape": [
+      2,
+      3,
+      24
+     ],
+     "signal_type": "EELS",
+     "title": "EELS Å map"
+    }
+   ],
+   "file": "eels-map-f64.hspy",
+   "sha256": "2de748f6780e9a6643d1d4653819a6a430763c55cbb2c238239cd3d12ff727db"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": "y",
+       "navigate": true,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.4000000000000p+0",
+       "size": 2,
+       "units": "nm"
+      },
+      {
+       "name": "x",
+       "navigate": true,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.4000000000000p+0",
+       "size": 3,
+       "units": "nm"
+      },
+      {
+       "name": "kx",
+       "navigate": false,
+       "offset": "-0x1.eb851eb851eb8p-5",
+       "scale": "0x1.47ae147ae147bp-6",
+       "size": 6,
+       "units": "1/Å"
+      },
+      {
+       "name": "ky",
+       "navigate": false,
+       "offset": "-0x1.1eb851eb851ecp-4",
+       "scale": "0x1.47ae147ae147bp-6",
+       "size": 7,
+       "units": "1/Å"
+      }
+     ],
+     "data_sha256": "200ce9b5be9a45b0e7f5e995f81edce4cacf305a2da2b8cfcffa131b2cc3d341",
+     "dtype": "uint8",
+     "metadata": [
+      {
+       "key": "Acquisition_instrument.TEM.beam_energy",
+       "type": "number",
+       "value": "0x1.2c00000000000p+8"
+      },
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "4D patterns"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:52.838291+00:00"
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": "electron_diffraction"
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "4D patterns",
+     "shape": [
+      2,
+      3,
+      6,
+      7
+     ],
+     "signal_type": "electron_diffraction",
+     "title": "4D patterns"
+    }
+   ],
+   "file": "patterns-4d-u8.hspy",
+   "sha256": "621780da6da3666f559dbf04576eed654d49d2f40263e1796e544a74f5444728"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": "a",
+       "navigate": true,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p+0",
+       "size": 2,
+       "units": ""
+      },
+      {
+       "name": "b",
+       "navigate": true,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p+0",
+       "size": 2,
+       "units": ""
+      },
+      {
+       "name": "y",
+       "navigate": false,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.999999999999ap-4",
+       "size": 5,
+       "units": "nm"
+      },
+      {
+       "name": "x",
+       "navigate": false,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.999999999999ap-4",
+       "size": 6,
+       "units": "nm"
+      }
+     ],
+     "data_sha256": "9d12b6367a5d94730b66093760863668aaef414184ae5baa3fa98967f05cdf46",
+     "dtype": "float32",
+     "metadata": [
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "Generic 4D"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:52.848405+00:00"
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": ""
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "Generic 4D",
+     "shape": [
+      2,
+      2,
+      5,
+      6
+     ],
+     "signal_type": "",
+     "title": "Generic 4D"
+    }
+   ],
+   "file": "generic-4d-f32.hspy",
+   "sha256": "bd748e19ef9a7666c8500333b536e5702c2b9f1ce5003de5051924a10f3916bf"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": "y",
+       "navigate": false,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p+0",
+       "size": 3,
+       "units": "nm"
+      },
+      {
+       "name": "x",
+       "navigate": false,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p+0",
+       "size": 4,
+       "units": "nm"
+      }
+     ],
+     "data_sha256": "8abb851f0907b8871445fe03ad326ba56520b29dc2a5bffdd1876f9073b9af37",
+     "dtype": "uint8",
+     "metadata": [
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "Twelve elements"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:52.857588+00:00"
+      },
+      {
+       "key": "Sample.elements",
+       "type": "texts",
+       "value": [
+        "Al",
+        "C",
+        "Ca",
+        "Cu",
+        "Fe",
+        "K",
+        "Mg",
+        "Mn",
+        "Na",
+        "O",
+        "Si",
+        "Ti"
+       ]
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": ""
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "Twelve elements",
+     "shape": [
+      3,
+      4
+     ],
+     "signal_type": "",
+     "title": "Twelve elements"
+    }
+   ],
+   "file": "image-u8-twelve-elements.hspy",
+   "sha256": "46fc177e20adfa9f37eb4711816e629e78399ca31d2eb9e768ab0398d73944c9"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": "Position",
+       "navigate": true,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p+0",
+       "size": 2,
+       "units": "nm"
+      },
+      {
+       "name": "Energy",
+       "navigate": false,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p-1",
+       "size": 10,
+       "units": "keV"
+      }
+     ],
+     "data_sha256": "d7358815fc87aec0f0cb05108263d5b13b63a35a3bf3b8ef92847cd79ea651f2",
+     "dtype": "int16",
+     "metadata": [
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "a/b line"
+      },
+      {
+       "key": "General.title_note",
+       "type": "text",
+       "value": "the title holds a slash"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:52.866437+00:00"
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": ""
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "a-b line",
+     "shape": [
+      2,
+      10
+     ],
+     "signal_type": "",
+     "title": "a/b line"
+    }
+   ],
+   "file": "line-i16-slash-title.hspy",
+   "sha256": "1b52d2ea797b227491cb0048343d1fbaaed0c9c8ac51e4492f4e2d96833edf08"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": "y",
+       "navigate": true,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.999999999999ap-4",
+       "size": 3,
+       "units": "µm"
+      },
+      {
+       "name": "x",
+       "navigate": true,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.999999999999ap-4",
+       "size": 4,
+       "units": "µm"
+      },
+      {
+       "name": "Energy",
+       "navigate": false,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.47ae147ae147bp-6",
+       "size": 20,
+       "units": "keV"
+      }
+     ],
+     "data_sha256": "51c776818fd31b9550718ff563212a48e1248bd93880c791d5e5146159ea7552",
+     "dtype": "uint16",
+     "metadata": [
+      {
+       "key": "Acquisition_instrument.SEM.beam_energy",
+       "type": "number",
+       "value": "0x1.e000000000000p+3"
+      },
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "EDS map"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:52.810189+00:00"
+      },
+      {
+       "key": "General.FileIO.1.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.1.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.1.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.1.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:53.003779+00:00"
+      },
+      {
+       "key": "Sample.xray_lines",
+       "type": "texts",
+       "value": []
+      },
+      {
+       "key": "Sample.elements",
+       "type": "texts",
+       "value": [
+        "Al",
+        "Cu",
+        "Si"
+       ]
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": "EDS_SEM"
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "EDS map",
+     "shape": [
+      3,
+      4,
+      20
+     ],
+     "signal_type": "EDS_SEM",
+     "title": "EDS map"
+    }
+   ],
+   "file": "chunked-edges.hspy",
+   "sha256": "49f63445bce41966cbc69c032798ea93eea5704d76e68f7c9189a5443ec73e98"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": "x",
+       "navigate": true,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.8000000000000p+0",
+       "size": 2,
+       "units": ""
+      },
+      {
+       "name": "E",
+       "navigate": false,
+       "offset": "-0x1.4000000000000p+0",
+       "scale": "0x1.0000000000000p+0",
+       "size": 5,
+       "units": "eV"
+      }
+     ],
+     "data_sha256": "3f8f27786201fd4b290c4a7792808516ea3010607e5c3f17219ee1096d187d31",
+     "dtype": "int64",
+     "metadata": [
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "type int64"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:53.021908+00:00"
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": ""
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "type int64",
+     "shape": [
+      2,
+      5
+     ],
+     "signal_type": "",
+     "title": "type int64"
+    },
+    {
+     "axes": [
+      {
+       "name": "x",
+       "navigate": true,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p-1",
+       "size": 2,
+       "units": ""
+      },
+      {
+       "name": "E",
+       "navigate": false,
+       "offset": "-0x0.0p+0",
+       "scale": "0x1.0000000000000p+0",
+       "size": 5,
+       "units": "eV"
+      }
+     ],
+     "data_sha256": "aaf8c6a003c8381c4306c4ec6e5b7d28c48fd4154364aea35db524879de7fd14",
+     "dtype": "int8",
+     "metadata": [
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "type int8"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:53.016453+00:00"
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": ""
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "type int8",
+     "shape": [
+      2,
+      5
+     ],
+     "signal_type": "",
+     "title": "type int8"
+    },
+    {
+     "axes": [
+      {
+       "name": "x",
+       "navigate": true,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.4000000000000p+1",
+       "size": 2,
+       "units": ""
+      },
+      {
+       "name": "E",
+       "navigate": false,
+       "offset": "-0x1.4000000000000p+1",
+       "scale": "0x1.0000000000000p+0",
+       "size": 5,
+       "units": "eV"
+      }
+     ],
+     "data_sha256": "9242b2a2750426190e13f52802ad5c533f5bbfa05a5abc42934dd0800a1da0f9",
+     "dtype": "uint64",
+     "metadata": [
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "type uint64"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:53.026804+00:00"
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": ""
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "type uint64",
+     "shape": [
+      2,
+      5
+     ],
+     "signal_type": "",
+     "title": "type uint64"
+    }
+   ],
+   "file": "more-types.hspy",
+   "sha256": "6331262682364d8abbb21692d45f579f08657e549362de240c399736a73519ea"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": null,
+       "navigate": true,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p+0",
+       "size": 3,
+       "units": ""
+      },
+      {
+       "name": null,
+       "navigate": false,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p+0",
+       "size": 4,
+       "units": ""
+      }
+     ],
+     "data_sha256": "c0b1a51a17319ab7ce93982e9fbc7324975282f02e29e6826b823f021639d136",
+     "dtype": "uint16",
+     "metadata": [
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "Saved lazily"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:46:53.044499+00:00"
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": ""
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "Saved lazily",
+     "shape": [
+      3,
+      4
+     ],
+     "signal_type": "",
+     "title": "Saved lazily"
+    }
+   ],
+   "file": "lazy-saved.hspy",
+   "sha256": "ee5a2346fc1ba3464ae9f4556cbc1d172012d6370ea582a666eb5150ce35e8d1"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": null,
+       "navigate": true,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p+0",
+       "size": 2,
+       "units": ""
+      },
+      {
+       "name": null,
+       "navigate": false,
+       "offset": "0x0.0p+0",
+       "scale": "0x1.0000000000000p+0",
+       "size": 3,
+       "units": ""
+      }
+     ],
+     "data_sha256": "44db0c6567657226771480a36aafb13db6b4e53e26e7fa72e3035c0bec4309ab",
+     "dtype": "float32",
+     "metadata": [
+      {
+       "key": "Acquisition_instrument.SEM.beam_energy",
+       "type": "number",
+       "value": "0x1.e000000000000p+3"
+      },
+      {
+       "key": "Acquisition_instrument.SEM.Stage.tilt_alpha",
+       "type": "number",
+       "value": "0x1.8000000000000p+1"
+      },
+      {
+       "key": "Acquisition_instrument.TEM.beam_energy",
+       "type": "number",
+       "value": "0x1.9000000000000p+7"
+      },
+      {
+       "key": "Acquisition_instrument.TEM.camera_length",
+       "type": "number",
+       "value": "0x1.4000000000000p+6"
+      },
+      {
+       "key": "Acquisition_instrument.TEM.Stage.tilt_alpha",
+       "type": "number",
+       "value": "0x1.9000000000000p+3"
+      },
+      {
+       "key": "Acquisition_instrument.TEM.Detector.Camera.exposure",
+       "type": "number",
+       "value": "0x1.0000000000000p-1"
+      },
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "Layout 2.0"
+      },
+      {
+       "key": "General.FileIO.0.hyperspy_version",
+       "type": "text",
+       "value": "2.5.0"
+      },
+      {
+       "key": "General.FileIO.0.io_plugin",
+       "type": "text",
+       "value": "rsciio.hspy"
+      },
+      {
+       "key": "General.FileIO.0.operation",
+       "type": "text",
+       "value": "save"
+      },
+      {
+       "key": "General.FileIO.0.timestamp",
+       "type": "text",
+       "value": "2026-11-23T22:59:35.543769+00:00"
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": ""
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "Layout 2.0",
+     "shape": [
+      2,
+      3
+     ],
+     "signal_type": "",
+     "title": "Layout 2.0"
+    }
+   ],
+   "file": "layout-2.0.hspy",
+   "sha256": "974f720a87e18612bc90439f735bfaaf6f99a3d2adac14a808ddadf5bdb10947"
+  },
+  {
+   "experiments": [
+    {
+     "axes": [
+      {
+       "name": "",
+       "navigate": false,
+       "offset": "-0x1.999999999999ap-4",
+       "scale": "0x1.47ae147ae147bp-7",
+       "size": 1024,
+       "units": "keV"
+      }
+     ],
+     "data_sha256": "81dae26287da94a67bf0fe71085fffad3eed4335da4b3a9be1de2f1844b81acb",
+     "dtype": "int32",
+     "metadata": [
+      {
+       "key": "Acquisition_instrument.SEM.beam_current",
+       "type": "number",
+       "value": "0x0.0p+0"
+      },
+      {
+       "key": "Acquisition_instrument.SEM.beam_energy",
+       "type": "number",
+       "value": "0x1.4000000000000p+3"
+      },
+      {
+       "key": "Acquisition_instrument.SEM.microscope",
+       "type": "text",
+       "value": "Nvision40 Carl Zeiss"
+      },
+      {
+       "key": "Acquisition_instrument.SEM.Detector.EDS.azimuth_angle",
+       "type": "number",
+       "value": "0x0.0p+0"
+      },
+      {
+       "key": "Acquisition_instrument.SEM.Detector.EDS.detector",
+       "type": "text",
+       "value": "X-max 80 Oxford Instrument"
+      },
+      {
+       "key": "Acquisition_instrument.SEM.Detector.EDS.elevation_angle",
+       "type": "number",
+       "value": "0x1.2800000000000p+5"
+      },
+      {
+       "key": "Acquisition_instrument.SEM.Detector.EDS.energy_resolution_MnKa",
+       "type": "number",
+       "value": "0x1.0400000000000p+7"
+      },
+      {
+       "key": "Acquisition_instrument.SEM.Detector.EDS.live_time",
+       "type": "number",
+       "value": "0x1.3ff4e874c8ffcp+4"
+      },
+      {
+       "key": "Acquisition_instrument.SEM.Detector.EDS.real_time",
+       "type": "number",
+       "value": "0x1.3cbffd60e94eep+5"
+      },
+      {
+       "key": "Acquisition_instrument.SEM.Stage.tilt_alpha",
+       "type": "number",
+       "value": "0x0.0p+0"
+      },
+      {
+       "key": "General.original_filename",
+       "type": "text",
+       "value": "1D_EDS_SEM_Spectrum.msa"
+      },
+      {
+       "key": "General.title",
+       "type": "text",
+       "value": "EDS SEM Spectrum"
+      },
+      {
+       "key": "Sample.description",
+       "type": "text",
+       "value": "EDS-TM002 from BAM (www.webshop.bam.de)"
+      },
+      {
+       "key": "Sample.elements",
+       "type": "texts",
+       "value": [
+        "Al",
+        "C",
+        "Cu",
+        "Mn",
+        "Zr"
+       ]
+      },
+      {
+       "key": "Signal.binned",
+       "type": "flag",
+       "value": true
+      },
+      {
+       "key": "Signal.record_by",
+       "type": "text",
+       "value": "spectrum"
+      },
+      {
+       "key": "Signal.signal_origin",
+       "type": "text",
+       "value": ""
+      },
+      {
+       "key": "Signal.signal_type",
+       "type": "text",
+       "value": "EDS_SEM"
+      },
+      {
+       "key": "_HyperSpy.Folding.signal_unfolded",
+       "type": "flag",
+       "value": false
+      },
+      {
+       "key": "_HyperSpy.Folding.unfolded",
+       "type": "flag",
+       "value": false
+      }
+     ],
+     "name": "EDS SEM Spectrum",
+     "shape": [
+      1024
+     ],
+     "signal_type": "EDS_SEM",
+     "title": "EDS SEM Spectrum"
+    }
+   ],
+   "file": "EDS_SEM_TM002.hspy",
+   "sha256": "b5a5828dc694c7ed6e33745b7022594f48457e33140fb8d7371472fe18b6b359"
+  },
+  {
+   "file": "refusals.hspy",
+   "refusals": {
+    "complex": "complexData",
+    "functional": "nonUniformAxis",
+    "non-uniform": "nonUniformAxis",
+    "ragged": "raggedSignal",
+    "rank 5": "unsupportedRank"
+   },
+   "sha256": "908caadf6ec343e909040d0ddea0e04f399a01e7c4185236f1b666a644e6e627"
+  },
+  {
+   "file": "refused-version-1.1.hspy",
+   "refusals": {
+    "(file)": "unsupportedVersion"
+   },
+   "sha256": "2b64442eb3312a36b251a2ca571c043f20ff75d13e11125ece13fa9b63e6de28"
+  },
+  {
+   "file": "refused-no-experiment.hspy",
+   "refusals": {
+    "(file)": "noExperiment"
+   },
+   "sha256": "026301d7cbd2770a1d186a4b3fb30006c469011718647c4abea8c8735f400e5e"
+  },
+  {
+   "file": "refused-not-hyperspy.hspy",
+   "refusals": {
+    "(file)": "notHyperSpyFile"
+   },
+   "sha256": "9c53cc0d4982cc67b86ae524d3e2cd325bd684a0ec461b20b6bc4b0617d8967c"
+  }
+ ],
+ "tm002_source_sha256": "b5a5828dc694c7ed6e33745b7022594f48457e33140fb8d7371472fe18b6b359",
+ "versions": {
+  "exspy": "0.3.2",
+  "h5py": "3.16.0",
+  "hyperspy": "2.5.0",
+  "libhdf5": "2.0.0",
+  "numpy": "2.5.5",
+  "pyxem": "0.21.0",
+  "rosettasciio": "0.14.0"
+ }
+}
