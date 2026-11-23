@@ -44,7 +44,7 @@ import FormatoHDF5
         #expect(throws: HDF5FileError.self) { try writer.write(row, at: [2, 0]) }
         #expect(throws: HDF5FileError.self) { try writer.write(row, at: [0]) }
         #expect(throws: HDF5FileError.self) { try writer.write(try FormatoArray(dataType: .int32, shape: [1, 2], bytes: Data(count: 8)), at: [0, 0]) }
-        try Data(count: 4).withUnsafeBytes { bytes in
+        _ = Data(count: 4).withUnsafeBytes { bytes in
             #expect(throws: HDF5FileError.self) { try writer.write(bytes: bytes, count: [1, 2], at: [0, 0]) }
         }
         try writer.write(row, at: [0, 0])
