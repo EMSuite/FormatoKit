@@ -1,10 +1,26 @@
-## What this changes
+Fixes EMSuite/<repo>#<n>
 
-## Why
+## What changes
 
-## Checks
+<!-- In user words. The PR title is the CHANGELOG line (feat:, fix:, perf:, docs:, test:, refactor:, ci:, chore:); release-please writes the changelog, so no changelog line here. -->
 
-- [ ] `swift test` passes
-- [ ] New or changed behaviour has a test that fails without the change
-- [ ] Numbers a reader returns are compared with RosettaSciIO (no loosened tolerance)
-- [ ] Documentation updated (DocC pages, `docs/parity.md`) where the change touches it
+## The test that failed before
+
+<!-- Name it. -->
+
+## Numbers
+
+- [ ] Unchanged
+- [ ] Changed: a before and after table below, the moved fixture in its own commit, the `changes-results` label
+
+## Screen
+
+- [ ] Unchanged
+- [ ] Snapshot attached
+- [ ] Unverified on screen
+
+## Docs
+
+- [ ] README, `docs/status.md`, `docs/parity.md` or the website page updated where they name what changed, or nothing names it
+
+<!-- feat!: only: a Migration paragraph saying what consumers change. -->
