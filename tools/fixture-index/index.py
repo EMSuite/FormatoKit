@@ -80,6 +80,7 @@ RULES = [
     ("FormatoHDF5Tests/Fixtures/4d/*", "hdf5-4d/generate.py", "py4DSTEM f050d207"),
     ("FormatoHDF5Tests/Fixtures/append/*", "hdf5-append/generate.py", "h5py 3.16.0"),
     ("FormatoHDF5Tests/Fixtures/low-level/*", "hdf5-append/generate.py", "h5py 3.16.0"),
+    ("FormatoHDF5Tests/Fixtures/bool/*", "hdf5-bool/generate.py", "h5py 3.16.0"),
     ("FormatoHDF5Tests/Fixtures/bragg/swift-*", "bragg-writer/check.py", "written by the kit, checked with py4DSTEM f050d207"),
     ("FormatoHDF5Tests/Fixtures/bragg/check-result.json", "bragg-writer/check.py", "py4DSTEM f050d207"),
     ("FormatoHDF5Tests/Fixtures/bragg/*", "bragg-writer/generate.py", "py4DSTEM f050d207"),

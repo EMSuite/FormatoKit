@@ -302,14 +302,8 @@ public nonisolated final class HDF5WriteSession {
         guard !parts.isEmpty else { throw HDF5FileError.invalidPath(path) }
         try open { file in
             try prepareScalar(parts, file, path, replace: replace)
-            let type = h5.h5tenumCreate(h5.int8)
-            guard type >= 0 else { throw HDF5RootAttributes.failure("making the bool type of \(path)", h5) }
+            let type = try boolType(for: path)
             defer { _ = h5.h5tclose(type) }
-            var no: Int8 = 0, yes: Int8 = 1
-            guard "FALSE".withCString({ h5.h5tenumInsert(type, $0, &no) }) >= 0,
-                  "TRUE".withCString({ h5.h5tenumInsert(type, $0, &yes) }) >= 0 else {
-                throw HDF5RootAttributes.failure("defining the bool type of \(path)", h5)
-            }
             var stored: Int8 = value ? 1 : 0
             try createScalar(parts, file, path, type: type) { dataset in
                 withUnsafePointer(to: &stored) { h5.h5dwrite(dataset, type, 0, 0, 0, $0) }
@@ -373,6 +367,30 @@ public nonisolated final class HDF5WriteSession {
                         var pointer: UnsafePointer<CChar>? = characters
                         return withUnsafePointer(to: &pointer) { h5.h5awrite(attribute, type, $0) }
                     }
+                }
+            }
+        }
+    }
+
+    /// Sets the attribute `name` on the object at `path` (a group or dataset; the root is "/") to `value`, scalar, stored as h5py
+    /// stores a NumPy `bool` (and reads it back as `numpy.bool_`): an enumeration over an 8-bit signed integer with the members
+    /// FALSE = 0 and TRUE = 1, the type `writeBool` gives a dataset. Replaces an existing attribute (deleted first).
+    /// `HDF5Reader.attribute(_:of:)` reads it as `.integer(0)` or `.integer(1)`.
+    public func setBoolAttribute(_ name: String, on path: String, _ value: Bool) throws {
+        let parts = try HDF5Ops.components(path)
+        guard !name.isEmpty, !name.utf8.contains(0) else { throw HDF5FileError.invalidPath(name) }
+        try open { file in
+            try HDF5Ops.withObject(h5, file, path, parts) { object in
+                let type = try boolType(for: name)                                  // built before the old value goes
+                defer { _ = h5.h5tclose(type) }
+                let exists = name.withCString { h5.h5aexists(object, $0) }
+                guard exists >= 0 else { throw HDF5RootAttributes.failure("looking for the \(name) attribute", h5) }
+                if exists > 0, name.withCString({ h5.h5adelete(object, $0) }) < 0 {
+                    throw HDF5RootAttributes.failure("replacing the \(name) attribute", h5)
+                }
+                var stored: Int8 = value ? 1 : 0
+                try store(name, type: type, count: 1, scalar: true, on: object) { attribute in
+                    withUnsafePointer(to: &stored) { h5.h5awrite(attribute, type, $0) }
                 }
             }
         }
@@ -451,6 +469,19 @@ public nonisolated final class HDF5WriteSession {
         guard h5.h5tsetSize(type, -1) >= 0, h5.h5tsetCset(type, utf8 ? 1 : 0) >= 0 else {
             _ = h5.h5tclose(type)
             throw HDF5RootAttributes.failure("making the variable-length text type for \(name)", h5)
+        }
+        return type
+    }
+
+    /// h5py's boolean type: an enumeration over the native 8-bit signed integer, FALSE = 0 and TRUE = 1. The caller closes it.
+    private func boolType(for name: String) throws -> hid_t {
+        let type = h5.h5tenumCreate(h5.int8)
+        guard type >= 0 else { throw HDF5RootAttributes.failure("making the bool type of \(name)", h5) }
+        var no: Int8 = 0, yes: Int8 = 1
+        guard "FALSE".withCString({ h5.h5tenumInsert(type, $0, &no) }) >= 0,
+              "TRUE".withCString({ h5.h5tenumInsert(type, $0, &yes) }) >= 0 else {
+            _ = h5.h5tclose(type)
+            throw HDF5RootAttributes.failure("defining the bool type of \(name)", h5)
         }
         return type
     }

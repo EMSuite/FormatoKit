@@ -51,6 +51,7 @@ names it. A regenerated fixture that changes is its own commit, with the reason 
 | `fixture-index` | `index.py` | `Tests/Fixtures/README.md`, the index of every fixture (standard library; `--check` in CI) |
 | `hdf5-4d` | `generate.py` | py4DSTEM EMD 1.0 4D datacubes |
 | `hdf5-append` | `generate.py` | fixtures and h5py pins for `HDF5Reader` and `HDF5AppendWriter` |
+| `hdf5-bool` | `generate.py` | h5py's boolean attribute (`h5py-bool.h5`, its facts) and h5py's reading of the kit-written one (`setBoolAttribute`) |
 | `hdf5-write` | `generate.py` | HDF5 root-attribute fixtures and h5py pins |
 | `mib` | `generate.py`, `app-scaffold.swift` | Quantum Detectors MIB frames and refusals |
 | `msa` | `pins.py` | RosettaSciIO's MSA reading of its public test files |
