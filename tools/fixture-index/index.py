@@ -96,6 +96,9 @@ RULES = [
     # FormatoMSATests
     ("FormatoMSATests/Fixtures/public/*", "msa/pins.py", RSCIIO_PUBLIC + " (`msa`)"),
     ("FormatoMSATests/Fixtures/msa-pins.json", "msa/pins.py", RSCIIO),
+    # FormatoTIATests
+    ("FormatoTIATests/Fixtures/public/*", "tia/pins.py", RSCIIO_PUBLIC + " (`tia/old`, `tia/new`: the .ser files)"),
+    ("FormatoTIATests/Fixtures/tia-pins.json", "tia/pins.py", RSCIIO),
     # FormatoTIFFTests
     ("FormatoTIFFTests/Fixtures/planted/*", "tiff-pins/make_planted.py", "planted; truth tifffile 2026.9.20"),
     ("FormatoTIFFTests/Fixtures/tiff-pins.json", "tiff-pins/pins.py", RSCIIO + ", tifffile 2026.9.20"),

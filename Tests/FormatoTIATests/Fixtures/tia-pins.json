@@ -1,0 +1,2326 @@
+{
+ "files": {
+  "new/128x128-TEM_search_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "007e5525c49896be",
+      "scale": "1fb68fbc7b0b1540",
+      "size": 128,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "007e5525c49896be",
+      "scale": "1fb68fbc7b0b1540",
+      "size": 128,
+      "units": "nm"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "128x128-TEM_search_1.ser",
+    "sha256": "05cde6f1d478aedbd6357e1d8c481c4a9eee19fdf2aff2eac174652968a3e099",
+    "shape": [
+     128,
+     128
+    ]
+   },
+   "header": {
+    "data_type_id": 16674,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Number",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 1,
+      "units": ""
+     }
+    ],
+    "offset_array_offset": 72,
+    "series_version": 544,
+    "tag_type_id": 16722,
+    "total": 1,
+    "valid": 1
+   },
+   "sha256": "8b79f81363d41f759ecda84fb91d50463e2a828f532d5b8f9378960e57fc3ae7",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "007e5525c49896be",
+      "scale": "1fb68fbc7b0b1540",
+      "size": 128,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "007e5525c49896be",
+      "scale": "1fb68fbc7b0b1540",
+      "size": 128,
+      "units": "nm"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "128x128-TEM_search_1.ser",
+    "sha256": "05cde6f1d478aedbd6357e1d8c481c4a9eee19fdf2aff2eac174652968a3e099",
+    "shape": [
+     128,
+     128
+    ]
+   }
+  },
+  "new/128x128_TEM_acquire-sum1_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "fcf75c993010b7be",
+      "scale": "62206c8db47a3540",
+      "size": 128,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "fcf75c993010b7be",
+      "scale": "62206c8db47a3540",
+      "size": 128,
+      "units": "nm"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "128x128_TEM_acquire-sum1_1.ser",
+    "sha256": "9d50d87095fefaf03d2876f191cb3c4fdd9cecd863eca0db30266b1739908e74",
+    "shape": [
+     128,
+     128
+    ]
+   },
+   "header": {
+    "data_type_id": 16674,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Number",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 1,
+      "units": ""
+     }
+    ],
+    "offset_array_offset": 72,
+    "series_version": 544,
+    "tag_type_id": 16722,
+    "total": 1,
+    "valid": 1
+   },
+   "sha256": "44994f43b7ee2363f177bd48afd8da3423f34e8425b3b22366a3f69a9c1649dc",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "fcf75c993010b7be",
+      "scale": "62206c8db47a3540",
+      "size": 128,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "fcf75c993010b7be",
+      "scale": "62206c8db47a3540",
+      "size": 128,
+      "units": "nm"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "128x128_TEM_acquire-sum1_1.ser",
+    "sha256": "9d50d87095fefaf03d2876f191cb3c4fdd9cecd863eca0db30266b1739908e74",
+    "shape": [
+     128,
+     128
+    ]
+   }
+  },
+  "new/128x128x5-diffraction_preview_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": null,
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "000000000000f03f",
+      "size": 5,
+      "units": ""
+     },
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "a4d8e6349c3fe4c1",
+      "scale": "902169f99cdb6243",
+      "size": 128,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "a4d8e6349c3fe4c1",
+      "scale": "902169f99cdb6243",
+      "size": 128,
+      "units": "nm"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "128x128x5-diffraction_preview_1.ser",
+    "sha256": "4f77bfb6e831f7889b268e00d882859a3bc3c4bf1c081858d5c035d577a123bc",
+    "shape": [
+     5,
+     128,
+     128
+    ]
+   },
+   "header": {
+    "data_type_id": 16674,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Number",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 5,
+      "units": ""
+     }
+    ],
+    "offset_array_offset": 72,
+    "series_version": 544,
+    "tag_type_id": 16722,
+    "total": 5,
+    "valid": 5
+   },
+   "sha256": "a605aae2e51ba2507e4c5e3af409677e4a178b1139016077c45d42646c224f27",
+   "valid_only": {
+    "axes": [
+     {
+      "name": null,
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "000000000000f03f",
+      "size": 5,
+      "units": ""
+     },
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "a4d8e6349c3fe4c1",
+      "scale": "902169f99cdb6243",
+      "size": 128,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "a4d8e6349c3fe4c1",
+      "scale": "902169f99cdb6243",
+      "size": 128,
+      "units": "nm"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "128x128x5-diffraction_preview_1.ser",
+    "sha256": "4f77bfb6e831f7889b268e00d882859a3bc3c4bf1c081858d5c035d577a123bc",
+    "shape": [
+     5,
+     128,
+     128
+    ]
+   }
+  },
+  "new/16x16-diffraction_imagel_5x5x256x256_EDS_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": true,
+      "offset": "6a001355c8f93abe",
+      "scale": "7858bd027ffbfdbf",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "88c51333717027be",
+      "scale": "7858bd027ffbfd3f",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "0000000000000000",
+      "scale": "0000000000001440",
+      "size": 4000,
+      "units": "eV"
+     }
+    ],
+    "dtype": "uint32",
+    "original_filename": "16x16-diffraction_imagel_5x5x256x256_EDS_1.ser",
+    "sha256": "685b02c385e656abc2151fdbfd4a4f72312c633a10542bd8ed36cdd04022baca",
+    "shape": [
+     5,
+     5,
+     4000
+    ]
+   },
+   "header": {
+    "data_type_id": 16672,
+    "dimensions": [
+     {
+      "delta": "a8ecff27c018203e",
+      "description": "Position",
+      "element": 0,
+      "offset": "88c51333717027be",
+      "size": 5,
+      "units": "meters"
+     },
+     {
+      "delta": "a8ecff27c01820be",
+      "description": "Position",
+      "element": 5,
+      "offset": "6a001355c8f93abe",
+      "size": 5,
+      "units": "meters"
+     }
+    ],
+    "offset_array_offset": 126,
+    "series_version": 544,
+    "tag_type_id": 16706,
+    "total": 25,
+    "valid": 25
+   },
+   "sha256": "e47597787fd224a90cd9dcdc5eb1d9fdedb9534e6acccc01d3397e6c03b40744",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": true,
+      "offset": "6a001355c8f93abe",
+      "scale": "7858bd027ffbfdbf",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "88c51333717027be",
+      "scale": "7858bd027ffbfd3f",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "0000000000000000",
+      "scale": "0000000000001440",
+      "size": 4000,
+      "units": "eV"
+     }
+    ],
+    "dtype": "uint32",
+    "original_filename": "16x16-diffraction_imagel_5x5x256x256_EDS_1.ser",
+    "sha256": "685b02c385e656abc2151fdbfd4a4f72312c633a10542bd8ed36cdd04022baca",
+    "shape": [
+     5,
+     5,
+     4000
+    ]
+   }
+  },
+  "new/16x16-diffraction_imagel_5x5x256x256_EDS_2.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": true,
+      "offset": "6a001355c8f93abe",
+      "scale": "7858bd027ffbfdbf",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "88c51333717027be",
+      "scale": "7858bd027ffbfd3f",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "947d881cd8c804c2",
+      "scale": "c9943c1c6c5b8343",
+      "size": 256,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "947d881cd8c804c2",
+      "scale": "c9943c1c6c5b8343",
+      "size": 256,
+      "units": "nm"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "16x16-diffraction_imagel_5x5x256x256_EDS_2.ser",
+    "sha256": "8b6110a75bf9558a0fc8307742fb6583ba94adfea1978d8ea6dcb8b6eaeb6485",
+    "shape": [
+     5,
+     5,
+     256,
+     256
+    ]
+   },
+   "header": {
+    "data_type_id": 16674,
+    "dimensions": [
+     {
+      "delta": "a8ecff27c018203e",
+      "description": "Position",
+      "element": 0,
+      "offset": "88c51333717027be",
+      "size": 5,
+      "units": "meters"
+     },
+     {
+      "delta": "a8ecff27c01820be",
+      "description": "Position",
+      "element": 5,
+      "offset": "6a001355c8f93abe",
+      "size": 5,
+      "units": "meters"
+     }
+    ],
+    "offset_array_offset": 126,
+    "series_version": 544,
+    "tag_type_id": 16706,
+    "total": 25,
+    "valid": 25
+   },
+   "sha256": "9db7b1a7bdecfa22cd5d6020d88a3961bc6ba9e91ea28f9f6fa6a5e8b0d7797a",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": true,
+      "offset": "6a001355c8f93abe",
+      "scale": "7858bd027ffbfdbf",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "88c51333717027be",
+      "scale": "7858bd027ffbfd3f",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "947d881cd8c804c2",
+      "scale": "c9943c1c6c5b8343",
+      "size": 256,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "947d881cd8c804c2",
+      "scale": "c9943c1c6c5b8343",
+      "size": 256,
+      "units": "nm"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "16x16-diffraction_imagel_5x5x256x256_EDS_2.ser",
+    "sha256": "8b6110a75bf9558a0fc8307742fb6583ba94adfea1978d8ea6dcb8b6eaeb6485",
+    "shape": [
+     5,
+     5,
+     256,
+     256
+    ]
+   }
+  },
+  "new/16x16-diffraction_imagel_5x5x256x256_EDS_copy_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": true,
+      "offset": "6a001355c8f93abe",
+      "scale": "7858bd027ffbfdbf",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "88c51333717027be",
+      "scale": "7858bd027ffbfd3f",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "0000000000000000",
+      "scale": "0000000000001440",
+      "size": 4000,
+      "units": "eV"
+     }
+    ],
+    "dtype": "uint32",
+    "original_filename": "16x16-diffraction_imagel_5x5x256x256_EDS_copy_1.ser",
+    "sha256": "685b02c385e656abc2151fdbfd4a4f72312c633a10542bd8ed36cdd04022baca",
+    "shape": [
+     5,
+     5,
+     4000
+    ]
+   },
+   "header": {
+    "data_type_id": 16672,
+    "dimensions": [
+     {
+      "delta": "a8ecff27c018203e",
+      "description": "Position",
+      "element": 0,
+      "offset": "88c51333717027be",
+      "size": 5,
+      "units": "meters"
+     },
+     {
+      "delta": "a8ecff27c01820be",
+      "description": "Position",
+      "element": 5,
+      "offset": "6a001355c8f93abe",
+      "size": 5,
+      "units": "meters"
+     }
+    ],
+    "offset_array_offset": 126,
+    "series_version": 544,
+    "tag_type_id": 16706,
+    "total": 25,
+    "valid": 25
+   },
+   "sha256": "e47597787fd224a90cd9dcdc5eb1d9fdedb9534e6acccc01d3397e6c03b40744",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": true,
+      "offset": "6a001355c8f93abe",
+      "scale": "7858bd027ffbfdbf",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "88c51333717027be",
+      "scale": "7858bd027ffbfd3f",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "0000000000000000",
+      "scale": "0000000000001440",
+      "size": 4000,
+      "units": "eV"
+     }
+    ],
+    "dtype": "uint32",
+    "original_filename": "16x16-diffraction_imagel_5x5x256x256_EDS_copy_1.ser",
+    "sha256": "685b02c385e656abc2151fdbfd4a4f72312c633a10542bd8ed36cdd04022baca",
+    "shape": [
+     5,
+     5,
+     4000
+    ]
+   }
+  },
+  "new/16x16-line_profile_horizontal_5x128x128_EDS_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "52363dce53820d40",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "0000000000000000",
+      "scale": "0000000000001440",
+      "size": 4000,
+      "units": "eV"
+     }
+    ],
+    "dtype": "uint32",
+    "original_filename": "16x16-line_profile_horizontal_5x128x128_EDS_1.ser",
+    "sha256": "2af5f2e1a527ad94d8ed378f2f122bc3b3e0b15bb7c934a9a8b7bb1390fa77de",
+    "shape": [
+     5,
+     4000
+    ]
+   },
+   "header": {
+    "data_type_id": 16672,
+    "dimensions": [
+     {
+      "delta": "f4f7d4b165af2f3e",
+      "description": "Position",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 5,
+      "units": "meters"
+     }
+    ],
+    "offset_array_offset": 80,
+    "series_version": 544,
+    "tag_type_id": 16706,
+    "total": 5,
+    "valid": 5
+   },
+   "sha256": "e4db49dd2934effb37657f81840dc97c24ddd466feacc8b11b36f3e8003f1058",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "52363dce53820d40",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "0000000000000000",
+      "scale": "0000000000001440",
+      "size": 4000,
+      "units": "eV"
+     }
+    ],
+    "dtype": "uint32",
+    "original_filename": "16x16-line_profile_horizontal_5x128x128_EDS_1.ser",
+    "sha256": "2af5f2e1a527ad94d8ed378f2f122bc3b3e0b15bb7c934a9a8b7bb1390fa77de",
+    "shape": [
+     5,
+     4000
+    ]
+   }
+  },
+  "new/16x16-line_profile_horizontal_5x128x128_EDS_2.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "52363dce53820d40",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "947d881cd8c804c2",
+      "scale": "c9943c1c6c5b8343",
+      "size": 128,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "947d881cd8c804c2",
+      "scale": "c9943c1c6c5b8343",
+      "size": 128,
+      "units": "nm"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "16x16-line_profile_horizontal_5x128x128_EDS_2.ser",
+    "sha256": "f3948a59a2648571ac5f372fa24feaf8e72dd7a9cca7fe39d15564189261360b",
+    "shape": [
+     5,
+     128,
+     128
+    ]
+   },
+   "header": {
+    "data_type_id": 16674,
+    "dimensions": [
+     {
+      "delta": "f4f7d4b165af2f3e",
+      "description": "Position",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 5,
+      "units": "meters"
+     }
+    ],
+    "offset_array_offset": 80,
+    "series_version": 544,
+    "tag_type_id": 16706,
+    "total": 5,
+    "valid": 5
+   },
+   "sha256": "44313deaa13c7d8ea6c65f190e978ab310a7e68c420022b5224de3f2ce78bcd7",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "52363dce53820d40",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "947d881cd8c804c2",
+      "scale": "c9943c1c6c5b8343",
+      "size": 128,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "947d881cd8c804c2",
+      "scale": "c9943c1c6c5b8343",
+      "size": 128,
+      "units": "nm"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "16x16-line_profile_horizontal_5x128x128_EDS_2.ser",
+    "sha256": "f3948a59a2648571ac5f372fa24feaf8e72dd7a9cca7fe39d15564189261360b",
+    "shape": [
+     5,
+     128,
+     128
+    ]
+   }
+  },
+  "new/16x16-spectrum_image_5x5x4000-not_square_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": true,
+      "offset": "98603169da1d4abe",
+      "scale": "870200f0630811c0",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "dc205ad0834f34be",
+      "scale": "1053bbf84dc6ff3f",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "0000000000000000",
+      "scale": "0000000000001440",
+      "size": 4000,
+      "units": "eV"
+     }
+    ],
+    "dtype": "uint32",
+    "original_filename": "16x16-spectrum_image_5x5x4000-not_square_1.ser",
+    "sha256": "946cc2661d32ad837bd22fb051ee47ed6012e33a6db1617870fec60691ed7f09",
+    "shape": [
+     5,
+     5,
+     4000
+    ]
+   },
+   "header": {
+    "data_type_id": 16672,
+    "dimensions": [
+     {
+      "delta": "c224e84e120f213e",
+      "description": "Position",
+      "element": 0,
+      "offset": "dc205ad0834f34be",
+      "size": 5,
+      "units": "meters"
+     },
+     {
+      "delta": "2bb939fbee4932be",
+      "description": "Position",
+      "element": 5,
+      "offset": "98603169da1d4abe",
+      "size": 5,
+      "units": "meters"
+     }
+    ],
+    "offset_array_offset": 126,
+    "series_version": 544,
+    "tag_type_id": 16706,
+    "total": 25,
+    "valid": 25
+   },
+   "sha256": "6d90a6a3ac1fc015b5d16bac564f7849874d32d928e1fc21a5140845c0d5f2f5",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": true,
+      "offset": "98603169da1d4abe",
+      "scale": "870200f0630811c0",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "dc205ad0834f34be",
+      "scale": "1053bbf84dc6ff3f",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "0000000000000000",
+      "scale": "0000000000001440",
+      "size": 4000,
+      "units": "eV"
+     }
+    ],
+    "dtype": "uint32",
+    "original_filename": "16x16-spectrum_image_5x5x4000-not_square_1.ser",
+    "sha256": "946cc2661d32ad837bd22fb051ee47ed6012e33a6db1617870fec60691ed7f09",
+    "shape": [
+     5,
+     5,
+     4000
+    ]
+   }
+  },
+  "old/03_Scanning Preview_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": null,
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "000000000000f03f",
+      "size": 200,
+      "units": ""
+     },
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "573534b899695abe",
+      "scale": "318c002d3b99d83f",
+      "size": 128,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "573534b899695abe",
+      "scale": "318c002d3b99d83f",
+      "size": 128,
+      "units": "nm"
+     }
+    ],
+    "dtype": "uint16",
+    "original_filename": "03_Scanning Preview_1.ser",
+    "sha256": "67f12380be64f6e277cfffb955dad2717233f08b310ba5289e51b829d7ab994f",
+    "shape": [
+     200,
+     128,
+     128
+    ]
+   },
+   "header": {
+    "data_type_id": 16674,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Number",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 200,
+      "units": ""
+     }
+    ],
+    "offset_array_offset": 68,
+    "series_version": 528,
+    "tag_type_id": 16722,
+    "total": 200,
+    "valid": 5
+   },
+   "sha256": "2c95ae5a775d652ee3ac323204fe98756a7ce4da0901906f94bf1a84f9926c26",
+   "valid_only": {
+    "axes": [
+     {
+      "name": null,
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "000000000000f03f",
+      "size": 5,
+      "units": ""
+     },
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "573534b899695abe",
+      "scale": "318c002d3b99d83f",
+      "size": 128,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "573534b899695abe",
+      "scale": "318c002d3b99d83f",
+      "size": 128,
+      "units": "nm"
+     }
+    ],
+    "dtype": "uint16",
+    "original_filename": "03_Scanning Preview_1.ser",
+    "sha256": "190eb5bfdbad4571a63488c852e5bbc4a77a0b02046e63556fa70b180d9867ee",
+    "shape": [
+     5,
+     128,
+     128
+    ]
+   }
+  },
+  "old/16x16-2_point-spectra-2x1024_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "0000000065cdcd41",
+      "size": 2,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "00000000000034c0",
+      "scale": "9a9999999999c93f",
+      "size": 1024,
+      "units": "eV"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "16x16-2_point-spectra-2x1024_1.ser",
+    "sha256": "392bc71b49d5ad61b762dfb0d05aba87e46a764f7b33f56bf9a62480f4a14b8d",
+    "shape": [
+     2,
+     1024
+    ]
+   },
+   "header": {
+    "data_type_id": 16672,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Position",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 2,
+      "units": "meters"
+     }
+    ],
+    "offset_array_offset": 76,
+    "series_version": 528,
+    "tag_type_id": 16706,
+    "total": 2,
+    "valid": 2
+   },
+   "sha256": "24fbe2c94435b8bac350c1bc1aed12ff3e415307cc40fdcc940f1e74d184f9e4",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "0000000065cdcd41",
+      "size": 2,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "00000000000034c0",
+      "scale": "9a9999999999c93f",
+      "size": 1024,
+      "units": "eV"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "16x16-2_point-spectra-2x1024_1.ser",
+    "sha256": "392bc71b49d5ad61b762dfb0d05aba87e46a764f7b33f56bf9a62480f4a14b8d",
+    "shape": [
+     2,
+     1024
+    ]
+   }
+  },
+  "old/16x16-line_profile_diagonal_10x1024_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "6f71be82e949c53f",
+      "size": 10,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "00000000000034c0",
+      "scale": "9a9999999999c93f",
+      "size": 1024,
+      "units": "eV"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "16x16-line_profile_diagonal_10x1024_1.ser",
+    "sha256": "72a8fa6025a5d6ead0749d8389945f0380d3f6d2f37b80044e9101d33ad70bce",
+    "shape": [
+     10,
+     1024
+    ]
+   },
+   "header": {
+    "data_type_id": 16672,
+    "dimensions": [
+     {
+      "delta": "e42cf671ccdbe63d",
+      "description": "Position",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 10,
+      "units": "meters"
+     }
+    ],
+    "offset_array_offset": 76,
+    "series_version": 528,
+    "tag_type_id": 16706,
+    "total": 10,
+    "valid": 10
+   },
+   "sha256": "f9758f56c7ccab50e295f982cf9a7fd8f6ef13513b5512997ac6194f6cb38a62",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "6f71be82e949c53f",
+      "size": 10,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "00000000000034c0",
+      "scale": "9a9999999999c93f",
+      "size": 1024,
+      "units": "eV"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "16x16-line_profile_diagonal_10x1024_1.ser",
+    "sha256": "72a8fa6025a5d6ead0749d8389945f0380d3f6d2f37b80044e9101d33ad70bce",
+    "shape": [
+     10,
+     1024
+    ]
+   }
+  },
+  "old/16x16-line_profile_horizontal_10x1024_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "db8b421d2a7fbf3f",
+      "size": 10,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "00000000000034c0",
+      "scale": "9a9999999999c93f",
+      "size": 1024,
+      "units": "eV"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "16x16-line_profile_horizontal_10x1024_1.ser",
+    "sha256": "269fd37e45eb0254637c89b0d9199a2a591fae8cde3c811665f01cdfc5aba2b5",
+    "shape": [
+     10,
+     1024
+    ]
+   },
+   "header": {
+    "data_type_id": 16672,
+    "dimensions": [
+     {
+      "delta": "8f0f4ce4e0e8e03d",
+      "description": "Position",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 10,
+      "units": "meters"
+     }
+    ],
+    "offset_array_offset": 76,
+    "series_version": 528,
+    "tag_type_id": 16706,
+    "total": 10,
+    "valid": 10
+   },
+   "sha256": "e2f3f7a56f0b87f1b960aa9b7379d85781d56a1e219a48397542702cd93114f6",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "db8b421d2a7fbf3f",
+      "size": 10,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "00000000000034c0",
+      "scale": "9a9999999999c93f",
+      "size": 1024,
+      "units": "eV"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "16x16-line_profile_horizontal_10x1024_1.ser",
+    "sha256": "269fd37e45eb0254637c89b0d9199a2a591fae8cde3c811665f01cdfc5aba2b5",
+    "shape": [
+     10,
+     1024
+    ]
+   }
+  },
+  "old/16x16-point_spectrum-1x1024_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "0000000065cdcd41",
+      "size": 1,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "00000000000034c0",
+      "scale": "9a9999999999c93f",
+      "size": 1024,
+      "units": "eV"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "16x16-point_spectrum-1x1024_1.ser",
+    "sha256": "a38aa6450e2b1b97a269129b17f1d7fa583ff59219ba19a00d818083faed9a2f",
+    "shape": [
+     1,
+     1024
+    ]
+   },
+   "header": {
+    "data_type_id": 16672,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Position",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 1,
+      "units": "meters"
+     }
+    ],
+    "offset_array_offset": 76,
+    "series_version": 528,
+    "tag_type_id": 16706,
+    "total": 1,
+    "valid": 1
+   },
+   "sha256": "118d531cfea1ac99e49a9cbdf17e8b6c254a6555a4772a58c9e7dca70d8954f8",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "0000000065cdcd41",
+      "size": 1,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "00000000000034c0",
+      "scale": "9a9999999999c93f",
+      "size": 1024,
+      "units": "eV"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "16x16-point_spectrum-1x1024_1.ser",
+    "sha256": "a38aa6450e2b1b97a269129b17f1d7fa583ff59219ba19a00d818083faed9a2f",
+    "shape": [
+     1,
+     1024
+    ]
+   }
+  },
+  "old/16x16-spectrum_image-5x5x1024_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": true,
+      "offset": "007eaec40f95d7bd",
+      "scale": "91c96c6fb0dbbebf",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "7cf692c21b1ef9bd",
+      "scale": "91c96c6fb0dbbe3f",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "00000000000034c0",
+      "scale": "9a9999999999c93f",
+      "size": 1024,
+      "units": "eV"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "16x16-spectrum_image-5x5x1024_1.ser",
+    "sha256": "bbc0f92a2bbc3fbf165d43ef80923033c1d0a927fdd5a08b5d83a6054a2375ff",
+    "shape": [
+     5,
+     5,
+     1024
+    ]
+   },
+   "header": {
+    "data_type_id": 16672,
+    "dimensions": [
+     {
+      "delta": "bad034041d91e03d",
+      "description": "Position",
+      "element": 0,
+      "offset": "7cf692c21b1ef9bd",
+      "size": 5,
+      "units": "meters"
+     },
+     {
+      "delta": "bad034041d91e0bd",
+      "description": "Position",
+      "element": 5,
+      "offset": "007eaec40f95d7bd",
+      "size": 5,
+      "units": "meters"
+     }
+    ],
+    "offset_array_offset": 122,
+    "series_version": 528,
+    "tag_type_id": 16706,
+    "total": 25,
+    "valid": 25
+   },
+   "sha256": "0a2b96111e87b67d56afce6d600207a610547908762ebeb7a2112cc9dac8caa6",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": true,
+      "offset": "007eaec40f95d7bd",
+      "scale": "91c96c6fb0dbbebf",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": true,
+      "offset": "7cf692c21b1ef9bd",
+      "scale": "91c96c6fb0dbbe3f",
+      "size": 5,
+      "units": "nm"
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "00000000000034c0",
+      "scale": "9a9999999999c93f",
+      "size": 1024,
+      "units": "eV"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "16x16-spectrum_image-5x5x1024_1.ser",
+    "sha256": "bbc0f92a2bbc3fbf165d43ef80923033c1d0a927fdd5a08b5d83a6054a2375ff",
+    "shape": [
+     5,
+     5,
+     1024
+    ]
+   }
+  },
+  "old/16x16_STEM_BF_DF_acquire_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "2de3d6c9a21887be",
+      "scale": "8e93893f92823540",
+      "size": 16,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "2de3d6c9a21887be",
+      "scale": "8e93893f92823540",
+      "size": 16,
+      "units": "nm"
+     }
+    ],
+    "dtype": "uint16",
+    "original_filename": "16x16_STEM_BF_DF_acquire_1.ser",
+    "sha256": "6da88ece92a952900aae5f1da4819eefa616bc7caf236deeb30d5ed50a0a3e37",
+    "shape": [
+     16,
+     16
+    ]
+   },
+   "header": {
+    "data_type_id": 16674,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Number",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 1,
+      "units": ""
+     }
+    ],
+    "offset_array_offset": 68,
+    "series_version": 528,
+    "tag_type_id": 16722,
+    "total": 1,
+    "valid": 1
+   },
+   "sha256": "a945e229b6bdaeca56e9f1a75148867aa8c35898ed484dff29a30ffa907f16cf",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "2de3d6c9a21887be",
+      "scale": "8e93893f92823540",
+      "size": 16,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "2de3d6c9a21887be",
+      "scale": "8e93893f92823540",
+      "size": 16,
+      "units": "nm"
+     }
+    ],
+    "dtype": "uint16",
+    "original_filename": "16x16_STEM_BF_DF_acquire_1.ser",
+    "sha256": "6da88ece92a952900aae5f1da4819eefa616bc7caf236deeb30d5ed50a0a3e37",
+    "shape": [
+     16,
+     16
+    ]
+   }
+  },
+  "old/16x16_STEM_BF_DF_acquire_2.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "2de3d6c9a21887be",
+      "scale": "8e93893f92823540",
+      "size": 16,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "2de3d6c9a21887be",
+      "scale": "8e93893f92823540",
+      "size": 16,
+      "units": "nm"
+     }
+    ],
+    "dtype": "uint16",
+    "original_filename": "16x16_STEM_BF_DF_acquire_2.ser",
+    "sha256": "533338982613fa4014339003740e9bd9da5feee24336fa50300ff3f17f833229",
+    "shape": [
+     16,
+     16
+    ]
+   },
+   "header": {
+    "data_type_id": 16674,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Number",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 1,
+      "units": ""
+     }
+    ],
+    "offset_array_offset": 68,
+    "series_version": 528,
+    "tag_type_id": 16722,
+    "total": 1,
+    "valid": 1
+   },
+   "sha256": "e90c1a85d897d088ff0d7833c419d0a83f16f8e786ffac1599c861af1e3ced92",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "2de3d6c9a21887be",
+      "scale": "8e93893f92823540",
+      "size": 16,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "2de3d6c9a21887be",
+      "scale": "8e93893f92823540",
+      "size": 16,
+      "units": "nm"
+     }
+    ],
+    "dtype": "uint16",
+    "original_filename": "16x16_STEM_BF_DF_acquire_2.ser",
+    "sha256": "533338982613fa4014339003740e9bd9da5feee24336fa50300ff3f17f833229",
+    "shape": [
+     16,
+     16
+    ]
+   }
+  },
+  "old/16x16_STEM_BF_DF_search_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "c4c3fa058aa687be",
+      "scale": "bf32459fba063640",
+      "size": 16,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "c4c3fa058aa687be",
+      "scale": "bf32459fba063640",
+      "size": 16,
+      "units": "nm"
+     }
+    ],
+    "dtype": "uint16",
+    "original_filename": "16x16_STEM_BF_DF_search_1.ser",
+    "sha256": "4103f25ad185aaf637d877371df99bee82f6db9279b9b28822f9ed8d2d1ff693",
+    "shape": [
+     16,
+     16
+    ]
+   },
+   "header": {
+    "data_type_id": 16674,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Number",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 1,
+      "units": ""
+     }
+    ],
+    "offset_array_offset": 68,
+    "series_version": 528,
+    "tag_type_id": 16722,
+    "total": 1,
+    "valid": 1
+   },
+   "sha256": "fad438ecc6bc366b8ec8bf448c8ca29cc43e4c74e11fe74f109d25b10908d6ac",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "c4c3fa058aa687be",
+      "scale": "bf32459fba063640",
+      "size": 16,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "c4c3fa058aa687be",
+      "scale": "bf32459fba063640",
+      "size": 16,
+      "units": "nm"
+     }
+    ],
+    "dtype": "uint16",
+    "original_filename": "16x16_STEM_BF_DF_search_1.ser",
+    "sha256": "4103f25ad185aaf637d877371df99bee82f6db9279b9b28822f9ed8d2d1ff693",
+    "shape": [
+     16,
+     16
+    ]
+   }
+  },
+  "old/16x16_STEM_BF_DF_search_2.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "c4c3fa058aa687be",
+      "scale": "bf32459fba063640",
+      "size": 16,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "c4c3fa058aa687be",
+      "scale": "bf32459fba063640",
+      "size": 16,
+      "units": "nm"
+     }
+    ],
+    "dtype": "uint16",
+    "original_filename": "16x16_STEM_BF_DF_search_2.ser",
+    "sha256": "eb692f03ad6ad5141642722ac069da13a06118bc76d01ba0f5e27343e98f6b86",
+    "shape": [
+     16,
+     16
+    ]
+   },
+   "header": {
+    "data_type_id": 16674,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Number",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 1,
+      "units": ""
+     }
+    ],
+    "offset_array_offset": 68,
+    "series_version": 528,
+    "tag_type_id": 16722,
+    "total": 1,
+    "valid": 1
+   },
+   "sha256": "eac31c0b3530571f912ad2f6b15bbf1dc69ca20f98e0fb66fd79f36f88a76fce",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "c4c3fa058aa687be",
+      "scale": "bf32459fba063640",
+      "size": 16,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "c4c3fa058aa687be",
+      "scale": "bf32459fba063640",
+      "size": 16,
+      "units": "nm"
+     }
+    ],
+    "dtype": "uint16",
+    "original_filename": "16x16_STEM_BF_DF_search_2.ser",
+    "sha256": "eb692f03ad6ad5141642722ac069da13a06118bc76d01ba0f5e27343e98f6b86",
+    "shape": [
+     16,
+     16
+    ]
+   }
+  },
+  "old/16x16x5_STEM_BF_DF_preview_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": null,
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "000000000000f03f",
+      "size": 5,
+      "units": ""
+     },
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "2de3d6c9a21887be",
+      "scale": "8e93893f92823540",
+      "size": 16,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "2de3d6c9a21887be",
+      "scale": "8e93893f92823540",
+      "size": 16,
+      "units": "nm"
+     }
+    ],
+    "dtype": "uint16",
+    "original_filename": "16x16x5_STEM_BF_DF_preview_1.ser",
+    "sha256": "fe19541d8fc1b832d1bd588a3009526638eb7e3e1ddad404a40ca7a8c7c2f408",
+    "shape": [
+     5,
+     16,
+     16
+    ]
+   },
+   "header": {
+    "data_type_id": 16674,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Number",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 5,
+      "units": ""
+     }
+    ],
+    "offset_array_offset": 68,
+    "series_version": 528,
+    "tag_type_id": 16722,
+    "total": 5,
+    "valid": 5
+   },
+   "sha256": "9ad3a66eb17c6732378be889c557345140f7b3af28e02484c627782843c6978f",
+   "valid_only": {
+    "axes": [
+     {
+      "name": null,
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "000000000000f03f",
+      "size": 5,
+      "units": ""
+     },
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "2de3d6c9a21887be",
+      "scale": "8e93893f92823540",
+      "size": 16,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "2de3d6c9a21887be",
+      "scale": "8e93893f92823540",
+      "size": 16,
+      "units": "nm"
+     }
+    ],
+    "dtype": "uint16",
+    "original_filename": "16x16x5_STEM_BF_DF_preview_1.ser",
+    "sha256": "fe19541d8fc1b832d1bd588a3009526638eb7e3e1ddad404a40ca7a8c7c2f408",
+    "shape": [
+     5,
+     16,
+     16
+    ]
+   }
+  },
+  "old/16x16x5_STEM_BF_DF_preview_2.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": null,
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "000000000000f03f",
+      "size": 5,
+      "units": ""
+     },
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "2de3d6c9a21887be",
+      "scale": "8e93893f92823540",
+      "size": 16,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "2de3d6c9a21887be",
+      "scale": "8e93893f92823540",
+      "size": 16,
+      "units": "nm"
+     }
+    ],
+    "dtype": "uint16",
+    "original_filename": "16x16x5_STEM_BF_DF_preview_2.ser",
+    "sha256": "03728d1590f2e108bc2c23402c40ff101f61499cb5c12c36ef41e2e86806b7e0",
+    "shape": [
+     5,
+     16,
+     16
+    ]
+   },
+   "header": {
+    "data_type_id": 16674,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Number",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 5,
+      "units": ""
+     }
+    ],
+    "offset_array_offset": 68,
+    "series_version": 528,
+    "tag_type_id": 16722,
+    "total": 5,
+    "valid": 5
+   },
+   "sha256": "41581a663f6d74d7f65526b67f31a256aba864969b433d68460d1b69f4d10a10",
+   "valid_only": {
+    "axes": [
+     {
+      "name": null,
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "000000000000f03f",
+      "size": 5,
+      "units": ""
+     },
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "2de3d6c9a21887be",
+      "scale": "8e93893f92823540",
+      "size": 16,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "2de3d6c9a21887be",
+      "scale": "8e93893f92823540",
+      "size": 16,
+      "units": "nm"
+     }
+    ],
+    "dtype": "uint16",
+    "original_filename": "16x16x5_STEM_BF_DF_preview_2.ser",
+    "sha256": "03728d1590f2e108bc2c23402c40ff101f61499cb5c12c36ef41e2e86806b7e0",
+    "shape": [
+     5,
+     16,
+     16
+    ]
+   }
+  },
+  "old/64x64_TEM_images_acquire_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "507d89f8f2fa8abe",
+      "scale": "94a9d3fd98201940",
+      "size": 64,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "507d89f8f2fa8abe",
+      "scale": "94a9d3fd98201940",
+      "size": 64,
+      "units": "nm"
+     }
+    ],
+    "dtype": "float32",
+    "original_filename": "64x64_TEM_images_acquire_1.ser",
+    "sha256": "20fd751042ef894f260100b19a9ca2c10d487117e018551cec1cf4cc53985aa7",
+    "shape": [
+     64,
+     64
+    ]
+   },
+   "header": {
+    "data_type_id": 16674,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Number",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 1,
+      "units": ""
+     }
+    ],
+    "offset_array_offset": 68,
+    "series_version": 528,
+    "tag_type_id": 16722,
+    "total": 1,
+    "valid": 1
+   },
+   "sha256": "cfb0cb9c6ba5924a8a03db2d35c4864c5d3bb9a28ebe7c8a92710d0d8bcb9a98",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "507d89f8f2fa8abe",
+      "scale": "94a9d3fd98201940",
+      "size": 64,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "507d89f8f2fa8abe",
+      "scale": "94a9d3fd98201940",
+      "size": 64,
+      "units": "nm"
+     }
+    ],
+    "dtype": "float32",
+    "original_filename": "64x64_TEM_images_acquire_1.ser",
+    "sha256": "20fd751042ef894f260100b19a9ca2c10d487117e018551cec1cf4cc53985aa7",
+    "shape": [
+     64,
+     64
+    ]
+   }
+  },
+  "old/64x64_diffraction_acquire_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "983cc8707637e8c1",
+      "scale": "d2d00514b38d7643",
+      "size": 64,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "983cc8707637e8c1",
+      "scale": "d2d00514b38d7643",
+      "size": 64,
+      "units": "nm"
+     }
+    ],
+    "dtype": "float32",
+    "original_filename": "64x64_diffraction_acquire_1.ser",
+    "sha256": "4131697fd7cab83ce8acf4ab6270459b4293e82b5d74938b932a205db7c0e071",
+    "shape": [
+     64,
+     64
+    ]
+   },
+   "header": {
+    "data_type_id": 16674,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Number",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 1,
+      "units": ""
+     }
+    ],
+    "offset_array_offset": 68,
+    "series_version": 528,
+    "tag_type_id": 16722,
+    "total": 1,
+    "valid": 1
+   },
+   "sha256": "d5b0b0b0a5800706494e2edd7a4f2e151b2d0383df31f882a5220243c65a22af",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "983cc8707637e8c1",
+      "scale": "d2d00514b38d7643",
+      "size": 64,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "983cc8707637e8c1",
+      "scale": "d2d00514b38d7643",
+      "size": 64,
+      "units": "nm"
+     }
+    ],
+    "dtype": "float32",
+    "original_filename": "64x64_diffraction_acquire_1.ser",
+    "sha256": "4131697fd7cab83ce8acf4ab6270459b4293e82b5d74938b932a205db7c0e071",
+    "shape": [
+     64,
+     64
+    ]
+   }
+  },
+  "old/64x64x5_TEM_preview_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": null,
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "000000000000f03f",
+      "size": 5,
+      "units": ""
+     },
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "507d89f8f2fa8abe",
+      "scale": "94a9d3fd98201940",
+      "size": 64,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "507d89f8f2fa8abe",
+      "scale": "94a9d3fd98201940",
+      "size": 64,
+      "units": "nm"
+     }
+    ],
+    "dtype": "float32",
+    "original_filename": "64x64x5_TEM_preview_1.ser",
+    "sha256": "d40b352884e4bc80b24abaf4192c68f6139411038c2fea45f0ed142d0f49f5c5",
+    "shape": [
+     5,
+     64,
+     64
+    ]
+   },
+   "header": {
+    "data_type_id": 16674,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Number",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 5,
+      "units": ""
+     }
+    ],
+    "offset_array_offset": 68,
+    "series_version": 528,
+    "tag_type_id": 16722,
+    "total": 5,
+    "valid": 5
+   },
+   "sha256": "08f1dc9d52bfb6da3d7d9ae4db16dbd5783332186bacbd4769e9f97a14f31d70",
+   "valid_only": {
+    "axes": [
+     {
+      "name": null,
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "000000000000f03f",
+      "size": 5,
+      "units": ""
+     },
+     {
+      "name": "y",
+      "navigate": false,
+      "offset": "507d89f8f2fa8abe",
+      "scale": "94a9d3fd98201940",
+      "size": 64,
+      "units": "nm"
+     },
+     {
+      "name": "x",
+      "navigate": false,
+      "offset": "507d89f8f2fa8abe",
+      "scale": "94a9d3fd98201940",
+      "size": 64,
+      "units": "nm"
+     }
+    ],
+    "dtype": "float32",
+    "original_filename": "64x64x5_TEM_preview_1.ser",
+    "sha256": "d40b352884e4bc80b24abaf4192c68f6139411038c2fea45f0ed142d0f49f5c5",
+    "shape": [
+     5,
+     64,
+     64
+    ]
+   }
+  },
+  "old/X - Au NP EELS_2.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": null,
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "000000000000f03f",
+      "size": 2,
+      "units": ""
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "0000000000e0a040",
+      "scale": "9a9999999999c93f",
+      "size": 2048,
+      "units": "eV"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "X - Au NP EELS_2.ser",
+    "sha256": "6769a8e3abae5f8a2d54a03e0a4bae1f11ac29ae4b3e68c76204ce3737cb33ee",
+    "shape": [
+     2,
+     2048
+    ]
+   },
+   "header": {
+    "data_type_id": 16672,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Number",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 2,
+      "units": ""
+     }
+    ],
+    "offset_array_offset": 68,
+    "series_version": 528,
+    "tag_type_id": 16706,
+    "total": 2,
+    "valid": 1
+   },
+   "sha256": "8c19dc06797cc0c408e67b7204c6aecfb3e7ac766ecbe69c1dec08171ef35b7a",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "0000000000e0a040",
+      "scale": "9a9999999999c93f",
+      "size": 2048,
+      "units": "eV"
+     }
+    ],
+    "dtype": "int32",
+    "original_filename": "X - Au NP EELS_2.ser",
+    "sha256": "a8d8b0d3392ecf109dc3ca9d24b1d7d45fa8541a2302075a301f8c5b45e200e2",
+    "shape": [
+     2048
+    ]
+   }
+  },
+  "old/more_ser_then_emi_metadata_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": null,
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "000000000000f03f",
+      "size": 10,
+      "units": ""
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "00e2f7d265f62740",
+      "scale": "b6e7295458f32340",
+      "size": 3993,
+      "units": "eV"
+     }
+    ],
+    "dtype": "uint32",
+    "original_filename": "more_ser_then_emi_metadata_1.ser",
+    "sha256": "06423dca9ab1610ad73a704c3b2a0f912dbd5e5d3a5c7f545ee17cebf260c32b",
+    "shape": [
+     10,
+     3993
+    ]
+   },
+   "header": {
+    "data_type_id": 16672,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Number",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 10,
+      "units": ""
+     }
+    ],
+    "offset_array_offset": 68,
+    "series_version": 528,
+    "tag_type_id": 16706,
+    "total": 10,
+    "valid": 1
+   },
+   "sha256": "9708b9e85cb1b63eaacc785396728cd7e20fca5ae104df4987fa9f10422e90bf",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "00e2f7d265f62740",
+      "scale": "b6e7295458f32340",
+      "size": 3993,
+      "units": "eV"
+     }
+    ],
+    "dtype": "uint32",
+    "original_filename": "more_ser_then_emi_metadata_1.ser",
+    "sha256": "ce4c58c84550e36e593600eacb1443a0c08e5e6b2e2a7124d5beaccfe92429a5",
+    "shape": [
+     3993
+    ]
+   }
+  },
+  "old/more_ser_then_emi_metadata_2.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": null,
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "000000000000f03f",
+      "size": 10,
+      "units": ""
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "00e2f7d265f62740",
+      "scale": "b6e7295458f32340",
+      "size": 3993,
+      "units": "eV"
+     }
+    ],
+    "dtype": "uint32",
+    "original_filename": "more_ser_then_emi_metadata_2.ser",
+    "sha256": "569fa44672ccef4a733354a368c8ad3b95353cf7eea5e393f0aa32c165fb2f93",
+    "shape": [
+     10,
+     3993
+    ]
+   },
+   "header": {
+    "data_type_id": 16672,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Number",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 10,
+      "units": ""
+     }
+    ],
+    "offset_array_offset": 68,
+    "series_version": 528,
+    "tag_type_id": 16706,
+    "total": 10,
+    "valid": 1
+   },
+   "sha256": "307cde0bbea6f3b54a750ad6d6b7db661479cfda4f4d555a4796790df1bf670e",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "00e2f7d265f62740",
+      "scale": "b6e7295458f32340",
+      "size": 3993,
+      "units": "eV"
+     }
+    ],
+    "dtype": "uint32",
+    "original_filename": "more_ser_then_emi_metadata_2.ser",
+    "sha256": "7439ddafea6e6a2b1f0ac6dbe73393ff89aa262428f4122485970e6cbcc454c9",
+    "shape": [
+     3993
+    ]
+   }
+  },
+  "old/no_AcquireDate_1.ser": {
+   "all": {
+    "axes": [
+     {
+      "name": null,
+      "navigate": true,
+      "offset": "0000000000000000",
+      "scale": "000000000000f03f",
+      "size": 10,
+      "units": ""
+     },
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "00e2f7d265f62740",
+      "scale": "b6e7295458f32340",
+      "size": 3993,
+      "units": "eV"
+     }
+    ],
+    "dtype": "uint32",
+    "original_filename": "no_AcquireDate_1.ser",
+    "sha256": "224882c12c24b4dd0cd5160c73b289cac53ab0761d21abdc253903b503139859",
+    "shape": [
+     10,
+     3993
+    ]
+   },
+   "header": {
+    "data_type_id": 16672,
+    "dimensions": [
+     {
+      "delta": "000000000000f03f",
+      "description": "Number",
+      "element": 0,
+      "offset": "0000000000000000",
+      "size": 10,
+      "units": ""
+     }
+    ],
+    "offset_array_offset": 68,
+    "series_version": 528,
+    "tag_type_id": 16706,
+    "total": 10,
+    "valid": 1
+   },
+   "sha256": "0c7ec51b8ba4058490313a1e5d78c0ca0ced63182158aeb4e0894184fcdf4a67",
+   "valid_only": {
+    "axes": [
+     {
+      "name": "Energy",
+      "navigate": false,
+      "offset": "00e2f7d265f62740",
+      "scale": "b6e7295458f32340",
+      "size": 3993,
+      "units": "eV"
+     }
+    ],
+    "dtype": "uint32",
+    "original_filename": "no_AcquireDate_1.ser",
+    "sha256": "f3384f716dd7572b88300b3ac8bfa30232535820a78c30717933ef104601c0e3",
+    "shape": [
+     3993
+    ]
+   }
+  }
+ },
+ "generator": "tools/tia/pins.py",
+ "rosettasciio": "0.14.1.dev96+g049e7d707"
+}

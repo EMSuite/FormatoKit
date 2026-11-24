@@ -11,8 +11,8 @@ Renishaw, TriVista, `hspy`/`zspy`, and test files). The single-spectrum, MSA, DM
 held to the tolerance the Python package's own tests use; readers, I/O, indices and metadata are exact); "read" means a reader exists
 without that gate.
 
-**Totals (the 38 plugins; `emd` is one plugin with the Velox variant read and NCEM, prismatic, DE5 missing): 2 present, 6 partial,
-30 missing.** Present: MIB, MSA. Partial: DigitalMicrograph, EMD, TIFF, MRC, EMPAD, HSPY (written and read; ragged, complex and non-uniform signals refused). By priority of the 30 missing: 0 study, 9 useful, 21 not planned.
+**Totals (the 38 plugins; `emd` is one plugin with the Velox variant read and NCEM, prismatic, DE5 missing): 2 present, 7 partial,
+29 missing.** Present: MIB, MSA. Partial: DigitalMicrograph, EMD, TIFF, MRC, EMPAD, HSPY (written and read; ragged, complex and non-uniform signals refused), TIA (a .ser alone). By priority of the 29 missing: 0 study, 8 useful, 21 not planned.
 Beside the 38 the kit has rows with no RosettaSciIO plugin (below): py4DSTEM EMD/BraggVectors, the EMD bundle writers, `HDF5Reader`, PNG
 text chunks, the TIFF app image.
 
@@ -58,7 +58,7 @@ every one of these, as D17 prescribes for readers.
 | Renishaw | wdf | no | — | **missing** | test_renishaw.py: allclose, explicit rtol/atol/decimal in places, isclose | not planned | Raman WDF |
 | Ripple | rpl | yes (some dims) | — | **missing** | test_ripple.py: allclose, array_equal | not planned | Lispix RPL; legacy |
 | Semper | unf | yes (some dims) | — | **missing** | test_semper.py: allclose, equal | not planned | Semper UNF; legacy |
-| TIA | ser, emi | no | — | **missing** | test_tia.py: allclose, almost_equal, array_equal, equal, explicit rtol/atol/decimal in places | useful | SER/EMI, FEI TIA; older FEI TEM data |
+| TIA | ser, emi | no | `FormatoTIA` `TIAReader` (.ser) | **partial** | test_tia.py: allclose, almost_equal, array_equal, equal, explicit rtol/atol/decimal in places | useful | A .ser read on its own (pin T1, `tools/tia`, exact): RosettaSciIO `ser_reader(objects=None)` against `TIAReader.read` on its 28 public .ser files (old and new TIA versions, 4- and 8-byte offsets; images, stacks, STEM maps of camera frames, point spectra, line scans, spectrum images, series stopped early), with `only_valid_data` true and false: data type, shape, values (sha256), axes (name, size, units, navigate; scale and offset to the bit) and the header facts equal. Kept from RosettaSciIO: metres become nm by the scale only (offsets stay in metres); without the .emi an image is in metres, a diffraction pattern too; a map stopped early is filled with NaN (floats) or 0. Not read: the .emi (its metadata and units, FK5), `original_metadata` (the header and tag fields), a series with no dimension array (RosettaSciIO guesses its axes from stage positions, and that path fails), the `lazy` option (every read is on demand). Refused by name (`TIAError`): no "II" byte order or series id 0x0197, no valid element, a header, offset array or element past the end of the file, more valid elements than the shape holds; complex values (`unsupportedDataType`) |
 | Tofwerk | h5 | no | — | **missing** | test_tofwerk.py: allclose, approx, array_equal | not planned | ToF mass spectrometry |
 | Topspin | app5 | no | — | **missing** | test_topspin.py:  | not planned | NMR |
 | TriVista | tvf | no | — | **missing** | test_trivista.py: allclose, explicit rtol/atol/decimal in places, isclose | not planned | Raman TVF |
