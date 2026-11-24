@@ -5,13 +5,13 @@ the index is rewritten in the same commit (CI runs `index.py --check`). A regene
 commit, with the reason and a CHANGELOG line.
 
 One row per tracked file under `Tests/*/Fixtures/`: its size, the script under `tools/` that writes it (or *copied*),
-and its source: the pinned reference that wrote or read it, or where a copied file comes from. 730 files.
+and its source: the pinned reference that wrote or read it, or where a copied file comes from. 759 files.
 
 The generators run in the one Python environment of `tools/requirements.txt` (`tools/README.md`). The tests never run
 Python: they read these committed files, so `swift test` needs none of it.
 
 Licence: every fixture is generated from this kit's own code and the pinned Python references and ships under the kit's
-licence, except the 15 rows marked *third party*: keep their licence line when the files move. Nothing here is the
+licence, except the 43 rows marked *third party*: keep their licence line when the files move. Nothing here is the
 owner's data: real datasets are read from `$MACEM_DATA` and never copied into the repository.
 
 The files copied from SpectroKit 0.3.0 (tag `14c6acf8`) are byte-identical to it (the moved test names and git blob ids
@@ -459,6 +459,35 @@ others stay in SpectroKit or the first consumer, named in the rows.
 | `FormatoMSATests/Fixtures/public/example2.msa` | 1.6 KB | `tools/msa/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`msa`) |
 | `FormatoMSATests/Fixtures/public/example2_NCOLUMNS5.msa` | 2.0 KB | `tools/msa/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`msa`) |
 | `FormatoMSATests/Fixtures/public/minimum_metadata.msa` | 412 B | `tools/msa/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`msa`) |
+| `FormatoTIATests/Fixtures/public/new/128x128-TEM_search_1.ser` | 64.1 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/new/128x128_TEM_acquire-sum1_1.ser` | 64.1 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/new/128x128x5-diffraction_preview_1.ser` | 320.4 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/new/16x16-diffraction_imagel_5x5x256x256_EDS_1.ser` | 392.4 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/new/16x16-diffraction_imagel_5x5x256x256_EDS_2.ser` | 6.3 MB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/new/16x16-diffraction_imagel_5x5x256x256_EDS_copy_1.ser` | 392.4 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/new/16x16-line_profile_horizontal_5x128x128_EDS_1.ser` | 78.5 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/new/16x16-line_profile_horizontal_5x128x128_EDS_2.ser` | 320.5 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/new/16x16-spectrum_image_5x5x4000-not_square_1.ser` | 392.4 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/03_Scanning Preview_1.ser` | 161.9 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/16x16-2_point-spectra-2x1024_1.ser` | 8.2 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/16x16-line_profile_diagonal_10x1024_1.ser` | 40.6 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/16x16-line_profile_horizontal_10x1024_1.ser` | 40.6 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/16x16-point_spectrum-1x1024_1.ser` | 4.1 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/16x16-spectrum_image-5x5x1024_1.ser` | 101.5 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/16x16_STEM_BF_DF_acquire_1.ser` | 646 B | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/16x16_STEM_BF_DF_acquire_2.ser` | 646 B | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/16x16_STEM_BF_DF_search_1.ser` | 646 B | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/16x16_STEM_BF_DF_search_2.ser` | 646 B | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/16x16x5_STEM_BF_DF_preview_1.ser` | 2.9 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/16x16x5_STEM_BF_DF_preview_2.ser` | 2.9 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/64x64_TEM_images_acquire_1.ser` | 16.1 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/64x64_diffraction_acquire_1.ser` | 16.1 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/64x64x5_TEM_preview_1.ser` | 80.4 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/X - Au NP EELS_2.ser` | 8.1 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/more_ser_then_emi_metadata_1.ser` | 15.8 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/more_ser_then_emi_metadata_2.ser` | 15.8 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/public/old/no_AcquireDate_1.ser` | 15.8 KB | `tools/tia/pins.py` | third party: RosettaSciIO public test data (GPL-3.0-or-later), copied unchanged (`tia/old`, `tia/new`: the .ser files) |
+| `FormatoTIATests/Fixtures/tia-pins.json` | 50.1 KB | `tools/tia/pins.py` | RosettaSciIO 049e7d70 |
 | `FormatoTIFFTests/Fixtures/acq-metadata/dm-tag-65027.tif` | 987 B | `tools/acq-metadata/generate.py` | planted; pins RosettaSciIO 049e7d70 and the consumer's readers |
 | `FormatoTIFFTests/Fixtures/acq-metadata/fei-first-field-day.tif` | 337 B | `tools/acq-metadata/generate.py` | planted; pins RosettaSciIO 049e7d70 and the consumer's readers |
 | `FormatoTIFFTests/Fixtures/acq-metadata/fei-helios.tif` | 340 B | `tools/acq-metadata/generate.py` | planted; pins RosettaSciIO 049e7d70 and the consumer's readers |

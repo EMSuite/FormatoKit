@@ -11,6 +11,7 @@ import FormatoHSPY
 import FormatoMIB
 import FormatoMRC
 import FormatoMSA
+import FormatoTIA
 import FormatoPeek
 import FormatoTIFF
 
@@ -204,6 +205,13 @@ do {
     let spectrum = try MSAReader.read(path: msa)
     check(spectrum.signal.data.shape == [21] && !spectrum.parameters.isEmpty, "MSAReader.read")
 } catch { check(false, "MSAReader: \(error)") }
+do {
+    let ser = tests.appendingPathComponent("FormatoTIATests/Fixtures/public/old/64x64x5_TEM_preview_1.ser")
+    let header = try TIAReader.header(url: ser)
+    let signal = try TIAReader.read(url: ser, onlyValidData: true)
+    check(header.validElements == 5 && !header.isSpectrum && header.dimensions.first?.size == 5
+          && signal.array.shape == [5, 64, 64], "TIAReader.header, TIAReader.read")
+} catch { check(false, "FormatoTIA: \(error)") }
 do {
     let dir = FileManager.default.temporaryDirectory.appendingPathComponent("formato-consumer-4d-\(UUID().uuidString)")
     try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)

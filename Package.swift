@@ -45,6 +45,8 @@ let package = Package(
         .library(name: "FormatoEMPAD", targets: ["FormatoEMPAD"]),
         .library(name: "FormatoMIB", targets: ["FormatoMIB"]),
         .library(name: "FormatoMSA", targets: ["FormatoMSA"]),
+        // FEI / Thermo Fisher TIA series files (.ser), read as RosettaSciIO reads a .ser on its own.
+        .library(name: "FormatoTIA", targets: ["FormatoTIA"]),
         // HyperSpy's .hspy files, layout 3.3 (0.19.0): a signal written whole or a slab at a time, and read back.
         .library(name: "FormatoHSPY", targets: ["FormatoHSPY"]),
         // One import and one `FormatoLoader.load(path:)` for every format that reads as signals (0.9.0).
@@ -69,6 +71,7 @@ let package = Package(
         .target(name: "FormatoEMPAD", dependencies: ["FormatoCore"], swiftSettings: settings),
         .target(name: "FormatoMIB", dependencies: ["FormatoCore"], swiftSettings: settings),
         .target(name: "FormatoMSA", dependencies: ["FormatoCore"], swiftSettings: settings),
+        .target(name: "FormatoTIA", dependencies: ["FormatoCore"], swiftSettings: settings),
         // HyperSpy's .hspy layout over FormatoHDF5's slab writer and reader; no numerics.
         .target(name: "FormatoHSPY", dependencies: ["FormatoCore", "FormatoHDF5"], swiftSettings: settings),
         .target(name: "Formato", dependencies: ["FormatoCore", "FormatoDM", "FormatoEMD", "FormatoHSPY", "FormatoMRC", "FormatoMSA", "FormatoTIFF"],
@@ -116,6 +119,8 @@ let package = Package(
         .testTarget(name: "FormatoMIBTests", dependencies: ["FormatoMIB", "FormatoCore", "FormatoKitTestSupport"], exclude: ["Fixtures"],
                     swiftSettings: settings),
         .testTarget(name: "FormatoMSATests", dependencies: ["FormatoMSA", "FormatoCore"], exclude: ["Fixtures"], swiftSettings: settings),
+        // The .ser reader against RosettaSciIO's reading of its public TIA test files (pin T1, tools/tia).
+        .testTarget(name: "FormatoTIATests", dependencies: ["FormatoTIA", "FormatoCore"], exclude: ["Fixtures"], swiftSettings: settings),
         // The .hspy writer against the layout HyperSpy 2.5.0 writes (pin H2, tools/hspy-writer), the slab writer's footprint;
         // the reader against RosettaSciIO's reading of HyperSpy's own files (pin H4, tools/hspy-reader).
         .testTarget(name: "FormatoHSPYTests", dependencies: ["FormatoHSPY", "FormatoHDF5", "FormatoCore"], exclude: ["Fixtures"],
