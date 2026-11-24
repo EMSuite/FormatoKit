@@ -3,7 +3,7 @@
 //  Role: The umbrella product: one `FormatoLoader.load(path:)` that finds out which format a file is (RosettaSciIO's `load` guesses
 //        from the extension, then the plugin checks the content) and returns its signals the way that format's module does.
 //        Detection: the extension picks the candidates, the first bytes confirm them (TIFF and HDF5 signatures, DM's version word,
-//        Velox's `Version` dataset, HDF5's signature under `.hspy`); a file whose extension and bytes disagree is `.unknown`.
+//        Velox's `Version` dataset, HDF5's signature under `.hspy`, a TIA series header under `.ser`; an `.emi` by its extension); a file whose extension and bytes disagree is `.unknown`.
 //        Formats whose data are not signals (4D datacubes: EMPAD, MIB, py4DSTEM HDF5) are named, not loaded: they have
 //        dedicated readers with their own options.
 //
@@ -15,6 +15,7 @@ import FormatoEMD
 import FormatoHSPY
 import FormatoMRC
 import FormatoMSA
+import FormatoTIA
 import FormatoTIFF
 
 public nonisolated enum FormatoFileKind: Sendable, Equatable {
@@ -31,6 +32,8 @@ public nonisolated enum FormatoFileKind: Sendable, Equatable {
     case hdf5
     /// HyperSpy's own HDF5 layout under its `.hspy` extension: `HSPYReader` reads its signals (0.19.0).
     case hyperSpy
+    /// An FEI / Thermo Fisher TIA series (`.ser`) or its `.emi`: `TIAReader` reads them (0.20.0).
+    case tia
     case unknown
 }
 
@@ -75,6 +78,10 @@ public nonisolated enum FormatoLoader {
             // RosettaSciIO's hspy plugin also claims .hdf5 (older HyperSpy saved that by default).
             return HSPYReader.isHyperSpyFile(path: path) ? .hyperSpy : .hdf5
         case "hspy": return isHDF5() ? .hyperSpy : .unknown
+        // A .ser starts with the "II" byte order and series id 0x0197; an .emi is named by its extension (RosettaSciIO checks
+        // no bytes of either, and TIAReader.readEMI refuses an .emi with no metadata document).
+        case "ser": return bytes.starts(with: [0x49, 0x49, 0x97, 0x01]) ? .tia : .unknown
+        case "emi": return .tia
         default: return .unknown
         }
     }
@@ -115,6 +122,10 @@ public nonisolated enum FormatoLoader {
             return try HSPYReader.experiments(url: url).map { experiment in
                 Result { try HSPYReader.read(url: url, experiment: experiment.name) }
             }
+        case .tia:
+            let url = URL(fileURLWithPath: path)
+            if url.pathExtension.lowercased() == "emi" { return try TIAReader.readEMI(url: url).map { .success($0) } }
+            return [.success(try TIAReader.read(url: url))]
         case .empad:
             throw FormatoLoadError.useDedicatedReader(.empad, "\(name) is an EMPAD file: open it with EMPADReader (a 4D datacube, with its calibration options).")
         case .merlinMIB:

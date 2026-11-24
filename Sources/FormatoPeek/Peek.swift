@@ -16,6 +16,7 @@ import FormatoHDF5
 import FormatoHSPY
 import FormatoMRC
 import FormatoMSA
+import FormatoTIA
 import FormatoTIFF
 import Formato
 
@@ -146,6 +147,14 @@ public nonisolated enum Peek {
             }
             let kind: Kind = found.signal.signalType == "electron_diffraction" ? .diffractionPattern : .image
             return try frame(of: found.signal.array, limit: limit, kind: kind, source: source)
+        case .tia:
+            let found = try tiaSignal(url)
+            let source = found.series
+            if isSpectrum(found.signal) {
+                let centre = CentreSpectrum(base: found.signal.array)
+                return try spectrum(centre, limit: limit, source: source, enteredAt: centre.lead)
+            }
+            return try frame(of: found.signal.array, limit: limit, kind: tiaKind(found.signal), source: source)
         case .empad, .merlinMIB:
             throw PeekError.unsupported("Raw 4D files (EMPAD, MIB) have no stored image to peek at.")
         case .unknown:
@@ -228,6 +237,30 @@ public nonisolated enum Peek {
                 s.acquired = [date, metadata["General.time"]?.value.text].compactMap { $0 }.joined(separator: " ")
             }
             if found.count > 1 { s.notes.append("\(found.count) signals in the file; \"\(found.name)\" is previewed") }
+            return s
+        case .tia:
+            let found = try tiaSignal(url)
+            let signal = found.signal, shape = signal.array.shape
+            var s = base("TIA", signal)
+            let signalAxes = signal.axes.filter { !$0.navigate }.count
+            if isSpectrum(signal) {
+                s.height = 1
+            } else if shape.count == 4, signalAxes == 2 {
+                // A STEM map of camera frames: the scan, then the pattern.
+                s.scanWidth = shape[1]; s.scanHeight = shape[0]
+                s.pixelSize = signal.axes[1].scale; s.pixelUnit = signal.axes[1].units
+                s.detectorPixelSize = signal.axes[3].scale; s.detectorPixelUnit = signal.axes[3].units
+            }
+            let m = signal.metadata
+            s.instrument = m["Acquisition_instrument.TEM.microscope"]?.value.text
+            s.detector = m["Acquisition_instrument.TEM.Detector.Camera.Name"]?.value.text
+            s.cameraLengthMM = m["Acquisition_instrument.TEM.camera_length"]?.value.number
+            s.magnification = m["Acquisition_instrument.TEM.magnification"]?.value.number
+            if let date = m["General.date"]?.value.text {
+                s.acquired = [date, m["General.time"]?.value.text].compactMap { $0 }.joined(separator: " ")
+            }
+            if !found.withEMI { s.notes.append("no .emi beside it: no microscope metadata, an image's units taken as metres") }
+            if found.count > 1 { s.notes.append("\(found.count) series in the .emi; \(found.series) is previewed") }
             return s
         case .empad, .merlinMIB:
             throw PeekError.unsupported("Raw 4D files (EMPAD, MIB) have no stored image to peek at.")
@@ -312,6 +345,36 @@ public nonisolated enum Peek {
             throw PeekError.unsupported("This HyperSpy file holds no signal FormatoKit reads.")
         }
         return (chosen.name, try HSPYReader.read(url: url, experiment: chosen.name), experiments.count)
+    }
+
+    /// The TIA series a file is previewed by. An .emi: its first series with two signal axes, else its first. A .ser: itself,
+    /// with the metadata of the .emi beside it (`<name>.emi` for `<name>_<digit>.ser`) when that one reads, else alone.
+    private static func tiaSignal(_ url: URL) throws -> (signal: FormatoLazySignal, series: String, count: Int, withEMI: Bool) {
+        func twoSignalAxes(_ s: FormatoLazySignal) -> Bool { s.axes.filter { !$0.navigate }.count == 2 }
+        func name(_ s: FormatoLazySignal) -> String { s.metadata["General.original_filename"]?.value.text ?? "" }
+        if url.pathExtension.lowercased() == "emi" {
+            let all = try TIAReader.readEMI(url: url)
+            guard let chosen = all.first(where: twoSignalAxes) ?? all.first else {
+                throw PeekError.unsupported("This .emi has no series with data beside it.")
+            }
+            return (chosen, name(chosen), all.count, true)
+        }
+        let stem = url.deletingPathExtension().lastPathComponent
+        if let cut = stem.lastIndex(of: "_"), stem.index(after: cut) < stem.endIndex,
+           stem[stem.index(after: cut)...].count == 1, stem[stem.index(after: cut)...].allSatisfy(\.isASCII),
+           stem[stem.index(after: cut)...].allSatisfy(\.isNumber) {
+            let emi = url.deletingLastPathComponent().appendingPathComponent(String(stem[..<cut]) + ".emi")
+            if FileManager.default.fileExists(atPath: emi.path), let all = try? TIAReader.readEMI(url: emi),
+               let mine = all.first(where: { name($0) == url.lastPathComponent }) {
+                return (mine, url.lastPathComponent, 1, true)
+            }
+        }
+        return (try TIAReader.read(url: url), url.lastPathComponent, 1, false)
+    }
+
+    /// A TIA image's kind: a diffraction pattern when its signal axes are reciprocal (the .emi's mode says so).
+    private static func tiaKind(_ signal: FormatoLazySignal) -> Kind {
+        signal.axes.last?.units == "1 / nm" ? .diffractionPattern : .image
     }
 
     /// A HyperSpy signal previewed as a spectrum: one dimension, or one signal axis (a spectrum image or a line scan, entered at
