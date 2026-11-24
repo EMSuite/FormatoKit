@@ -3,8 +3,8 @@
 
     References/venv/bin/python -I -B tools/tia/pins.py
 
-copies RosettaSciIO's public .ser test files (`rsciio/tests/data/tia/old` and `new`, GPL-3.0-or-later) into
-Tests/FormatoTIATests/Fixtures/public/ and writes Tests/FormatoTIATests/Fixtures/tia-pins.json: for every file and for
+copies RosettaSciIO's public .ser and .emi test files (`rsciio/tests/data/tia/old` and `new`, GPL-3.0-or-later) into
+Tests/FormatoTIATests/Fixtures/public/ (the .emi files are pinned by tools/tia/emi-pins.py) and writes Tests/FormatoTIATests/Fixtures/tia-pins.json: for every file and for
 `only_valid_data` True and False, `rsciio.tia._api.ser_reader(path, objects=None, only_valid_data=...)`: its exception, or the
 data (dtype, shape, sha256 of the little-endian C-order bytes) and the axes (name, size, units, navigate, and scale and offset
 as float64 bit patterns). The header facts (series version, data and tag type, total and valid elements, dimensions) are
@@ -86,11 +86,13 @@ def main():
     for era in ("old", "new"):
         os.makedirs(os.path.join(public, era))
         for name in sorted(os.listdir(os.path.join(SRC, era))):
-            if not name.endswith(".ser"):
+            if not name.endswith((".ser", ".emi")):
                 continue
             src = os.path.join(SRC, era, name)
             dst = os.path.join(public, era, name)
             shutil.copyfile(src, dst)
+            if name.endswith(".emi"):  # pinned by tools/tia/emi-pins.py
+                continue
             key = f"{era}/{name}"
             pins["files"][key] = {"sha256": hashlib.sha256(open(src, "rb").read()).hexdigest(), "header": header(src),
                                   "valid_only": read(dst, True), "all": read(dst, False)}

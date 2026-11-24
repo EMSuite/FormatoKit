@@ -211,6 +211,9 @@ do {
     let signal = try TIAReader.read(url: ser, onlyValidData: true)
     check(header.validElements == 5 && !header.isSpectrum && header.dimensions.first?.size == 5
           && signal.array.shape == [5, 64, 64], "TIAReader.header, TIAReader.read")
+    let emi = tests.appendingPathComponent("FormatoTIATests/Fixtures/public/old/64x64_diffraction_acquire.emi")
+    let viaEMI = try TIAReader.readEMI(url: emi, onlyValidData: true)
+    check(viaEMI.count == 1 && viaEMI[0].axes.map(\.units) == ["1 / nm", "1 / nm"], "TIAReader.readEMI")
 } catch { check(false, "FormatoTIA: \(error)") }
 do {
     let dir = FileManager.default.temporaryDirectory.appendingPathComponent("formato-consumer-4d-\(UUID().uuidString)")

@@ -1,6 +1,6 @@
 # ``FormatoTIA``
 
-FEI / Thermo Fisher TIA series files (`.ser`), read as RosettaSciIO reads a `.ser` on its own.
+FEI / Thermo Fisher TIA series files (`.ser`) and their `.emi`, read as RosettaSciIO reads them.
 
 ## Overview
 
@@ -10,7 +10,10 @@ with RosettaSciIO 049e7d70's shape, axes, units and values, byte for byte; ``TIA
 header alone.
 
 Without its `.emi`, an image's units are taken as metres (shown as nm), as RosettaSciIO does; a diffraction pattern's
-reciprocal units need the `.emi`.
+reciprocal units need the `.emi`. ``TIAReader/readEMI(url:onlyValidData:)`` reads an `.emi` with every `<name>_<digit>.ser`
+beside it, one signal each, with the units the `.emi`'s mode implies (a diffraction pattern in `1 / nm`), the acquisition
+date and time, and the microscope metadata HyperSpy 2.5.0 maps from it (beam energy, mode, camera length, magnification,
+camera, stage, user).
 
 ```swift
 import FormatoTIA
