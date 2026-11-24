@@ -1,4 +1,4 @@
-# Status: FormatoKit 0.20.0 <!-- x-release-please-version -->
+# Status: FormatoKit 0.20.1 <!-- x-release-please-version -->
 
 FormatoKit 0.20.0 (2026-11-24), against RosettaSciIO 0.14.0 (38 plugins on disk: 2 present, 7 partial, 29 missing, `docs/parity.md`). Live: Gatan DM3/DM4 (scan pixel size on the spectrum images, a scan-shaped rank-3 object read as 4D, the camera pixel pitch), TIFF
 and tifffile's shaped series (0.11.0; the Zeiss SEM, TVIPS and JEOL SightX pixel sizes and the GMS pixel pitch since 0.12.0, a series the reader cannot place refused by name), MRC, Merlin MIB (pinned byte for byte, including the app convention, which also reads a header without or against its detector shape, and a multi-file save as one scan), EMPAD, MSA/EMSA, Velox EMD (images, spectrum images with live and real time, the optics and `Sample.elements`, EELS spectrum images with beam energy and angles, single spectra with their elements, metadata groups and segment times,

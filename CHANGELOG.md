@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.20.1](https://github.com/EMSuite/FormatoKit/compare/0.20.0...0.20.1) (2026-11-24)
+
+
+### Bug Fixes
+
+* a TIA .ser whose shape holds more elements than the series is refused, and a slab's byte count cannot overflow ([#165](https://github.com/EMSuite/FormatoKit/issues/165)) ([3b4be72](https://github.com/EMSuite/FormatoKit/commit/3b4be7237b0cb9fe2b90fd3667d4c79476a0ba55))
+* an .emi finds its .ser files by name, not by listing the folder a sandboxed app may not list ([#166](https://github.com/EMSuite/FormatoKit/issues/166)) ([13ebe7c](https://github.com/EMSuite/FormatoKit/commit/13ebe7cedc6115d0093314cdf240e87be7d57616))
+* an .emi whose folder cannot be listed still finds its .ser files, and the refusal names them ([#164](https://github.com/EMSuite/FormatoKit/issues/164)) ([43bf651](https://github.com/EMSuite/FormatoKit/commit/43bf651e69327a63624217e21c8d688fd3dbfac1))
+
 ## [0.20.0](https://github.com/EMSuite/FormatoKit/compare/0.19.0...0.20.0) (2026-11-24)
 
 
