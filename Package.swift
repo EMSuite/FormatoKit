@@ -74,11 +74,12 @@ let package = Package(
         .target(name: "FormatoTIA", dependencies: ["FormatoCore"], swiftSettings: settings),
         // HyperSpy's .hspy layout over FormatoHDF5's slab writer and reader; no numerics.
         .target(name: "FormatoHSPY", dependencies: ["FormatoCore", "FormatoHDF5"], swiftSettings: settings),
-        .target(name: "Formato", dependencies: ["FormatoCore", "FormatoDM", "FormatoEMD", "FormatoHSPY", "FormatoMRC", "FormatoMSA", "FormatoTIFF"],
+        .target(name: "Formato", dependencies: ["FormatoCore", "FormatoDM", "FormatoEMD", "FormatoHSPY", "FormatoMRC", "FormatoMSA", "FormatoTIA",
+                                               "FormatoTIFF"],
                 swiftSettings: settings),
         .target(name: "FormatoPeek",
-                dependencies: ["FormatoCore", "FormatoDM", "FormatoEMD", "FormatoHDF5", "FormatoHSPY", "FormatoMRC", "FormatoMSA", "FormatoTIFF",
-                               "Formato"],
+                dependencies: ["FormatoCore", "FormatoDM", "FormatoEMD", "FormatoHDF5", "FormatoHSPY", "FormatoMRC", "FormatoMSA", "FormatoTIA",
+                               "FormatoTIFF", "Formato"],
                 swiftSettings: settings),
         // Examples, not products. `swift run formato-peek <file>`: one decimated frame and the header facts.
         .executableTarget(name: "formato-peek", dependencies: ["FormatoPeek"], path: "Examples/formato-peek", swiftSettings: settings),
@@ -125,9 +126,9 @@ let package = Package(
         // the reader against RosettaSciIO's reading of HyperSpy's own files (pin H4, tools/hspy-reader).
         .testTarget(name: "FormatoHSPYTests", dependencies: ["FormatoHSPY", "FormatoHDF5", "FormatoCore"], exclude: ["Fixtures"],
                     swiftSettings: settings),
-        .testTarget(name: "FormatoPeekTests", dependencies: ["FormatoPeek", "FormatoCore", "FormatoHDF5", "FormatoHSPY", "FormatoKitTestSupport"],
+        .testTarget(name: "FormatoPeekTests", dependencies: ["FormatoPeek", "FormatoCore", "FormatoHDF5", "FormatoHSPY", "FormatoTIA", "FormatoKitTestSupport"],
                     swiftSettings: settings),
-        .testTarget(name: "FormatoLoaderTests", dependencies: ["Formato", "FormatoCore", "FormatoHSPY"], swiftSettings: settings),
+        .testTarget(name: "FormatoLoaderTests", dependencies: ["Formato", "FormatoCore", "FormatoHSPY", "FormatoTIA"], swiftSettings: settings),
         // The comparisons with the pinned RosettaSciIO, Pint and tifffile values and the inherited golden baseline, byte for byte
         // (`swift test -c release --parallel --skip FormatoKitParityTests` leaves them out). Fixtures stay in the old test folders.
         .testTarget(name: "FormatoKitParityTests",

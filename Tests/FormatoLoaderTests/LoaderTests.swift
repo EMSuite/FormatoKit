@@ -2,6 +2,7 @@ import Testing
 import Foundation
 import FormatoCore
 import FormatoHSPY
+import FormatoTIA
 import Formato
 
 private let tests = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
@@ -74,4 +75,26 @@ private func path(_ relative: String) -> String { tests.appendingPathComponent(r
     #expect(throws: HSPYError.notHyperSpyFile("refused-not-hyperspy.hspy")) {
         _ = try FormatoLoader.load(path: path(folder + "refused-not-hyperspy.hspy"))
     }
+}
+
+@Test func sniffsAndLoadsTIAFiles() throws {
+    let folder = "FormatoTIATests/Fixtures/public/old/"
+    #expect(FormatoLoader.sniff(path: path(folder + "64x64_diffraction_acquire_1.ser")) == .tia)
+    #expect(FormatoLoader.sniff(path: path(folder + "64x64_diffraction_acquire.emi")) == .tia)
+    // A .ser is its series header's "II" and 0x0197; other bytes under .ser are unknown.
+    let dir = FileManager.default.temporaryDirectory.appendingPathComponent("loader-tia-\(UUID().uuidString)")
+    try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+    defer { try? FileManager.default.removeItem(at: dir) }
+    let fake = dir.appendingPathComponent("fake_1.ser")
+    try FileManager.default.copyItem(at: URL(fileURLWithPath: path("FormatoMSATests/Fixtures/public/example1.msa")), to: fake)
+    #expect(FormatoLoader.sniff(path: fake.path) == .unknown)
+    // A .ser loads as RosettaSciIO reads it alone (metres); its .emi loads every series beside it with the .emi's units.
+    let ser = try FormatoLoader.load(path: path(folder + "64x64_diffraction_acquire_1.ser"))
+    #expect(try ser.count == 1 && ser[0].get().axes.map(\.units) == ["nm", "nm"])
+    let emi = try FormatoLoader.load(path: path(folder + "64x64_diffraction_acquire.emi"))
+    #expect(try emi.count == 1 && emi[0].get().axes.map(\.units) == ["1 / nm", "1 / nm"])
+    let two = try FormatoLoader.load(path: path(folder + "16x16_STEM_BF_DF_acquire.emi"))
+    let direct = try TIAReader.readEMI(url: URL(fileURLWithPath: path(folder + "16x16_STEM_BF_DF_acquire.emi")))
+    #expect(try two.map { try $0.get().array.shape } == direct.map(\.array.shape))
+    #expect(two.count == 2)
 }

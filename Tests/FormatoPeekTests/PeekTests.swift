@@ -19,6 +19,7 @@ import FormatoKitTestSupport
 import FormatoMRC
 import FormatoMSA
 import FormatoPeek
+import FormatoTIA
 import FormatoTIFF
 
 private let tests = FixtureDirs.tests
@@ -256,5 +257,43 @@ private func temporary(_ name: String, _ data: Data) throws -> URL {
         #expect(throws: HSPYError.notHyperSpyFile("refused-not-hyperspy.hspy")) {
             _ = try Peek.summary(url: fixture(folder + "refused-not-hyperspy.hspy"))
         }
+    }
+
+    @Test func aTIADiffractionPatternTakesItsEMIMetadata() throws {
+        let folder = "FormatoTIATests/Fixtures/public/old/"
+        let emi = fixture(folder + "64x64_diffraction_acquire.emi")
+        let signal = try #require(try TIAReader.readEMI(url: emi).first)
+        for url in [emi, fixture(folder + "64x64_diffraction_acquire_1.ser")] {
+            try check(try Peek.thumbnailFrame(url: url, maxPixels: 16), against: signal.array, maxPixels: 16, kind: .diffractionPattern)
+            let s = try Peek.summary(url: url)
+            #expect(s.format == "TIA" && s.width == 64 && s.height == 64)
+            #expect(s.pixelUnit == "1 / nm" && s.pixelSize == signal.axes[1].scale)
+            #expect(s.cameraLengthMM == 490 && s.highTensionKV == 200)
+            #expect(s.instrument == "Tecnai 200 kV D2267 SuperTwin" && s.detector == "WA-Orius")
+            #expect(s.acquired == "2016-02-21 17:51:15")
+            #expect(s.notes.isEmpty)
+        }
+    }
+
+    @Test func aTIASeriesAloneSaysSoAndAMapOfFramesKeepsItsScan() throws {
+        let folder = "FormatoTIATests/Fixtures/public/"
+        // Copied away from its .emi: read alone, in metres, with a note.
+        let alone = try temporary("lonely_1.ser", Data(contentsOf: fixture(folder + "old/64x64_diffraction_acquire_1.ser")))
+        let s = try Peek.summary(url: alone)
+        #expect(s.pixelUnit == "nm" && s.instrument == nil && s.notes.count == 1)
+        #expect(try Peek.thumbnailFrame(url: alone, maxPixels: 16).kind == .image)
+        // A STEM map of camera frames (5 x 5 scan, 256 x 256 patterns): the centre pattern, and the scan in the summary.
+        let map = fixture(folder + "new/16x16-diffraction_imagel_5x5x256x256_EDS_2.ser")
+        let cube = try #require(try TIAReader.readEMI(url: fixture(folder + "new/16x16-diffraction_imagel_5x5x256x256_EDS.emi")).last)
+        try check(try Peek.thumbnailFrame(url: map, maxPixels: 64), against: cube.array, maxPixels: 64, kind: .diffractionPattern)
+        let m = try Peek.summary(url: map)
+        #expect(m.scanWidth == 5 && m.scanHeight == 5 && m.width == 256 && m.height == 256)
+        #expect(m.detectorPixelUnit == "1 / nm" && m.pixelUnit == "nm")
+        // The .emi previews its series of two signal axes (the patterns), not its spectrum image.
+        let e = try Peek.summary(url: fixture(folder + "new/16x16-diffraction_imagel_5x5x256x256_EDS.emi"))
+        #expect(e.width == 256 && e.notes.count == 1)
+        // A spectrum series is a spectrum.
+        let spectrum = try Peek.thumbnailFrame(url: fixture(folder + "old/16x16-line_profile_horizontal_10x1024_1.ser"), maxPixels: 64)
+        #expect(spectrum.kind == .spectrum && spectrum.height == 1 && spectrum.sourceWidth == 1024)
     }
 }
