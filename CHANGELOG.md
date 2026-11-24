@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.20.0](https://github.com/EMSuite/FormatoKit/compare/0.19.0...0.20.0) (2026-11-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* FormatoLoader and Peek know TIA .ser and .emi files ([#159](https://github.com/EMSuite/FormatoKit/issues/159))
+
+### Features
+
+* a .emi gives its .ser files their metadata ([#158](https://github.com/EMSuite/FormatoKit/issues/158)) ([89a796f](https://github.com/EMSuite/FormatoKit/commit/89a796f0e8f483435518ac0e966ac0a490547296))
+* FormatoLoader and Peek know TIA .ser and .emi files ([#159](https://github.com/EMSuite/FormatoKit/issues/159)) ([c431ee8](https://github.com/EMSuite/FormatoKit/commit/c431ee87e33578626659f185590d55e789accdd9))
+* FormatoTIA reads .ser files ([#154](https://github.com/EMSuite/FormatoKit/issues/154)) ([b07c5ff](https://github.com/EMSuite/FormatoKit/commit/b07c5ff8f2be24701eacd7cdbc3c35905c0bb906)), closes [#153](https://github.com/EMSuite/FormatoKit/issues/153)
+
 ## [0.19.0](https://github.com/EMSuite/FormatoKit/compare/0.18.1...0.19.0) (2026-11-23)
 
 
