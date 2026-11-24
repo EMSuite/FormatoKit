@@ -116,6 +116,22 @@ struct TIAEMITests {
         #expect(viaEMI.metadata["Acquisition_instrument.TEM.camera_length"]?.units == "mm")
     }
 
+    /// A folder that cannot be listed (what an App Sandbox app sees when it was given the .emi alone, here a folder without
+    /// read permission): the .ser files are still found by name (#163). It used to throw `cannotOpen` on the folder.
+    @Test func aFolderThatCannotBeListedStillGivesItsSeries() throws {
+        let dir = try scratch()
+        defer {
+            try? FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: dir.path)
+            try? FileManager.default.removeItem(at: dir)
+        }
+        let ser = try Data(contentsOf: publicURL("old/64x64_TEM_images_acquire_1.ser"))
+        try emiBytes([experimentalDescription([("User", "first", "")])]).write(to: dir.appendingPathComponent("p.emi"))
+        try ser.write(to: dir.appendingPathComponent("p_1.ser"))
+        try FileManager.default.setAttributes([.posixPermissions: 0o300], ofItemAtPath: dir.path)   // enter and write, not list
+        let signals = try TIAReader.readEMI(url: dir.appendingPathComponent("p.emi"))
+        #expect(signals.map { $0.metadata["General.original_filename"]?.value.text } == ["p_1.ser"])
+    }
+
     /// Planted: `_0.ser` takes the last document (Python's index −1); `_2.ser` the second; units and dates come from the first.
     @Test func eachSeriesTakesItsDocument() throws {
         let dir = try scratch()
