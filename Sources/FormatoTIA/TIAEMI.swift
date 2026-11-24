@@ -73,19 +73,30 @@ extension TIAReader {
         return signals
     }
 
-    /// The files `<name>_<digit>.ser` beside the .emi at `url`, by digit, as `glob(name + "_[0-9].ser")` sorted.
+    /// The files `<name>_<digit>.ser` beside the .emi at `url`, by digit, as `glob(name + "_[0-9].ser")` sorted. Each of the ten
+    /// names is probed by opening it, never by listing the folder: an open panel or a drop grants a sandboxed app the .emi
+    /// alone, and the folder's listing (and `fileExists`, which answers false for a file the app cannot reach) would hide the
+    /// .ser files beside it. A name that is there but cannot be opened refuses the .emi with the files named (#162).
     static func seriesFiles(beside url: URL) throws -> [(digit: Int, url: URL)] {
         let directory = url.deletingLastPathComponent()
         let stem = url.deletingPathExtension().lastPathComponent
-        let names: [String]
-        do { names = try FileManager.default.contentsOfDirectory(atPath: directory.path) } catch {
-            throw FormatoReadError.cannotOpen(formatoDisplayFileName(directory.path), error.localizedDescription)
+        var found: [(digit: Int, url: URL)] = []
+        var unreadable: [String] = []
+        for d in 0...9 {
+            let candidate = directory.appendingPathComponent("\(stem)_\(d).ser")
+            let fd = open(candidate.path, O_RDONLY | O_NONBLOCK)
+            if fd >= 0 {
+                close(fd)
+                found.append((d, candidate))
+            } else if errno != ENOENT {
+                unreadable.append(candidate.lastPathComponent)
+            }
         }
-        let present = Set(names)
-        return (0...9).compactMap { d in
-            let name = "\(stem)_\(d).ser"
-            return present.contains(name) ? (d, directory.appendingPathComponent(name)) : nil
+        guard unreadable.isEmpty else {
+            throw TIAError.emi("its series \(unreadable.joined(separator: ", ")) beside it cannot be opened; "
+                               + "give access to the folder that holds the .emi and its .ser files")
         }
+        return found
     }
 }
 
