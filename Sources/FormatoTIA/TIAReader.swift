@@ -161,6 +161,12 @@ public nonisolated enum TIAReader {
             }
             elements = total / perElement
         }
+        // The shape is the header's word alone (filled elements never touch the file), so it is held to the elements the file
+        // says it has, which its offset array ties to the file's size: a small file cannot declare an unbounded shape (#161).
+        // Checked before the valid-data shortening, which would otherwise replace the declared size and leave it on the axis.
+        guard elements <= h.totalElements else {
+            throw TIAError.inconsistent("a shape of \(elements) elements, the series holds \(h.totalElements)")
+        }
         if elements != stored {
             if ndim == 1, onlyValidData {
                 guard !final.isEmpty else { throw TIAError.inconsistent("no navigation dimension to shorten") }
@@ -173,11 +179,6 @@ public nonisolated enum TIAReader {
             } else if stored > elements {
                 throw TIAError.inconsistent("\(stored) valid elements, room for \(elements)")
             }
-        }
-        // The shape is the header's word alone (filled elements never touch the file), so it is held to the elements the file
-        // says it has, which its offset array ties to the file's size: a small file cannot declare an unbounded shape (#161).
-        guard elements <= h.totalElements else {
-            throw TIAError.inconsistent("a shape of \(elements) elements, the series holds \(h.totalElements)")
         }
         if axes.count != final.count {
             final = final.filter { $0 != 1 }
