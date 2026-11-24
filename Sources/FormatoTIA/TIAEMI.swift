@@ -74,21 +74,47 @@ extension TIAReader {
         return signals
     }
 
-    /// The files `<name>_<digit>.ser` beside the .emi at `url`, by digit, as `glob(name + "_[0-9].ser")` sorted. Where the folder
-    /// cannot be listed (an App Sandbox app that was given the .emi alone, or a folder without read permission), the ten names
-    /// are asked for one by one instead, so files the caller can reach are still found (#163); none found is the caller's
-    /// `TIAError.emi`, which names them.
+    /// The files `<name>_<digit>.ser` beside the .emi at `url`, by digit, as `glob(name + "_[0-9].ser")` sorted. Each of the ten
+    /// names is probed by opening it, never by listing the folder: an open panel or a drop grants a sandboxed app the .emi
+    /// alone, and the folder's listing (and `fileExists`, which answers false for a file the app cannot reach) would hide the
+    /// .ser files beside it. A name that is there but cannot be opened refuses the .emi with the files named (#162). On a
+    /// case-insensitive volume a name opens in any case, so the name the volume stores is read back from the open file and kept
+    /// only when its case matches, as glob's.
     static func seriesFiles(beside url: URL) throws -> [(digit: Int, url: URL)] {
         let directory = url.deletingLastPathComponent()
         let stem = url.deletingPathExtension().lastPathComponent
-        // try? OK: a folder that cannot be listed is the case the probe below is for.
-        let listed = (try? FileManager.default.contentsOfDirectory(atPath: directory.path)).map { Set($0) }
-        return (0...9).compactMap { d in
-            let name = "\(stem)_\(d).ser"
-            let file = directory.appendingPathComponent(name)
-            let present = listed?.contains(name) ?? FileManager.default.fileExists(atPath: file.path)
-            return present ? (d, file) : nil
+        var found: [(digit: Int, url: URL)] = []
+        var unreadable: [String] = []
+        for d in 0...9 {
+            let candidate = directory.appendingPathComponent("\(stem)_\(d).ser")
+            let fd = open(candidate.path, O_RDONLY | O_NONBLOCK)
+            if fd >= 0 {
+                // A case-insensitive volume (APFS's default) opens "name_1.SER" for "name_1.ser"; glob matches the case.
+                let exact = onDiskName(of: fd).map { $0 == candidate.lastPathComponent } ?? true
+                close(fd)
+                if exact { found.append((d, candidate)) }
+            } else if errno != ENOENT {
+                unreadable.append(candidate.lastPathComponent)
+            }
         }
+        guard unreadable.isEmpty else {
+            throw TIAError.emi("its series \(unreadable.joined(separator: ", ")) beside it cannot be opened; "
+                               + "give access to the folder that holds the .emi and its .ser files")
+        }
+        return found
+    }
+
+    /// The name of the file open at `fd` as the volume stores it (its case included), read from the descriptor, so the folder is
+    /// never listed; nil where the system cannot say.
+    private static func onDiskName(of fd: Int32) -> String? {
+        #if canImport(Darwin)
+        var buffer = [CChar](repeating: 0, count: Int(MAXPATHLEN))
+        guard fcntl(fd, F_GETPATH, &buffer) == 0 else { return nil }
+        let path = buffer.withUnsafeBufferPointer { String(cString: $0.baseAddress!) }
+        return (path as NSString).lastPathComponent
+        #else
+        return nil
+        #endif
     }
 }
 
