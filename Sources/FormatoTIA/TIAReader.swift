@@ -161,6 +161,12 @@ public nonisolated enum TIAReader {
             }
             elements = total / perElement
         }
+        // The shape is the header's word alone (filled elements never touch the file), so it is held to the elements the file
+        // says it has, which its offset array ties to the file's size: a small file cannot declare an unbounded shape (#161).
+        // Checked before the valid-data shortening, which would otherwise replace the declared size and leave it on the axis.
+        guard elements <= h.totalElements else {
+            throw TIAError.inconsistent("a shape of \(elements) elements, the series holds \(h.totalElements)")
+        }
         if elements != stored {
             if ndim == 1, onlyValidData {
                 guard !final.isEmpty else { throw TIAError.inconsistent("no navigation dimension to shorten") }
@@ -370,7 +376,8 @@ nonisolated struct TIAElementArray: FormatoLazyArray {
     func read(start: [Int], count: [Int]) throws -> FormatoArray {
         try FormatoArray.validateSlab(start: start, count: count, shape: shape)
         let size = dataType.byteSize
-        let total = try FormatoArray.elementCount(count) * size
+        let (total, overflow) = try FormatoArray.elementCount(count).multipliedReportingOverflow(by: size)
+        guard !overflow else { throw TIAError.inconsistent("a read of \(count) values does not fit in memory") }
         let fd = open(path, O_RDONLY)
         guard fd >= 0 else { throw FormatoReadError.cannotOpen(formatoDisplayFileName(path), String(cString: strerror(errno))) }
         defer { close(fd) }
