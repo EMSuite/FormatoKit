@@ -41,7 +41,8 @@ extension TIAReader {
         let objects = try EMIObjects.ranges(in: data)
         let series = try seriesFiles(beside: url)
         guard !series.isEmpty else {
-            throw TIAError.emi("no \(url.deletingPathExtension().lastPathComponent)_<digit>.ser file beside it")
+            throw TIAError.emi("no \(url.deletingPathExtension().lastPathComponent)_<digit>.ser file beside it can be read: the data is in "
+                + "those files, and an app that was given the .emi alone needs their folder too")
         }
         guard !objects.isEmpty else { throw TIAError.emi("no <ObjectInfo> document") }
         let first = try EMIObjectInfo(data[objects[0]])
