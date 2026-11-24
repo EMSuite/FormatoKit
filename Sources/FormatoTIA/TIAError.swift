@@ -18,6 +18,9 @@ public nonisolated enum TIAError: Error, Equatable, LocalizedError {
     case truncated(String)
     /// Elements and shape that do not fit together (more stored values than the dimensions hold, say).
     case inconsistent(String)
+    /// An .emi file whose metadata cannot be read: no `<ObjectInfo>` document, one that is not UTF-8 or breaks a bound of
+    /// `GuardedXML`, or no `<name>_<digit>.ser` file beside it.
+    case emi(String)
 
     public var errorDescription: String? {
         switch self {
@@ -28,6 +31,7 @@ public nonisolated enum TIAError: Error, Equatable, LocalizedError {
         case .dataType(let code): "Its data type code \(code) is not one of TIA's."
         case .truncated(let what): "The file ends before its \(what) does."
         case .inconsistent(let what): "Its elements do not fit its dimensions (\(what))."
+        case .emi(let what): "The .emi file cannot be read (\(what))."
         }
     }
 }

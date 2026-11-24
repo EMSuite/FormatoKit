@@ -58,7 +58,7 @@ names it. A regenerated fixture that changes is its own commit, with the reason 
 | `hdf5-write` | `generate.py` | HDF5 root-attribute fixtures and h5py pins |
 | `mib` | `generate.py`, `app-scaffold.swift` | Quantum Detectors MIB frames and refusals |
 | `msa` | `pins.py` | RosettaSciIO's MSA reading of its public test files |
-| `tia` | `pins.py` | RosettaSciIO's reading of its public TIA .ser test files (copies them; `RSCIIO_CLONE` names another clone) |
+| `tia` | `pins.py`, `emi-pins.py` | RosettaSciIO's reading of its public TIA .ser test files (`pins.py` copies them and the .emi files; `RSCIIO_CLONE` names another clone); HyperSpy 2.5.0 loading the .emi files (`emi-pins.py`, run with `References/hspy-venv`) |
 | `png` | `generate.py`, `check.py`, `oracle.sh` | the PNG input, the check of the Swift-written PNGs, the first consumer's text-chunk insertion |
 | `shaped-tiff` | `pins.py` | tifffile-written TIFFs with the shaped description and RosettaSciIO's reading |
 | `tiff-pins` | `make_planted.py`, `pins.py`, `owner-check.sh` | the planted TIFFs and RosettaSciIO's and tifffile's reading of every public and planted TIFF (`tiff-pins.json`); see its README |

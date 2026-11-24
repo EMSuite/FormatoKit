@@ -8,7 +8,7 @@
 //  Shape and axes, as `ser_reader`: one navigation axis per header dimension (for an image series, a dimension of size 1 is
 //  dropped; spatial navigation axes named y then x, in F order when the first two elements share a y position), then the
 //  signal axes: Energy in eV for a spectrum, y and x for an image (offset = calibration offset − element × delta, units
-//  metres without the .emi). Metres become nm by the scale only and 1/metres "1 / nm" (the offsets stay as stored: RosettaSciIO's
+//  metres without the .emi; with it, TIAEMI.swift). Metres become nm by the scale only and 1/metres "1 / nm" (the offsets stay as stored: RosettaSciIO's
 //  behaviour, kept). A 1D series whose valid count is below its total keeps only the valid elements (`onlyValidData`), and
 //  a single valid element drops the navigation axis; a map stopped early is filled with NaN (floats) or 0 after the last
 //  valid element. Each image is flipped vertically (`dc[..., ::-1, :]`).
@@ -64,6 +64,12 @@ public nonisolated enum TIAReader {
     ///   valid elements; false keeps the requested size, filled after the last valid element.
     /// - Throws: ``TIAError``, `FormatoReadError.unsupportedDataType` for complex values, `FormatoReadError.cannotOpen`.
     public static func read(url: URL, onlyValidData: Bool = true) throws -> FormatoLazySignal {
+        try read(url: url, onlyValidData: onlyValidData, imageUnits: { _ in "meters" })
+    }
+
+    /// `ser_reader` with the units of an image's signal axes chosen from its header (`_guess_units_from_mode` when an .emi is
+    /// read; "meters" otherwise).
+    static func read(url: URL, onlyValidData: Bool, imageUnits: (TIASeriesHeader) -> String) throws -> FormatoLazySignal {
         let file = try SERFile(url: url)
         let h = file.header
         let name = formatoDisplayFileName(url.path)
@@ -126,9 +132,10 @@ public nonisolated enum TIAReader {
         } else {
             let offsetY = element.offsetY - Double(element.elementY) * element.deltaY
             let offsetX = element.offsetX - Double(element.elementX) * element.deltaX
-            axes.append(FormatoAxis(name: "y", size: element.rows, scale: element.deltaY, offset: offsetY, units: "meters", navigate: false))
+            let units = imageUnits(h)
+            axes.append(FormatoAxis(name: "y", size: element.rows, scale: element.deltaY, offset: offsetY, units: units, navigate: false))
             shape.append(element.rows)
-            axes.append(FormatoAxis(name: "x", size: element.columns, scale: element.deltaX, offset: offsetX, units: "meters",
+            axes.append(FormatoAxis(name: "x", size: element.columns, scale: element.deltaX, offset: offsetX, units: units,
                                     navigate: false))
             shape.append(element.columns)
         }
