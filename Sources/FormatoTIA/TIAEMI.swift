@@ -41,7 +41,8 @@ extension TIAReader {
         let objects = try EMIObjects.ranges(in: data)
         let series = try seriesFiles(beside: url)
         guard !series.isEmpty else {
-            throw TIAError.emi("no \(url.deletingPathExtension().lastPathComponent)_<digit>.ser file beside it")
+            throw TIAError.emi("no \(url.deletingPathExtension().lastPathComponent)_<digit>.ser file beside it can be read: the data is in "
+                + "those files, and an app that was given the .emi alone needs their folder too")
         }
         guard !objects.isEmpty else { throw TIAError.emi("no <ObjectInfo> document") }
         let first = try EMIObjectInfo(data[objects[0]])
@@ -73,18 +74,20 @@ extension TIAReader {
         return signals
     }
 
-    /// The files `<name>_<digit>.ser` beside the .emi at `url`, by digit, as `glob(name + "_[0-9].ser")` sorted.
+    /// The files `<name>_<digit>.ser` beside the .emi at `url`, by digit, as `glob(name + "_[0-9].ser")` sorted. Where the folder
+    /// cannot be listed (an App Sandbox app that was given the .emi alone, or a folder without read permission), the ten names
+    /// are asked for one by one instead, so files the caller can reach are still found (#163); none found is the caller's
+    /// `TIAError.emi`, which names them.
     static func seriesFiles(beside url: URL) throws -> [(digit: Int, url: URL)] {
         let directory = url.deletingLastPathComponent()
         let stem = url.deletingPathExtension().lastPathComponent
-        let names: [String]
-        do { names = try FileManager.default.contentsOfDirectory(atPath: directory.path) } catch {
-            throw FormatoReadError.cannotOpen(formatoDisplayFileName(directory.path), error.localizedDescription)
-        }
-        let present = Set(names)
+        // try? OK: a folder that cannot be listed is the case the probe below is for.
+        let listed = (try? FileManager.default.contentsOfDirectory(atPath: directory.path)).map { Set($0) }
         return (0...9).compactMap { d in
             let name = "\(stem)_\(d).ser"
-            return present.contains(name) ? (d, directory.appendingPathComponent(name)) : nil
+            let file = directory.appendingPathComponent(name)
+            let present = listed?.contains(name) ?? FileManager.default.fileExists(atPath: file.path)
+            return present ? (d, file) : nil
         }
     }
 }
