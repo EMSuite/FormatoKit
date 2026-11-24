@@ -76,7 +76,9 @@ extension TIAReader {
     /// The files `<name>_<digit>.ser` beside the .emi at `url`, by digit, as `glob(name + "_[0-9].ser")` sorted. Each of the ten
     /// names is probed by opening it, never by listing the folder: an open panel or a drop grants a sandboxed app the .emi
     /// alone, and the folder's listing (and `fileExists`, which answers false for a file the app cannot reach) would hide the
-    /// .ser files beside it. A name that is there but cannot be opened refuses the .emi with the files named (#162).
+    /// .ser files beside it. A name that is there but cannot be opened refuses the .emi with the files named (#162). On a
+    /// case-insensitive volume a name opens in any case, so the name the volume stores is read back from the open file and kept
+    /// only when its case matches, as glob's.
     static func seriesFiles(beside url: URL) throws -> [(digit: Int, url: URL)] {
         let directory = url.deletingLastPathComponent()
         let stem = url.deletingPathExtension().lastPathComponent
@@ -86,8 +88,10 @@ extension TIAReader {
             let candidate = directory.appendingPathComponent("\(stem)_\(d).ser")
             let fd = open(candidate.path, O_RDONLY | O_NONBLOCK)
             if fd >= 0 {
+                // A case-insensitive volume (APFS's default) opens "name_1.SER" for "name_1.ser"; glob matches the case.
+                let exact = onDiskName(of: fd).map { $0 == candidate.lastPathComponent } ?? true
                 close(fd)
-                found.append((d, candidate))
+                if exact { found.append((d, candidate)) }
             } else if errno != ENOENT {
                 unreadable.append(candidate.lastPathComponent)
             }
@@ -97,6 +101,19 @@ extension TIAReader {
                                + "give access to the folder that holds the .emi and its .ser files")
         }
         return found
+    }
+
+    /// The name of the file open at `fd` as the volume stores it (its case included), read from the descriptor, so the folder is
+    /// never listed; nil where the system cannot say.
+    private static func onDiskName(of fd: Int32) -> String? {
+        #if canImport(Darwin)
+        var buffer = [CChar](repeating: 0, count: Int(MAXPATHLEN))
+        guard fcntl(fd, F_GETPATH, &buffer) == 0 else { return nil }
+        let path = buffer.withUnsafeBufferPointer { String(cString: $0.baseAddress!) }
+        return (path as NSString).lastPathComponent
+        #else
+        return nil
+        #endif
     }
 }
 
