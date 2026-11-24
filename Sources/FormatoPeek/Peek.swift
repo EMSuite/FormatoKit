@@ -13,6 +13,7 @@ import FormatoCore
 import FormatoDM
 import FormatoEMD
 import FormatoHDF5
+import FormatoHSPY
 import FormatoMRC
 import FormatoMSA
 import FormatoTIFF
@@ -136,6 +137,15 @@ public nonisolated enum Peek {
                 return try frame(of: array, limit: limit, kind: .virtualImage, source: image)
             }
             return try frame(of: found.cube, limit: limit, kind: .diffractionPattern, source: found.cube.datasetPath)
+        case .hyperSpy:
+            let found = try hyperSpySignal(url)
+            let source = "/Experiments/\(found.name)/data"
+            if isSpectrum(found.signal) {
+                let centre = CentreSpectrum(base: found.signal.array)
+                return try spectrum(centre, limit: limit, source: source, enteredAt: centre.lead)
+            }
+            let kind: Kind = found.signal.signalType == "electron_diffraction" ? .diffractionPattern : .image
+            return try frame(of: found.signal.array, limit: limit, kind: kind, source: source)
         case .empad, .merlinMIB:
             throw PeekError.unsupported("Raw 4D files (EMPAD, MIB) have no stored image to peek at.")
         case .unknown:
@@ -198,6 +208,26 @@ public nonisolated enum Peek {
                 s.width = cube.shape[1]; s.height = cube.shape[0]
                 s.notes.append("a stored virtual image is previewed")
             }
+            return s
+        case .hyperSpy:
+            let found = try hyperSpySignal(url)
+            let signal = found.signal, shape = signal.array.shape
+            var s = base("HyperSpy", signal)
+            if isSpectrum(signal) {
+                s.height = 1
+            } else if shape.count == 4, signal.axes[0].navigate, signal.axes[1].navigate {
+                s.scanWidth = shape[1]; s.scanHeight = shape[0]
+                s.pixelSize = signal.axes[1].scale; s.pixelUnit = signal.axes[1].units
+                s.detectorPixelSize = signal.axes[3].scale; s.detectorPixelUnit = signal.axes[3].units
+            }
+            let metadata = signal.metadata
+            s.highTensionKV = s.highTensionKV ?? metadata["Acquisition_instrument.SEM.beam_energy"]?.value.number
+            s.instrument = metadata["Acquisition_instrument.TEM.microscope"]?.value.text
+                ?? metadata["Acquisition_instrument.SEM.microscope"]?.value.text
+            if let date = metadata["General.date"]?.value.text {
+                s.acquired = [date, metadata["General.time"]?.value.text].compactMap { $0 }.joined(separator: " ")
+            }
+            if found.count > 1 { s.notes.append("\(found.count) signals in the file; \"\(found.name)\" is previewed") }
             return s
         case .empad, .merlinMIB:
             throw PeekError.unsupported("Raw 4D files (EMPAD, MIB) have no stored image to peek at.")
@@ -271,6 +301,25 @@ public nonisolated enum Peek {
         throw PeekError.unsupported("This HDF5 file holds no 4D datacube.")
     }
 
+    /// The signal a HyperSpy file is previewed by: the first experiment with two signal axes (an image, a pattern, a stack or
+    /// a 4D cube), else the first one read at all; a file whose every experiment is refused throws the first refusal.
+    private static func hyperSpySignal(_ url: URL) throws -> (name: String, signal: FormatoLazySignal, count: Int) {
+        let experiments = try HSPYReader.experiments(url: url)
+        let readable = experiments.filter { $0.refusal == nil }
+        func signalAxes(_ experiment: HSPYExperiment) -> Int { experiment.axes.filter { !$0.navigate }.count }
+        guard let chosen = readable.first(where: { signalAxes($0) == 2 }) ?? readable.first else {
+            if let refusal = experiments.first?.refusal { throw refusal }
+            throw PeekError.unsupported("This HyperSpy file holds no signal FormatoKit reads.")
+        }
+        return (chosen.name, try HSPYReader.read(url: url, experiment: chosen.name), experiments.count)
+    }
+
+    /// A HyperSpy signal previewed as a spectrum: one dimension, or one signal axis (a spectrum image or a line scan, entered at
+    /// the centre navigation position).
+    private static func isSpectrum(_ signal: FormatoLazySignal) -> Bool {
+        signal.array.shape.count == 1 || signal.axes.filter { !$0.navigate }.count == 1
+    }
+
     /// One frame of a lazy array of rank ≥ 2: its last two dimensions, entered at the centre of the others.
     private static func frame(of array: any FormatoLazyArray, limit: Int, kind: Kind, source: String) throws -> Frame {
         let shape = array.shape
@@ -300,7 +349,7 @@ public nonisolated enum Peek {
 
     /// A one-dimensional array as a spectrum frame: at most `limit` bins, each the largest value of its samples (NaN ignored),
     /// read in chunks so a very long spectrum costs O(limit) memory. `stride` is the samples per bin, rounded up.
-    private static func spectrum(_ array: any FormatoLazyArray, limit: Int, source: String) throws -> Frame {
+    private static func spectrum(_ array: any FormatoLazyArray, limit: Int, source: String, enteredAt: [Int] = []) throws -> Frame {
         guard array.shape.count == 1, array.shape[0] > 0 else { throw PeekError.unsupported("This is not a one-dimensional spectrum.") }
         let n = array.shape[0]
         let bins = Swift.min(n, limit)
@@ -319,7 +368,7 @@ public nonisolated enum Peek {
         }
         for b in 0..<bins where !seen[b] { out[b] = 0 }
         return Frame(width: bins, height: 1, pixels: out, sourceWidth: n, sourceHeight: 1, stride: (n + bins - 1) / bins, kind: .spectrum,
-                     enteredAt: [], source: source)
+                     enteredAt: enteredAt, source: source)
     }
 }
 
@@ -340,5 +389,20 @@ private nonisolated struct StoredPlane: FormatoLazyArray {
     func read(start: [Int], count: [Int]) throws -> FormatoArray {
         try FormatoArray.validateSlab(start: start, count: count, shape: shape)
         return try reader.readDataset(datasetPath, start: start, count: count)
+    }
+}
+
+/// The spectrum at the centre navigation position of a lazy array whose last dimension is the signal, as a one-dimensional
+/// lazy array (a HyperSpy spectrum image previewed as one spectrum).
+private nonisolated struct CentreSpectrum: FormatoLazyArray {
+    let base: any FormatoLazyArray
+    var dataType: FormatoDataType { base.dataType }
+    var shape: [Int] { [base.shape.last ?? 0] }
+    /// The centre navigation position the spectrum is read at.
+    var lead: [Int] { base.shape.dropLast().map { $0 / 2 } }
+    func read(start: [Int], count: [Int]) throws -> FormatoArray {
+        try FormatoArray.validateSlab(start: start, count: count, shape: shape)
+        let part = try base.read(start: lead + start, count: [Int](repeating: 1, count: lead.count) + count)
+        return try FormatoArray(dataType: part.dataType, shape: count, bytes: part.bytes)
     }
 }

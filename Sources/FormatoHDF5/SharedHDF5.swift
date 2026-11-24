@@ -102,6 +102,19 @@ package nonisolated struct SharedHDF5: @unchecked Sendable {
     package typealias H5LgetInfo2 = @convention(c) (hid_t, UnsafePointer<CChar>?, UnsafeMutableRawPointer?, hid_t) -> herr_t
     package typealias H5OgetInfoByName3 = @convention(c) (hid_t, UnsafePointer<CChar>?, UnsafeMutableRawPointer?, UInt32, hid_t) -> herr_t
     package let h5lgetInfo2: H5LgetInfo2?, h5ogetInfoByName3: H5OgetInfoByName3?
+    // Enumeration types read back (FormatoKit#141: the writers' tests compare a boolean attribute's type with h5py's).
+    package typealias H5TgetSuper = @convention(c) (hid_t) -> hid_t
+    package typealias H5TgetNmembers = @convention(c) (hid_t) -> Int32
+    package typealias H5TgetMemberName = @convention(c) (hid_t, UInt32) -> UnsafeMutablePointer<CChar>?
+    package typealias H5TgetMemberValue = @convention(c) (hid_t, UInt32, UnsafeMutableRawPointer?) -> herr_t
+    package typealias H5TgetOrder = @convention(c) (hid_t) -> Int32
+    package let h5tgetSuper: H5TgetSuper, h5tgetNmembers: H5TgetNmembers, h5tgetMemberName: H5TgetMemberName
+    package let h5tgetMemberValue: H5TgetMemberValue, h5tgetOrder: H5TgetOrder
+    // A text attribute's character set and a dataset's filter count, read back (FormatoKit#142: the .hspy writer's tests check
+    // that text is UTF-8 and that the data is not compressed).
+    package typealias H5TgetCset = @convention(c) (hid_t) -> Int32
+    package typealias H5PgetNfilters = @convention(c) (hid_t) -> Int32
+    package let h5tgetCset: H5TgetCset, h5pgetNfilters: H5PgetNfilters
 
     /// The standard lookup shared by the HDF5 readers and writers in this package: the `FORMATO_HDF5_PATH` override, the host
     /// app's `Frameworks/libhdf5.dylib`, the copy FormatoKit ships, then the loader's search path. Call under `HDF5Serial`.
@@ -148,13 +161,14 @@ package nonisolated struct SharedHDF5: @unchecked Sendable {
         "H5Awrite", "H5Dclose", "H5Dcreate2", "H5Dget_create_plist", "H5Dget_space", "H5Dget_type", "H5Dopen2", "H5Dread",
         "H5Dwrite", "H5Eset_auto2", "H5Fclose", "H5Fcreate", "H5Fopen", "H5Gcreate2", "H5Iget_type", "H5Ldelete", "H5Lexists",
         "H5Literate2", "H5Lvisit2", "H5Oclose", "H5Ocopy", "H5Oget_native_info", "H5Oopen", "H5P_CLS_DATASET_CREATE_ID_g",
-        "H5P_CLS_FILE_ACCESS_ID_g", "H5Pclose", "H5Pcreate", "H5Pget_chunk", "H5Pget_layout", "H5Pset_chunk",
+        "H5P_CLS_FILE_ACCESS_ID_g", "H5Pclose", "H5Pcreate", "H5Pget_chunk", "H5Pget_layout", "H5Pget_nfilters", "H5Pset_chunk",
         "H5Pset_libver_bounds", "H5Sclose", "H5Screate", "H5Screate_simple", "H5Sget_simple_extent_dims",
         "H5Sget_simple_extent_ndims", "H5Sget_simple_extent_npoints", "H5Sselect_hyperslab", "H5T_C_S1_g",
         "H5T_NATIVE_DOUBLE_g", "H5T_NATIVE_FLOAT_g", "H5T_NATIVE_INT16_g", "H5T_NATIVE_INT32_g", "H5T_NATIVE_INT64_g",
         "H5T_NATIVE_INT8_g", "H5T_NATIVE_UINT16_g", "H5T_NATIVE_UINT32_g", "H5T_NATIVE_UINT64_g", "H5T_NATIVE_UINT8_g",
-        "H5Tclose", "H5Tcopy", "H5Tcreate", "H5Tenum_create", "H5Tenum_insert", "H5Tget_class", "H5Tget_sign", "H5Tget_size",
-        "H5Tinsert", "H5Tis_variable_str", "H5Tset_cset", "H5Tset_size", "H5Tset_strpad", "H5Tvlen_create", "H5free_memory",
+        "H5Tclose", "H5Tcopy", "H5Tcreate", "H5Tenum_create", "H5Tenum_insert", "H5Tget_class", "H5Tget_cset", "H5Tget_member_name",
+        "H5Tget_member_value", "H5Tget_nmembers", "H5Tget_order", "H5Tget_sign", "H5Tget_size", "H5Tget_super", "H5Tinsert",
+        "H5Tis_variable_str", "H5Tset_cset", "H5Tset_size", "H5Tset_strpad", "H5Tvlen_create", "H5free_memory",
         "H5open", "H5get_libversion"
     ]
 
@@ -249,7 +263,14 @@ package nonisolated struct SharedHDF5: @unchecked Sendable {
             h5pgetChunk: try symbol("H5Pget_chunk", as: H5PgetChunk.self),
             datasetCreateClass: try global("H5P_CLS_DATASET_CREATE_ID_g"),
             h5lgetInfo2: dlsym(handle, "H5Lget_info2").map { unsafeBitCast($0, to: H5LgetInfo2.self) },
-            h5ogetInfoByName3: dlsym(handle, "H5Oget_info_by_name3").map { unsafeBitCast($0, to: H5OgetInfoByName3.self) })
+            h5ogetInfoByName3: dlsym(handle, "H5Oget_info_by_name3").map { unsafeBitCast($0, to: H5OgetInfoByName3.self) },
+            h5tgetSuper: try symbol("H5Tget_super", as: H5TgetSuper.self),
+            h5tgetNmembers: try symbol("H5Tget_nmembers", as: H5TgetNmembers.self),
+            h5tgetMemberName: try symbol("H5Tget_member_name", as: H5TgetMemberName.self),
+            h5tgetMemberValue: try symbol("H5Tget_member_value", as: H5TgetMemberValue.self),
+            h5tgetOrder: try symbol("H5Tget_order", as: H5TgetOrder.self),
+            h5tgetCset: try symbol("H5Tget_cset", as: H5TgetCset.self),
+            h5pgetNfilters: try symbol("H5Pget_nfilters", as: H5PgetNfilters.self))
     }
 
     // MARK: Scratch files (FormatoKit#53)

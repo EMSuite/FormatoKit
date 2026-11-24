@@ -51,6 +51,29 @@ public nonisolated enum HDF5AttributeValue: Sendable, Equatable {
     case reals([Double])
 }
 
+/// How an enumeration attribute is stored, as `HDF5Reader.enumAttributeFacts(_:of:)` reads it (for the writers' tests).
+package nonisolated struct HDF5EnumAttributeFacts: Sendable, Equatable {
+    /// The enumeration's size in bytes and the attribute's shape (`[]` for a scalar).
+    package let size: Int, shape: [Int]
+    /// The base type: its HDF5 class (0 integer), size, sign and byte order.
+    package let baseClass: Int32, baseSize: Int, baseSigned: Bool, baseLittleEndian: Bool
+    /// Every member's name and value.
+    package let members: [String: Int64]
+    /// The stored values, flattened in C order.
+    package let values: [Int64]
+}
+
+/// How an attribute is stored, as `HDF5Reader.attributeTypeFacts(_:of:)` reads it (for the writers' tests).
+package nonisolated struct HDF5AttributeTypeFacts: Sendable, Equatable {
+    /// The HDF5 class (`H5Tget_class`: 0 integer, 1 float, 3 string, 8 enumeration), the type's size in bytes (a
+    /// variable-length string's is the size of its pointer) and the attribute's shape (`[]` for a scalar).
+    package let typeClass: Int32, size: Int, shape: [Int]
+    /// For text: variable-length, and in the UTF-8 character set. False for anything else.
+    package let variableLengthText: Bool, utf8Text: Bool
+    /// For an integer: two's complement. False for anything else.
+    package let signed: Bool
+}
+
 public nonisolated struct HDF5Reader: Sendable {
     /// The file this reader opens for every call.
     public let url: URL
@@ -124,6 +147,139 @@ public nonisolated struct HDF5Reader: Sendable {
             guard type >= 0 else { throw HDF5RootAttributes.hdf5Failure("opening the type of \(name)", h5) }
             defer { _ = h5.h5tclose(type) }
             return h5.h5tgetClass(type) == 0 ? h5.h5tgetSize(type) : nil
+        } }
+    }
+
+    /// How the enumeration attribute `name` on the object at `path` is stored, nil when it is not an enumeration; `notFound` when
+    /// absent. For the writers' tests (FormatoKit#141: `setBoolAttribute` against h5py's bool): `attribute(_:of:)` reads h5py's
+    /// bool as the integers 0 and 1 and says nothing of the type.
+    package func enumAttributeFacts(_ name: String, of path: String) throws -> HDF5EnumAttributeFacts? {
+        let parts = try HDF5Ops.components(path)
+        guard !name.isEmpty, !name.utf8.contains(0) else { throw HDF5FileError.invalidPath(name) }
+        let label = path + "@" + name
+        return try withFile { h5, file in try HDF5Ops.withObject(h5, file, path, parts) { (obj: hid_t) throws -> HDF5EnumAttributeFacts? in
+            let exists = name.withCString { h5.h5aexists(obj, $0) }
+            guard exists >= 0 else { throw HDF5RootAttributes.hdf5Failure("looking for the \(name) attribute", h5) }
+            guard exists > 0 else { throw HDF5FileError.notFound(label) }
+            let attribute = name.withCString { h5.h5aopen(obj, $0, 0) }
+            guard attribute >= 0 else { throw HDF5RootAttributes.hdf5Failure("opening the \(name) attribute", h5) }
+            defer { _ = h5.h5aclose(attribute) }
+            let type = h5.h5agetType(attribute)
+            guard type >= 0 else { throw HDF5RootAttributes.hdf5Failure("opening the type of \(label)", h5) }
+            defer { _ = h5.h5tclose(type) }
+            guard h5.h5tgetClass(type) == 8 else { return nil }                                       // H5T_ENUM
+            let base = h5.h5tgetSuper(type)
+            guard base >= 0 else { throw HDF5RootAttributes.hdf5Failure("opening the base type of \(label)", h5) }
+            defer { _ = h5.h5tclose(base) }
+            let baseSize = h5.h5tgetSize(base), order = h5.h5tgetOrder(base)
+            guard order >= 0 else { throw HDF5RootAttributes.hdf5Failure("reading the byte order of \(label)", h5) }
+            guard (1...8).contains(baseSize) else { throw HDF5FileError.unsupportedType(path: label, type: "enum of \(baseSize) bytes") }
+            let signed = h5.h5tgetSign(base) == 1                                                    // H5T_SGN_2
+            // One value of the base type, in its stored byte order (H5T_ORDER_BE = 1, else little-endian), sign extended.
+            func integer(_ bytes: ArraySlice<UInt8>) -> Int64 {
+                var raw: UInt64 = 0
+                for (shift, byte) in (order == 1 ? Array(bytes.reversed()) : Array(bytes)).enumerated() {
+                    raw |= UInt64(byte) << UInt64(8 * shift)
+                }
+                if signed, baseSize < 8, raw & (UInt64(1) << UInt64(8 * baseSize - 1)) != 0 { raw |= ~UInt64(0) << UInt64(8 * baseSize) }
+                return Int64(bitPattern: raw)
+            }
+            let count = h5.h5tgetNmembers(type)
+            guard count >= 0 else { throw HDF5RootAttributes.hdf5Failure("counting the members of \(label)", h5) }
+            var members: [String: Int64] = [:]
+            for index in 0..<UInt32(count) {
+                guard let pointer = h5.h5tgetMemberName(type, index) else {
+                    throw HDF5RootAttributes.hdf5Failure("reading a member name of \(label)", h5)
+                }
+                let member = String(cString: pointer)
+                _ = h5.h5freeMemory(pointer)
+                var bytes = [UInt8](repeating: 0, count: baseSize)
+                guard bytes.withUnsafeMutableBytes({ h5.h5tgetMemberValue(type, index, $0.baseAddress) }) >= 0 else {
+                    throw HDF5RootAttributes.hdf5Failure("reading the value of \(member) in \(label)", h5)
+                }
+                members[member] = integer(bytes[...])
+            }
+            let space = h5.h5agetSpace(attribute)
+            guard space >= 0 else { throw HDF5RootAttributes.hdf5Failure("opening the space of \(label)", h5) }
+            defer { _ = h5.h5sclose(space) }
+            let shape = try HDF5Ops.dimensions(h5, space, label)
+            let elements = try FormatoArray.elementCount(shape)
+            guard elements <= HDF5Ops.maximumAttributeElements else { throw HDF5FileError.limitExceeded("\(elements) elements in \(label)") }
+            var stored = [UInt8](repeating: 0, count: elements * baseSize)
+            if elements > 0 {
+                guard stored.withUnsafeMutableBytes({ h5.h5aread(attribute, type, $0.baseAddress) }) >= 0 else {
+                    throw HDF5RootAttributes.hdf5Failure("reading \(label)", h5)
+                }
+            }
+            let values = stride(from: 0, to: stored.count, by: baseSize).map { integer(stored[$0..<($0 + baseSize)]) }
+            return HDF5EnumAttributeFacts(size: h5.h5tgetSize(type), shape: shape, baseClass: h5.h5tgetClass(base), baseSize: baseSize,
+                                          baseSigned: signed, baseLittleEndian: order == 0, members: members, values: values)
+        } }
+    }
+
+    /// How the attribute `name` on the object at `path` is stored: its HDF5 class, size, shape and, for text, whether it is
+    /// variable-length and UTF-8; `notFound` when absent. For the writers' tests (FormatoKit#142: the .hspy writer's text must
+    /// be variable-length UTF-8, as h5py writes a Python `str`): `attribute(_:of:)` reads both kinds of text alike.
+    package func attributeTypeFacts(_ name: String, of path: String) throws -> HDF5AttributeTypeFacts {
+        let parts = try HDF5Ops.components(path)
+        guard !name.isEmpty, !name.utf8.contains(0) else { throw HDF5FileError.invalidPath(name) }
+        let label = path + "@" + name
+        return try withFile { h5, file in try HDF5Ops.withObject(h5, file, path, parts) { (obj: hid_t) throws -> HDF5AttributeTypeFacts in
+            let exists = name.withCString { h5.h5aexists(obj, $0) }
+            guard exists >= 0 else { throw HDF5RootAttributes.hdf5Failure("looking for the \(name) attribute", h5) }
+            guard exists > 0 else { throw HDF5FileError.notFound(label) }
+            let attribute = name.withCString { h5.h5aopen(obj, $0, 0) }
+            guard attribute >= 0 else { throw HDF5RootAttributes.hdf5Failure("opening the \(name) attribute", h5) }
+            defer { _ = h5.h5aclose(attribute) }
+            let type = h5.h5agetType(attribute)
+            guard type >= 0 else { throw HDF5RootAttributes.hdf5Failure("opening the type of \(label)", h5) }
+            defer { _ = h5.h5tclose(type) }
+            let space = h5.h5agetSpace(attribute)
+            guard space >= 0 else { throw HDF5RootAttributes.hdf5Failure("opening the space of \(label)", h5) }
+            defer { _ = h5.h5sclose(space) }
+            let typeClass = h5.h5tgetClass(type)
+            let text = typeClass == 3                                                               // H5T_STRING
+            return HDF5AttributeTypeFacts(typeClass: typeClass, size: h5.h5tgetSize(type), shape: try HDF5Ops.dimensions(h5, space, label),
+                                          variableLengthText: text && h5.h5tisVariableStr(type) > 0,
+                                          utf8Text: text && h5.h5tgetCset(type) == 1,               // H5T_CSET_UTF8
+                                          signed: typeClass == 0 && h5.h5tgetSign(type) == 1)        // H5T_INTEGER, H5T_SGN_2
+        } }
+    }
+
+    /// How many filters (compression, shuffle, checksums) the dataset at `path` passes its chunks through: 0 for data stored
+    /// as it is. For the writers' tests (FormatoKit#142: the .hspy writer's data is chunked and not compressed).
+    package func filterCount(of path: String) throws -> Int {
+        let parts = try HDF5Ops.components(path)
+        return try withFile { h5, file in try HDF5Ops.withDataset(h5, file, path, parts) { (ds: hid_t) throws -> Int in
+            let plist = h5.h5dgetCreatePlist(ds)
+            guard plist >= 0 else { throw HDF5RootAttributes.hdf5Failure("reading the layout of \(path)", h5) }
+            defer { _ = h5.h5pclose(plist) }
+            let count = h5.h5pgetNfilters(plist)
+            guard count >= 0 else { throw HDF5RootAttributes.hdf5Failure("counting the filters of \(path)", h5) }
+            return Int(count)
+        } }
+    }
+
+    /// The member names of the compound dataset at `path`, in their stored order; nil when its type is not compound. For the
+    /// .hspy reader (FormatoKit#98), which refuses complex data by name: h5py stores a complex number as the compound `{r, i}`.
+    package func compoundMemberNames(of path: String) throws -> [String]? {
+        let parts = try HDF5Ops.components(path)
+        return try withFile { h5, file in try HDF5Ops.withDataset(h5, file, path, parts) { (ds: hid_t) throws -> [String]? in
+            let type = h5.h5dgetType(ds)
+            guard type >= 0 else { throw HDF5RootAttributes.hdf5Failure("reading the type of \(path)", h5) }
+            defer { _ = h5.h5tclose(type) }
+            guard h5.h5tgetClass(type) == 6 else { return nil }                                      // H5T_COMPOUND
+            let count = h5.h5tgetNmembers(type)
+            guard count >= 0 else { throw HDF5RootAttributes.hdf5Failure("counting the members of \(path)", h5) }
+            var names: [String] = []
+            for index in 0..<UInt32(count) {
+                guard let pointer = h5.h5tgetMemberName(type, index) else {
+                    throw HDF5RootAttributes.hdf5Failure("reading a member name of \(path)", h5)
+                }
+                names.append(String(cString: pointer))
+                _ = h5.h5freeMemory(pointer)
+            }
+            return names
         } }
     }
 

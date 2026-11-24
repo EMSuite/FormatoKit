@@ -14,6 +14,7 @@ import FormatoCore
 import FormatoDM
 import FormatoEMD
 import FormatoHDF5
+import FormatoHSPY
 import FormatoKitTestSupport
 import FormatoMRC
 import FormatoMSA
@@ -216,5 +217,44 @@ private func temporary(_ name: String, _ data: Data) throws -> URL {
         #expect(throws: Peek.PeekError.self) { try Peek.thumbnailFrame(url: url, maxPixels: 64) }
         #expect(throws: Peek.PeekError.self) { try Peek.summary(url: url) }
         do { _ = try Peek.summary(url: url) } catch { #expect("\(error.localizedDescription)".contains("nothing.xyz")) }
+    }
+
+    @Test func aHyperSpyFileShowsItsImagePatternOrSpectrum() throws {
+        let folder = "FormatoHSPYTests/Fixtures/reader/"
+        // An image: the reader's whole image cut at the stride, with its calibration.
+        let image = fixture(folder + "image-u8.hspy")
+        let imageArray = try HSPYReader.read(url: image).array
+        try check(try Peek.thumbnailFrame(url: image, maxPixels: 64), against: imageArray, maxPixels: 64)
+        try check(try Peek.thumbnailFrame(url: image, maxPixels: 4), against: imageArray, maxPixels: 4)
+        let s = try Peek.summary(url: image)
+        #expect(s.format == "HyperSpy" && s.title == "Image µm" && s.width == 6 && s.height == 5 && s.dataType == "uint8")
+        #expect(s.pixelSize == 0.25 && s.pixelUnit == "µm" && s.notes.isEmpty)
+        // A 4D cube of patterns: the centre pattern, the scan and the detector.
+        let cube = fixture(folder + "patterns-4d-u8.hspy")
+        let cubeArray = try HSPYReader.read(url: cube).array
+        try check(try Peek.thumbnailFrame(url: cube, maxPixels: 64), against: cubeArray, maxPixels: 64, kind: .diffractionPattern)
+        let c = try Peek.summary(url: cube)
+        #expect(c.scanWidth == 3 && c.scanHeight == 2 && c.width == 7 && c.height == 6 && c.signalType == "electron_diffraction")
+        #expect(c.pixelSize == 1.25 && c.pixelUnit == "nm" && c.detectorPixelSize == 0.02 && c.detectorPixelUnit == "1/Å")
+        #expect(c.highTensionKV == 300)
+        // An EDS map: the spectrum at the centre position, one bin a channel.
+        let map = fixture(folder + "eds-sem-map-u16.hspy")
+        let frame = try Peek.thumbnailFrame(url: map, maxPixels: 64)
+        let centre = try HSPYReader.readStored(url: map).data.slab(start: [1, 2, 0], count: [1, 1, 20]).doubles()
+        #expect(frame.kind == .spectrum && frame.width == 20 && frame.height == 1 && frame.stride == 1 && frame.enteredAt == [1, 2])
+        #expect(frame.pixels == centre.map { Float($0) })
+        let m = try Peek.summary(url: map)
+        #expect(m.height == 1 && m.width == 20 && m.highTensionKV == 15 && m.signalType == "EDS_SEM")
+        // exspy's example: one spectrum, its microscope.
+        let tm002 = try Peek.summary(url: fixture(folder + "EDS_SEM_TM002.hspy"))
+        #expect(tm002.width == 1024 && tm002.height == 1 && tm002.instrument == "Nvision40 Carl Zeiss" && tm002.highTensionKV == 10)
+        // Several experiments: the previewed one is named; a file of refusals throws the first refusal.
+        #expect(try Peek.summary(url: fixture(folder + "more-types.hspy")).notes == ["3 signals in the file; \"type int64\" is previewed"])
+        #expect(throws: HSPYError.complexData(experiment: "complex")) {
+            _ = try Peek.thumbnailFrame(url: fixture(folder + "refusals.hspy"), maxPixels: 64)
+        }
+        #expect(throws: HSPYError.notHyperSpyFile("refused-not-hyperspy.hspy")) {
+            _ = try Peek.summary(url: fixture(folder + "refused-not-hyperspy.hspy"))
+        }
     }
 }

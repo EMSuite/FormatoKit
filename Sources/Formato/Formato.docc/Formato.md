@@ -6,8 +6,9 @@ One entry point for every format FormatoKit reads: find out what a file is, then
 
 ``FormatoLoader/sniff(path:)`` names a file's format from its extension, confirmed by its first bytes (the TIFF and HDF5
 signatures, DM's version word, Velox's `Version` dataset); a file whose extension and bytes disagree is
-``FormatoFileKind/unknown``. ``FormatoLoader/load(path:)`` returns the signals of a DM, Velox, TIFF, MRC or MSA file the way
-that format's own module returns them, one result per object, so one unreadable object does not hide the others.
+``FormatoFileKind/unknown``. ``FormatoLoader/load(path:)`` returns the signals of a DM, Velox, TIFF, MRC, MSA or HyperSpy
+(`.hspy`) file the way that format's own module returns them, one result per object (per experiment for HyperSpy), so one
+unreadable object does not hide the others.
 
 ```swift
 import Formato

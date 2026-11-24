@@ -3,14 +3,16 @@
 //  Role: The umbrella product: one `FormatoLoader.load(path:)` that finds out which format a file is (RosettaSciIO's `load` guesses
 //        from the extension, then the plugin checks the content) and returns its signals the way that format's module does.
 //        Detection: the extension picks the candidates, the first bytes confirm them (TIFF and HDF5 signatures, DM's version word,
-//        Velox's `Version` dataset); a file whose extension and bytes disagree is `.unknown`. Formats whose data are not signals
-//        (4D datacubes: EMPAD, MIB, py4DSTEM HDF5) are named, not loaded: they have dedicated readers with their own options.
+//        Velox's `Version` dataset, HDF5's signature under `.hspy`); a file whose extension and bytes disagree is `.unknown`.
+//        Formats whose data are not signals (4D datacubes: EMPAD, MIB, py4DSTEM HDF5) are named, not loaded: they have
+//        dedicated readers with their own options.
 //
 
 import Foundation
 import FormatoCore
 import FormatoDM
 import FormatoEMD
+import FormatoHSPY
 import FormatoMRC
 import FormatoMSA
 import FormatoTIFF
@@ -25,8 +27,10 @@ public nonisolated enum FormatoFileKind: Sendable, Equatable {
     case empad
     /// Merlin MIB: read with `MIBReader`.
     case merlinMIB
-    /// HDF5 that is not a Velox file (py4DSTEM / NCEM EMD, hspy, ...): `HDF5Datacube` reads the 4D datacubes.
+    /// HDF5 that is not a Velox file (py4DSTEM / NCEM EMD, ...): `HDF5Datacube` reads the 4D datacubes.
     case hdf5
+    /// HyperSpy's own HDF5 layout under its `.hspy` extension: `HSPYReader` reads its signals (0.19.0).
+    case hyperSpy
     case unknown
 }
 
@@ -67,13 +71,17 @@ public nonisolated enum FormatoLoader {
         case "xml": return .empad
         case "emd", "h5", "hdf5":
             guard isHDF5() else { return .unknown }
-            return VeloxEMDReader.hasVeloxVersion(path: path) ? .veloxEMD : .hdf5
+            if VeloxEMDReader.hasVeloxVersion(path: path) { return .veloxEMD }
+            // RosettaSciIO's hspy plugin also claims .hdf5 (older HyperSpy saved that by default).
+            return HSPYReader.isHyperSpyFile(path: path) ? .hyperSpy : .hdf5
+        case "hspy": return isHDF5() ? .hyperSpy : .unknown
         default: return .unknown
         }
     }
 
     /// The signals of `path`, in the order the format's module returns them; a signal FormatoKit refuses is its error, the others
-    /// still load (for DM, one result per image object; for Velox, single spectra, then images, then spectrum images).
+    /// still load (for DM, one result per image object; for Velox, single spectra, then images, then spectrum images; for
+    /// HyperSpy, one per experiment in the file's order).
     /// Throws `FormatoLoadError` for a kind with a dedicated reader or an unknown file, and the module's error where the file cannot
     /// be listed at all.
     public static func load(path: String) throws -> [Result<FormatoLazySignal, any Error>] {
@@ -101,12 +109,18 @@ public nonisolated enum FormatoLoader {
         case .msa:
             let s = try MSAReader.read(path: path).signal
             return [.success(FormatoLazySignal(title: s.title, signalType: s.signalType, axes: s.axes, metadata: s.metadata, array: FormatoInMemoryArray(s.data)))]
+        case .hyperSpy:
+            let url = URL(fileURLWithPath: path)
+            // A refused experiment (complex, ragged, a non-uniform axis) is its failure; the others still load.
+            return try HSPYReader.experiments(url: url).map { experiment in
+                Result { try HSPYReader.read(url: url, experiment: experiment.name) }
+            }
         case .empad:
             throw FormatoLoadError.useDedicatedReader(.empad, "\(name) is an EMPAD file: open it with EMPADReader (a 4D datacube, with its calibration options).")
         case .merlinMIB:
             throw FormatoLoadError.useDedicatedReader(.merlinMIB, "\(name) is a Merlin MIB file: open it with MIBReader (a 4D datacube, with its scan-shape options).")
         case .hdf5:
-            throw FormatoLoadError.useDedicatedReader(.hdf5, "\(name) is an HDF5 file that is not a Velox file: HDF5Datacube reads py4DSTEM 4D datacubes; HSPY and NCEM EMD are not read.")
+            throw FormatoLoadError.useDedicatedReader(.hdf5, "\(name) is an HDF5 file that is not a Velox file: HDF5Datacube reads py4DSTEM 4D datacubes; NCEM EMD is not read, and a HyperSpy file is read under its .hspy extension.")
         case .unknown:
             throw FormatoLoadError.unknownFormat(name)
         }

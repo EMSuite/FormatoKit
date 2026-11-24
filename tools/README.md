@@ -17,6 +17,7 @@ One path convention: everything a generator reads outside the repository is unde
 | Path | What |
 |---|---|
 | `References/venv` | the environment of `tools/requirements.txt` |
+| `References/hspy-venv` | the HyperSpy environment of `tools/hspy-writer/requirements.txt` (HyperSpy 2.5.0, RosettaSciIO 0.14.0, exspy 0.3.2, pyxem 0.21.0) |
 | `References/rosettasciio-049e7d70` | the pinned RosettaSciIO clone (its public test data and `registry.txt`) |
 | `References/py4DSTEM-f050d207` | the pinned py4DSTEM clone |
 
@@ -51,6 +52,9 @@ names it. A regenerated fixture that changes is its own commit, with the reason 
 | `fixture-index` | `index.py` | `Tests/Fixtures/README.md`, the index of every fixture (standard library; `--check` in CI) |
 | `hdf5-4d` | `generate.py` | py4DSTEM EMD 1.0 4D datacubes |
 | `hdf5-append` | `generate.py` | fixtures and h5py pins for `HDF5Reader` and `HDF5AppendWriter` |
+| `hdf5-bool` | `generate.py` | h5py's boolean attribute (`h5py-bool.h5`, its facts) and h5py's reading of the kit-written one (`setBoolAttribute`) |
+| `hspy-writer` | `generate.py`, `check.py`, `requirements.txt` | pin H2: the layout HyperSpy 2.5.0 writes for 18 planted signals (`hyperspy-layout.json`), and HyperSpy's and RosettaSciIO's reading of the kit-written files (`check.py <folder>`, after `FORMATO_HSPY_OUT=<folder> swift test -c release --filter HSPYWriterTests`; a Mac and nightly step). Its own environment, `References/hspy-venv` from `tools/hspy-writer/requirements.txt` (HyperSpy, exspy and pyxem are not in the main one) |
+| `hspy-reader` | `generate.py` | pin H4: the .hspy files HyperSpy 2.5.0 saves (pin H2's small signals, small chunks, three types as three experiments, a lazy save, exspy's `EDS_SEM_TM002`, the refusals) and RosettaSciIO 0.14.0's reading of them (`Fixtures/reader/reader-truth.json`). The environment of `hspy-writer` |
 | `hdf5-write` | `generate.py` | HDF5 root-attribute fixtures and h5py pins |
 | `mib` | `generate.py`, `app-scaffold.swift` | Quantum Detectors MIB frames and refusals |
 | `msa` | `pins.py` | RosettaSciIO's MSA reading of its public test files |
