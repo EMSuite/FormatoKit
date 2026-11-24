@@ -140,6 +140,13 @@ struct TIAReaderTests {
         #expect(throws: FormatoReadError.unsupportedDataType("TIA complex64")) { _ = try TIAReader.read(url: complex) }
         let unknown = try planted("f.ser") { $0[84 + 20] = 11; $0[84 + 21] = 0 }
         #expect(throws: TIAError.dataType(11)) { _ = try TIAReader.read(url: unknown) }
+        // A first dimension of 2^32 − 1 (its size is the first field after the dimension count): a shape the file's own element
+        // count does not hold is refused, with and without the valid-data shortening (#161). It used to read as a lazy signal.
+        let firstDimension = (UInt16(source[4]) | UInt16(source[5]) << 8) > 528 ? 34 : 30
+        let huge = try planted("g.ser") { d in for k in firstDimension..<(firstDimension + 4) { d[k] = 0xFF } }
+        for onlyValid in [true, false] {
+            #expect(throws: TIAError.self) { _ = try TIAReader.read(url: huge, onlyValidData: onlyValid) }
+        }
     }
 
     /// Every truncation of a small file is refused or read, never a crash (a cheap fuzz over the header and element bytes).
