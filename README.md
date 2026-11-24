@@ -26,7 +26,7 @@ large, one SwiftPM product per module.
 | `FormatoMSA` | EMSA/MAS spectra (`.msa`, `.ems`, `.mas`, `.emsa`): `MSAReader` and `MSAWriter`, byte-pinned to RosettaSciIO | reads and writes, pinned |
 | `FormatoTIA` | FEI / Thermo Fisher TIA series (`.ser`) and their `.emi`: `TIAReader`, images, stacks, spectra, line scans, spectrum images and camera-frame maps as one lazy signal each, pinned exact to RosettaSciIO; with the `.emi`, a diffraction pattern's reciprocal units, the date and the microscope metadata, pinned to HyperSpy | reads, pinned |
 | `FormatoHSPY` | HyperSpy's `.hspy` (layout 3.3) written: `HSPYWriter.write` for a signal in memory, `HSPYWriter.open` for a cube written a slab at a time (`HSPYStreamWriter`, atomic publish, Swift task cancellation between slabs); `HSPYSignalKind` names the class HyperSpy builds (Signal1D/2D, exspy's EDS and EELS, pyxem's electron diffraction); the data keeps its stored type, chunked as HyperSpy chunks it, not compressed. Read: `HSPYReader.experiments`, `read` (lazy) and `readStored`, rank 1 to 4, one or several experiments, gzip-compressed or not; ragged, complex and non-uniform signals refused by name | writes, layout pinned to HyperSpy 2.5.0; reads, pinned exact to RosettaSciIO 0.14.0 |
-| `Formato` | the umbrella product: `FormatoLoader.sniff(path:)` (extension plus first bytes) and `FormatoLoader.load(path:)` (the signals of a DM, Velox, TIFF, MRC, MSA, HyperSpy or TIA file); 4D formats are named, not loaded | 0.9.0; `.hyperSpy` and `.tia` unreleased |
+| `Formato` | the umbrella product: `FormatoLoader.sniff(path:)` (extension plus first bytes) and `FormatoLoader.load(path:)` (the signals of a DM, Velox, TIFF, MRC, MSA, HyperSpy or TIA file); 4D formats are named, not loaded | 0.9.0; `.hyperSpy` 0.19.0; `.tia` 0.20.0 |
 | `FormatoPeek` | `Peek.thumbnailFrame(url:maxPixels:)` and `Peek.summary(url:)`: one decimated frame and the header facts of a DM, Velox, TIFF, MRC, MSA, py4DSTEM HDF5, HyperSpy or TIA file (a `.ser` with its `.emi`'s metadata), never more than one frame read (for Quick Look and Finder previews) | 0.10.0 |
 
 `docs/parity.md` is the checklist against RosettaSciIO's formats table and its reader options: what reads, what is pinned,
@@ -35,7 +35,7 @@ what is next. The API reference (DocC, one page per module) is at <https://emsui
 ## The first ten minutes
 
 Add the package to your `Package.swift`
-(`.package(url: "https://github.com/EMSuite/FormatoKit.git", from: "0.12.1")`, or `.package(path: "../FormatoKit")` for a
+(`.package(url: "https://github.com/EMSuite/FormatoKit.git", from: "0.20.0")`, or `.package(path: "../FormatoKit")` for a
 clone), and the products you need (`FormatoDM`, `FormatoEMD`, `FormatoTIFF`; each brings `FormatoCore`).
 
 To try it on files you have in hand, use the ones in this repository: planted files made for the tests, under
