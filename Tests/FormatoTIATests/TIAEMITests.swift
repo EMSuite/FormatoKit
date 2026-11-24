@@ -116,6 +116,22 @@ struct TIAEMITests {
         #expect(viaEMI.metadata["Acquisition_instrument.TEM.camera_length"]?.units == "mm")
     }
 
+    /// A folder that cannot be listed (what an App Sandbox app sees when it was given the .emi alone, here a folder without
+    /// read permission): the .ser files are still found by name (#163). It used to throw `cannotOpen` on the folder.
+    @Test func aFolderThatCannotBeListedStillGivesItsSeries() throws {
+        let dir = try scratch()
+        defer {
+            try? FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: dir.path)
+            try? FileManager.default.removeItem(at: dir)
+        }
+        let ser = try Data(contentsOf: publicURL("old/64x64_TEM_images_acquire_1.ser"))
+        try emiBytes([experimentalDescription([("User", "first", "")])]).write(to: dir.appendingPathComponent("p.emi"))
+        try ser.write(to: dir.appendingPathComponent("p_1.ser"))
+        try FileManager.default.setAttributes([.posixPermissions: 0o300], ofItemAtPath: dir.path)   // enter and write, not list
+        let signals = try TIAReader.readEMI(url: dir.appendingPathComponent("p.emi"))
+        #expect(signals.map { $0.metadata["General.original_filename"]?.value.text } == ["p_1.ser"])
+    }
+
     /// Planted: `_0.ser` takes the last document (Python's index −1); `_2.ser` the second; units and dates come from the first.
     @Test func eachSeriesTakesItsDocument() throws {
         let dir = try scratch()
@@ -188,6 +204,31 @@ struct TIAEMITests {
         let deep = String(repeating: "<a>", count: 100) + String(repeating: "</a>", count: 100)
         #expect(throws: TIAError.self) { _ = try TIAReader.readEMI(url: try plant("e", emiBytes([deep]))) }
         #expect(throws: TIAError.self) { _ = try TIAReader.readEMI(url: try plant("f", emiBytes(["<Uuid>1</Uuid>"]), series: false)) }
+    }
+
+    /// The .ser files are found by opening their names, not by listing the folder (#162): a folder that cannot be listed still
+    /// gives its series, and a .ser that is there but cannot be opened refuses the .emi with the file named. Red before: the
+    /// folder was listed, and a listing refused answered "cannot open" with the folder's name. (Run as root, file modes do not
+    /// refuse, so the unreadable case is skipped there.)
+    @Test func theSeriesIsProbedByNameNotByListing() throws {
+        let dir = try scratch()
+        defer {
+            _ = chmod(dir.path, 0o755)
+            try? FileManager.default.removeItem(at: dir)
+        }
+        let source = publicURL("old/64x64_TEM_images_acquire.emi")
+        let emi = dir.appendingPathComponent("s.emi"), ser = dir.appendingPathComponent("s_1.ser")
+        try Data(contentsOf: source).write(to: emi)
+        try Data(contentsOf: publicURL("old/64x64_TEM_images_acquire_1.ser")).write(to: ser)
+        #expect(chmod(dir.path, 0o311) == 0, "the folder can be entered but not listed")
+        #expect(try TIAReader.readEMI(url: emi).count == 1)
+        #expect(chmod(dir.path, 0o755) == 0)
+        guard getuid() != 0 else { return }
+        #expect(chmod(ser.path, 0o000) == 0)
+        defer { _ = chmod(ser.path, 0o644) }
+        #expect(throws: TIAError.emi("its series s_1.ser beside it cannot be opened; give access to the folder that holds the .emi and its .ser files")) {
+            _ = try TIAReader.readEMI(url: emi)
+        }
     }
 
     /// Every truncation of a public .emi is refused or read, never a crash.
