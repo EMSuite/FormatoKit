@@ -5,7 +5,7 @@
 
 `<folder>/h3/manifest.json` lists each .hspy file the kit wrote (`HSPYWriter.write`) from a signal `FormatoLoader.load` read
 from a fixture: the file, the fixture (repository-relative), the signal's place in the kit's list, its title and shape, and the
-signals the writer refused. For each written file, RosettaSciIO 0.14.0 reads the fixture with its format's reader
+signals the writer refused (a typed write it refuses is tried again as generic; each written file names its kind). For each written file, RosettaSciIO 0.14.0 reads the fixture with its format's reader
 (`digitalmicrograph`, `emd` with `select_type` single_spectrum, images then spectrum_image as the kit lists them, `msa`) and
 the .hspy file with `rsciio.hspy.file_reader`; the fixture's signal is the one with the file's title and shape. Pin H3 says the
 two readings are equal:
