@@ -311,6 +311,31 @@ public nonisolated final class HDF5WriteSession {
         }
     }
 
+    /// Writes a one-dimensional boolean dataset of `values.count` elements at `path` as h5py stores a NumPy `bool` array (orix's
+    /// and kikuchipy's `is_in_data`): the 8-bit enumeration {FALSE = 0, TRUE = 1} of `writeBool`, contiguous. Missing groups above
+    /// it are created; `replace` as in `writeDataset`. `HDF5Reader.readBooleans` reads it back.
+    public func writeBools(_ path: String, _ values: [Bool], replace: Bool = false) throws {
+        let parts = try HDF5Ops.components(path)
+        guard !parts.isEmpty else { throw HDF5FileError.invalidPath(path) }
+        try open { file in
+            try prepareScalar(parts, file, path, replace: replace)
+            let type = try boolType(for: path)
+            defer { _ = h5.h5tclose(type) }
+            let dims = [UInt64(values.count)]
+            let space = h5.h5screateSimple(1, dims, nil)
+            guard space >= 0 else { throw HDF5RootAttributes.failure("making the space of \(path)", h5) }
+            defer { _ = h5.h5sclose(space) }
+            let dataset = HDF5Ops.absolute(parts).withCString { h5.h5dcreate2(file, $0, type, space, 0, 0, 0) }
+            guard dataset >= 0 else { throw HDF5RootAttributes.failure("creating \(path)", h5) }
+            defer { _ = h5.h5dclose(dataset) }
+            let stored = values.map { Int8($0 ? 1 : 0) }
+            guard !stored.isEmpty else { return }
+            guard stored.withUnsafeBytes({ h5.h5dwrite(dataset, type, 0, 0, 0, $0.baseAddress) }) >= 0 else {
+                throw HDF5RootAttributes.failure("writing \(path)", h5)
+            }
+        }
+    }
+
     /// Sets the attribute `name` on the object at `path` (a group or dataset; the root is "/"), replacing an existing one.
     /// Text is stored as fixed-length UTF-8, null padded, exactly as long as its UTF-8 bytes (an array of texts as long as the
     /// longest; an empty text is one NUL); integers as int64 and reals as float64, scalar or one-dimensional as the value says.
