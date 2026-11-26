@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.22.0](https://github.com/EMSuite/FormatoKit/compare/0.21.0...0.22.0) (2026-11-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* FormatoAxis.isBitwiseEqual(to:), AcquisitionMetadata.pythonRound and numpyDegrees, FormatoArray.checkSlab and forEachRun are removed. No consumer in the suite calls them; use slab(start:count:), which checks the bounds.
+
+### Fixtures and tests
+
+* the DM4 read memory bound allows for the process's other suites ([#174](https://github.com/EMSuite/FormatoKit/issues/174)) ([9bcd4f9](https://github.com/EMSuite/FormatoKit/commit/9bcd4f90ea9791136a3b085fcf352443a7994671))
+
+
+### Code Refactoring
+
+* remove the five helpers deprecated for 0.13.0; README and status name 0.21.0 ([#175](https://github.com/EMSuite/FormatoKit/issues/175)) ([1dfbfaf](https://github.com/EMSuite/FormatoKit/commit/1dfbfaf0c9747485a29b51c7e4b3863a8dec0cdf))
+
 ## [0.21.0](https://github.com/EMSuite/FormatoKit/compare/0.20.1...0.21.0) (2026-11-25)
 
 

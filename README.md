@@ -35,7 +35,7 @@ what is next. The API reference (DocC, one page per module) is at <https://emsui
 ## The first ten minutes
 
 Add the package to your `Package.swift`
-(`.package(url: "https://github.com/EMSuite/FormatoKit.git", from: "0.21.0")`, or `.package(path: "../FormatoKit")` for a <!-- x-release-please-version -->
+(`.package(url: "https://github.com/EMSuite/FormatoKit.git", from: "0.22.0")`, or `.package(path: "../FormatoKit")` for a <!-- x-release-please-version -->
 clone), and the products you need (`FormatoDM`, `FormatoEMD`, `FormatoTIFF`; each brings `FormatoCore`).
 
 To try it on files you have in hand, use the ones in this repository: planted files made for the tests, under
