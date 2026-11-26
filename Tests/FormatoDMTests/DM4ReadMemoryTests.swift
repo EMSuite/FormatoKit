@@ -5,7 +5,7 @@
 //        `FileHandle.read(upToCount:)` returned stayed in the thread's autorelease pool until the read ended.
 //
 //  THE TRUTH: a 256 MB sparse file read in 8 MB blocks, as `decodeEELS` reads a cube. The bytes the reader still holds are only the block
-//  in hand, so the footprint may grow by a few blocks at most, never by the file.
+//  in hand, so the footprint may grow by a few blocks (and what parallel suites allocate meanwhile), never by the file.
 //
 
 import Darwin
@@ -48,6 +48,9 @@ import Testing
         }
         #expect(sum == 0)
         let grown = peak - start
-        #expect(grown < 4 * block, "the read grew the footprint by \(grown >> 20) MB for a \(size >> 20) MB file read in \(block >> 20) MB blocks")
+        // The footprint is the whole process's: suites outside this one run in parallel and allocate meanwhile, and malloc keeps
+        // freed blocks for reuse, so a correct read measured 34 MB once (FormatoKit#173). Eight blocks is still a quarter of
+        // the 256 MB the bug grew by.
+        #expect(grown < 8 * block, "the read grew the footprint by \(grown >> 20) MB for a \(size >> 20) MB file read in \(block >> 20) MB blocks")
     }
 }
