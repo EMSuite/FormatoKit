@@ -208,16 +208,4 @@ public nonisolated struct FormatoArray: Sendable, Equatable {
             if k < 0 { return }
         }
     }
-
-    /// Throws unless `start` and `count` have the array's rank and lie inside it (a zero count is allowed).
-    @available(*, deprecated, message: "An internal helper of the kit; it becomes package-only in 0.13.0. Use slab(start:count:), which checks the bounds.")
-    public static func checkSlab(start: [Int], count: [Int], shape: [Int]) throws {
-        try validateSlab(start: start, count: count, shape: shape)
-    }
-
-    /// Calls `body(firstElement, length)` for each contiguous run of the slab, in C order.
-    @available(*, deprecated, message: "An internal helper of the kit; it becomes package-only in 0.13.0. Use slab(start:count:).")
-    public static func forEachRun(start: [Int], count: [Int], shape: [Int], _ body: (Int, Int) -> Void) {
-        forEachContiguousRun(start: start, count: count, shape: shape, body)
-    }
 }

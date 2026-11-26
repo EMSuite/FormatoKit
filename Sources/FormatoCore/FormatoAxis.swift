@@ -34,8 +34,4 @@ public nonisolated struct FormatoAxis: Sendable, Equatable {
         name == other.name && size == other.size && units == other.units && navigate == other.navigate
             && scale.bitPattern == other.scale.bitPattern && offset.bitPattern == other.offset.bitPattern
     }
-
-    /// Equal including the bit patterns of scale and offset.
-    @available(*, deprecated, message: "An internal helper of the kit's tests; it becomes package-only in 0.13.0.")
-    public func isBitwiseEqual(to other: FormatoAxis) -> Bool { bitwiseEquals(other) }
 }
