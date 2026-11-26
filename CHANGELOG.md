@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.21.0](https://github.com/EMSuite/FormatoKit/compare/0.20.1...0.21.0) (2026-11-25)
+
+
+### Features
+
+* an HDF5 write session writes an array of booleans as h5py stores a NumPy bool array ([#171](https://github.com/EMSuite/FormatoKit/issues/171)) ([f7ab3d3](https://github.com/EMSuite/FormatoKit/commit/f7ab3d392c15635642adb7df94d39907a611cc04))
+
+
+### Fixtures and tests
+
+* pin H3, the same content by two roads through the HyperSpy writer ([#172](https://github.com/EMSuite/FormatoKit/issues/172)) ([295b65e](https://github.com/EMSuite/FormatoKit/commit/295b65e035c45b4007b8fb9cf6c1302e2ac3259d))
+
 ## [0.20.1](https://github.com/EMSuite/FormatoKit/compare/0.20.0...0.20.1) (2026-11-24)
 
 
