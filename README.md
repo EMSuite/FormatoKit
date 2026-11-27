@@ -128,7 +128,7 @@ let vectors = try BraggVectorsEMD.read(path: "vectors.h5") // py4DSTEM.read(...)
 ```
 
 The file is built beside the destination and renamed onto it, so a failed or cancelled write changes nothing.
-`convention: .appImageXY` hands peaks over as image x/y (mac4DSTEM's), and `extraAttributes` lets an app add its own string
+`convention: .appImageXY` hands peaks over as image x/y (4DSTEM Studio's), and `extraAttributes` lets an app add its own string
 attributes to the file, root or BraggVectors group.
 
 ## Requirements

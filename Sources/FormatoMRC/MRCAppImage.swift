@@ -63,7 +63,7 @@ public nonisolated enum MRCAppImage {
     }
 
     public static func read(data: Data, fileName: String, acceptStacks: Bool = false) throws -> Image {
-        let header = try decodeHeader(data: data, fileName: fileName, acceptStacks: acceptStacks)
+        let header = try decodeHeader(data: data, acceptStacks: acceptStacks)
         let (count, mode, bigEndian) = (header.width * header.height, header.mode, header.bigEndian)
         var pixels = [Float](repeating: 0, count: count)
         header.pixelBytes.withUnsafeBytes { (buffer: UnsafeRawBufferPointer) in
@@ -117,7 +117,7 @@ public nonisolated enum MRCAppImage {
 
     /// The samples copied once from the file, swapped to little-endian where the stamp says big-endian.
     public static func readStored(data: Data, fileName: String, acceptStacks: Bool = false) throws -> StoredImage {
-        let header = try decodeHeader(data: data, fileName: fileName, acceptStacks: acceptStacks)
+        let header = try decodeHeader(data: data, acceptStacks: acceptStacks)
         let count = header.width * header.height
         let type: FormatoDataType
         var bytes: Data
@@ -171,7 +171,7 @@ public nonisolated enum MRCAppImage {
         let notes: [String]
     }
 
-    private static func decodeHeader(data: Data, fileName: String, acceptStacks: Bool) throws -> Header {
+    private static func decodeHeader(data: Data, acceptStacks: Bool) throws -> Header {
         guard data.count >= 1024 else { throw MRCError.notMRC("\(data.count) bytes, shorter than an MRC header") }
         let bytes = [UInt8](data.prefix(1024))
         guard bytes[208..<212].elementsEqual(Array("MAP ".utf8)) else { throw MRCError.notMRC("no \"MAP \" id") }

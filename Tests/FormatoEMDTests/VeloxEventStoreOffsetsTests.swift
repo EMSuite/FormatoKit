@@ -7,7 +7,6 @@
 
 import Foundation
 import Testing
-import FormatoCore
 import FormatoEMD
 
 @Suite struct VeloxEventStoreOffsetsTests {
