@@ -29,6 +29,7 @@ let package = Package(
             .product(name: "Formato", package: formatoKit),
             .product(name: "FormatoPeek", package: formatoKit),
             .product(name: "FormatoEBSD", package: formatoKit),
+            .product(name: "FormatoEDS", package: formatoKit),
         ]),
     ],
     swiftLanguageModes: [.v6]

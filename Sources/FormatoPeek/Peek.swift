@@ -157,6 +157,8 @@ public nonisolated enum Peek {
             return try frame(of: found.signal.array, limit: limit, kind: tiaKind(found.signal), source: source)
         case .empad, .merlinMIB:
             throw PeekError.unsupported("Raw 4D files (EMPAD, MIB) have no stored image to peek at.")
+        case .brukerEDS, .edaxEDS, .jeolEDS:
+            throw PeekError.unsupported("\(url.lastPathComponent) is a SEM-EDS file; Peek does not preview those yet (FormatoEDS reads them).")
         case .unknown:
             throw PeekError.unsupported("\(url.lastPathComponent) is not a format FormatoKit reads.")
         }
@@ -264,6 +266,8 @@ public nonisolated enum Peek {
             return s
         case .empad, .merlinMIB:
             throw PeekError.unsupported("Raw 4D files (EMPAD, MIB) have no stored image to peek at.")
+        case .brukerEDS, .edaxEDS, .jeolEDS:
+            throw PeekError.unsupported("\(url.lastPathComponent) is a SEM-EDS file; Peek does not preview those yet (FormatoEDS reads them).")
         case .unknown:
             throw PeekError.unsupported("\(url.lastPathComponent) is not a format FormatoKit reads.")
         }
