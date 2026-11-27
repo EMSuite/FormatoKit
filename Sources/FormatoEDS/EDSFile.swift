@@ -130,8 +130,9 @@ public nonisolated struct EDSMetadata: Equatable, Sendable {
 
     public init() {}
 
-    /// The entry that names the mode: its value is the key under `Acquisition_instrument` ("SEM" or "TEM") that holds the
-    /// instrument's fields.
+    /// The group under which the mode ("SEM" or "TEM") holds the instrument's fields; the mode is the name of the one group under
+    /// it, as in rsciio's tree. Only where no instrument field is known does the entry of this key itself name the mode (a key
+    /// cannot be both a value and a group: FormatoHSPY refuses that).
     public static let modeKey = "Acquisition_instrument"
 
     /// The instrument's keys under `mode`, in the order the readers write them.
@@ -157,7 +158,9 @@ public nonisolated struct EDSMetadata: Equatable, Sendable {
         put("Signal.signal_type", signalType.map { .text($0) })
         if let mode {
             let k = Self.instrument(mode)
-            put(Self.modeKey, .text(mode))
+            let fields: [Any?] = [beamEnergy, magnification, azimuthAngle, elevationAngle, energyResolutionMnKa, liveTime, realTime,
+                                   detectorType, tiltAlpha]
+            if fields.allSatisfy({ $0 == nil }) { put(Self.modeKey, .text(mode)) }
             put(k.beam, beamEnergy.map { .number($0) }, "kV")
             put(k.magnification, magnification.map { .number($0) })
             put(k.azimuth, azimuthAngle.map { .number($0) }, "°")
@@ -184,7 +187,8 @@ public nonisolated struct EDSMetadata: Equatable, Sendable {
         sampleName = metadata["Sample.name"]?.value.text
         elements = metadata["Sample.elements"]?.value.texts
         xrayLines = metadata["Sample.xray_lines"]?.value.texts
-        guard let mode = metadata[Self.modeKey]?.value.text else { return }
+        let named = ["SEM", "TEM"].first { mode in metadata.entries.contains { $0.key.hasPrefix(Self.modeKey + "." + mode + ".") } }
+        guard let mode = named ?? metadata[Self.modeKey]?.value.text else { return }
         let k = Self.instrument(mode)
         self.mode = mode
         beamEnergy = metadata[k.beam]?.value.number
