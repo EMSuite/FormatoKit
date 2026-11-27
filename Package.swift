@@ -53,6 +53,9 @@ let package = Package(
         .library(name: "Formato", targets: ["Formato"]),
         // One decimated frame and the header facts of a file, never more than one frame read (0.10.0): Quick Look and Finder-style consumers.
         .library(name: "FormatoPeek", targets: ["FormatoPeek"]),
+        // EBSD patterns and orientation maps (kikuchipy h5ebsd, Bruker, EDAX, Oxford, EMsoft, NORDIF; .ang and .ctf) as plain data,
+        // and the .ang and .ctf writers; ported from kikuchipy 0.13.1 and orix 0.15.0 (FormatoKit#147).
+        .library(name: "FormatoEBSD", targets: ["FormatoEBSD"]),
     ],
     targets: binaryTargets + [
         // The data model every reader returns: arrays, axes, units, metadata with provenance, lazy signals; cancellation.
@@ -81,6 +84,8 @@ let package = Package(
                 dependencies: ["FormatoCore", "FormatoDM", "FormatoEMD", "FormatoHDF5", "FormatoHSPY", "FormatoMRC", "FormatoMSA", "FormatoTIA",
                                "FormatoTIFF", "Formato"],
                 swiftSettings: settings),
+        // EBSD: pattern and map readers by record and through FormatoHDF5's lock, the .ang and .ctf writers; no crystallography.
+        .target(name: "FormatoEBSD", dependencies: ["FormatoCore", "FormatoHDF5"], swiftSettings: settings),
         // Examples, not products. `swift run formato-peek <file>`: one decimated frame and the header facts.
         .executableTarget(name: "formato-peek", dependencies: ["FormatoPeek"], path: "Examples/formato-peek", swiftSettings: settings),
         // The first ten minutes: `swift run formato-info <file>` prints every signal of a DM, Velox or TIFF file (public API only).
@@ -125,6 +130,9 @@ let package = Package(
         // The .hspy writer against the layout HyperSpy 2.5.0 writes (pin H2, tools/hspy-writer), the slab writer's footprint;
         // the reader against RosettaSciIO's reading of HyperSpy's own files (pin H4, tools/hspy-reader).
         .testTarget(name: "FormatoHSPYTests", dependencies: ["FormatoHSPY", "FormatoHDF5", "FormatoCore"], exclude: ["Fixtures"],
+                    swiftSettings: settings),
+        // The EBSD readers and writers moved from Electron Microscopy Studio with their tests, fixtures and m1 reference bundles.
+        .testTarget(name: "FormatoEBSDTests", dependencies: ["FormatoEBSD", "FormatoCore", "FormatoHDF5"], exclude: ["Fixtures"],
                     swiftSettings: settings),
         .testTarget(name: "FormatoPeekTests", dependencies: ["FormatoPeek", "FormatoCore", "FormatoHDF5", "FormatoHSPY", "FormatoTIA", "FormatoKitTestSupport"],
                     swiftSettings: settings),
