@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.23.0](https://github.com/EMSuite/FormatoKit/compare/0.22.0...0.23.0) (2026-11-27)
+
+
+### Features
+
+* EBSD pattern and map readers, ANG and CTF writers ([#178](https://github.com/EMSuite/FormatoKit/issues/178)) ([cc4908c](https://github.com/EMSuite/FormatoKit/commit/cc4908c608d64aeeedc94dc9c434b08402590f07))
+
 ## [0.22.0](https://github.com/EMSuite/FormatoKit/compare/0.21.0...0.22.0) (2026-11-26)
 
 
