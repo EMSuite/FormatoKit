@@ -224,7 +224,7 @@ public nonisolated enum EDAXEDSReader {
             guard data.count == n * pixelBytes else {
                 throw EDSReadError(.truncated, "\(name) holds fewer spectra than its header states (\(nx) x \(ny) of \(nz) channels).")
             }
-            data.withUnsafeBytes { raw in
+            data.withUnsafeBytes { (raw: UnsafeRawBufferPointer) in
                 for k in 0..<n {
                     let base = k * pixelBytes
                     for c in 0..<nz {

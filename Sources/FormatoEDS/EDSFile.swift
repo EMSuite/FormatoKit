@@ -251,7 +251,7 @@ package nonisolated enum EDSSignals {
                               metadata md: EDSMetadata, from s: EDSSource) throws -> FormatoLazySignal {
         let size = dataType.byteSize
         var bytes = Data(count: pixels.count * size)
-        bytes.withUnsafeMutableBytes { dst in
+        bytes.withUnsafeMutableBytes { (dst: UnsafeMutableRawBufferPointer) in
             for (i, v) in pixels.enumerated() {
                 for b in 0..<size { dst[i * size + b] = UInt8(truncatingIfNeeded: v >> (8 * b)) }
             }
@@ -355,14 +355,3 @@ package nonisolated enum EDSText {
     }
 }
 
-/// Element symbols by atomic number (1 to 118), for the element lists files store as numbers.
-package nonisolated enum EDSElements {
-    static let symbols: [String] = ["H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar",
-        "K", "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr", "Rb", "Sr", "Y", "Zr",
-        "Nb", "Mo", "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I", "Xe", "Cs", "Ba", "La", "Ce", "Pr", "Nd", "Pm",
-        "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu", "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", "Tl", "Pb",
-        "Bi", "Po", "At", "Rn", "Fr", "Ra", "Ac", "Th", "Pa", "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr",
-        "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn", "Nh", "Fl", "Mc", "Lv", "Ts", "Og"]
-
-    package static func symbol(_ z: Int) -> String? { z >= 1 && z <= symbols.count ? symbols[z - 1] : nil }
-}
