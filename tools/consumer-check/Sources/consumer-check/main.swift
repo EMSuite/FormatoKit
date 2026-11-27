@@ -4,6 +4,7 @@ import Foundation
 import Formato
 import FormatoCore
 import FormatoDM
+import FormatoEBSD
 import FormatoEMD
 import FormatoEMPAD
 import FormatoHDF5
@@ -267,6 +268,15 @@ do {
     check(frame.width > 0 && frame.height > 0 && frame.pixels.count == frame.width * frame.height, "Peek.thumbnailFrame")
     check(try Peek.summary(url: URL(fileURLWithPath: planted)).format.isEmpty == false, "Peek.summary")
 } catch { check(false, "FormatoPeek: \(error)") }
+
+// FormatoEBSD: an .ang map as columns, an H5OINA's patterns as a lazy signal read by record.
+do {
+    let ang: ANGMap = try ANGReader.read(url: tests.appendingPathComponent("FormatoEBSDTests/Fixtures/ebsd-tsl.ang"))
+    check(ang.pointCount == 12 && ang.map.notIndexedCount == 1 && !ang.map.phaseHeaders.isEmpty, "ANGReader.read")
+    let dataset: EBSDDataset = try EBSDH5Reader.read(url: tests.appendingPathComponent("FormatoEBSDTests/Fixtures/ebsd-oxford.h5oina"))
+    let patterns: FormatoLazySignal = try dataset.signal()
+    check(patterns.array.shape == [3, 3, 60, 60] && dataset.format == .oxfordH5OINA, "EBSDH5Reader.read, EBSDDataset.signal")
+} catch { check(false, "FormatoEBSD: \(error)") }
 
 print("consumer-check summary: \(checks) checks, \(failed) failed")
 exit(failed == 0 ? 0 : 1)

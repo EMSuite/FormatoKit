@@ -80,6 +80,7 @@ every one of these, as D17 prescribes for readers.
 | EMD 1.0 bundle writers | `EMDDatacubeWriter`, `writeEMDCalibration`, maps | write pinned |
 | PNG with text chunks | `FormatoPNG` | write pinned; no interlacing, palette |
 | TIFF app image (named option) | `TIFFAppImage` | pinned to macTEM cb6e164 on 149 cases; a colour TIFF read as its brightest channel (`colour: .brightestChannel`, FormatoKit#93) equals NumPy 2.5.4 `rgb.max(axis=-1)` exactly on 3 tifffile-written files |
+| kikuchipy 0.13.1 and orix 0.15.0 (EBSD; RosettaSciIO has no EBSD plugin) | `FormatoEBSD` (FormatoKit#147) | readers pinned exact, the writers by round trip and the consumer's byte bundles; section EBSD below |
 | `rsciio.load` (extension guess then plugin check) | `FormatoLoader.sniff/load` (product `Formato`, 0.9.0) | extension plus first bytes (a `.emi` by its extension, as RosettaSciIO; a `.ser` loads alone, as RosettaSciIO reads it); 4D formats named, not loaded |
 
 ## MSA (0.9.0)
@@ -336,6 +337,32 @@ The golden file `kit-written.h5` is compared with a fresh write by size, the HDF
 (`kit-written.h5py.json`). To regenerate the golden on purpose (a changed layout), run
 `FORMATO_WRITE_GOLDEN=1 swift test --filter HDF5RootAttributesTests` and then `tools/hdf5-write/generate.py` for the h5py pins; the run that regenerates it compares the golden with itself, so
 run the suite again without the variable. The regenerated files are committed on their own with the reason.
+
+## EBSD (`FormatoEBSD`, FormatoKit#147)
+
+Moved from Electron Microscopy Studio (sources at 7b09bf5, tests and fixtures at 67d6df4) with every fixture and truth byte-identical
+and the m1 reader bundles at equal sha256. RosettaSciIO reads no EBSD file; the references are kikuchipy 0.13.1 (patterns) and orix
+0.15.0 (maps), both GPL-3.0-or-later (`NOTICE`). Readers are held exact (D17), stricter than kikuchipy's and orix's own tests
+(`assert_allclose` defaults, `np.testing.assert_array_equal` on patterns). The readers return plain FormatoCore data: no rotation, no
+symmetry, no colour unless the file states one (orix's HDF5 file); a consumer builds its crystal map from the columns (DiffractoKit's
+`CrystalMap(euler:quaternions:phaseIDs:x:y:properties:phaseHeaders:scanUnit:isInData:)`), and the tests recompute orix's derived values
+(points in data, shape, steps, the phase list with not indexed -1) from the same columns.
+
+| Format | Reader | Reference | Tolerance | Known limits |
+|---|---|---|---|---|
+| h5ebsd: kikuchipy, Bruker Esprit, EDAX OIM, Oxford H5OINA (also LZF-compressed) | `EBSDH5Reader.read`, `content`, patterns by `EBSDPatternReader` | kikuchipy `h5ebsd`, `bruker_h5ebsd`, `edax_h5ebsd`, `oxford_h5ebsd` `scan2dict` | exact: header, projection centres (Bruker convention), static background, every pattern (sha256) | hexagonal grids and non-rectangular Bruker regions refused, as kikuchipy; EMsoft's EBSD pattern file refused (not read) |
+| Oxford `.ebsp` (versions 0 to 6, uint8 and uint16, missing patterns) | `OxfordBinaryReader` | kikuchipy `oxford_binary` | exact (patterns bit for bit, beam and map positions) | a compressed file is refused, as kikuchipy |
+| EDAX `.up1` / `.up2` | `EDAXBinaryReader` | kikuchipy `edax_binary` | exact | version 2 refused, as kikuchipy; a hexagonal grid is one row of patterns |
+| NORDIF `Pattern.dat` with its `Setting.txt` | `NORDIFOpening`, `NORDIFSettings`, the calibration patterns and backgrounds | kikuchipy `nordif` | exact | a `Pattern.dat` without its settings is refused by name |
+| `.ang` (EDAX TSL, EMsoft, ASTAR, orix) | `ANGReader` | orix `ang.file_reader` | exact (each column's float64 bytes) | the header's grid is stated (`isHexagonal`); points read in file order |
+| `.ctf` (Oxford or Bruker, EMsoft, ASTAR, MTEX, headerless orientation table) | `CTFReader` | orix `ctf.file_reader` | 1e-12 on the angles converted from degrees (`sem/oxford/*.ctf.json`), the rest exact | — |
+| map-only H5OINA | `EBSDH5Reader.readOxfordMap` | the H5OINA specification (no Python reader reads it); placement as EbsdLib and MTEX | exact on a planted map | — |
+| orix HDF5, Bruker, EDAX and EMsoft map files without patterns | `EBSDH5Reader.readMap`, `readOrixMap`, `readVendorMap` | orix `hdf5`, `bruker_h5ebsd`, `emsoft_h5ebsd`; EDAX `.h5` as orix reads the `.ang` of the same scan | exact; a lattice to 1e-12 relative of diffpy's recomputed cell | a Bruker scan whose points span one grid cell lays out no map and is refused |
+| `.ang` written | `ANGWriter` (an `EBSDMapGrid`) | orix `ang.file_writer` | the consumer's bundles `m8/write-ang-*` (bytes equal orix's, from a `CrystalMap`); here, read back by `ANGReader` within the five written decimals (Euler 2e-5 rad) | phases written in reversed order, as orix |
+| `.ctf` written | `CTFWriter` | the consumer's `ctf_writer.py` (orix writes none), read by orix `ctf.file_reader` | the consumer's bundles `m8/write-ctf-*`; here, read back by `CTFReader` within the four written decimals of a degree (3e-6 rad) | — |
+
+Tests: `Tests/FormatoEBSDTests` (fast target), the m1 bundles under `Fixtures/bundles` (`EBSDReaderBundleParityTests`); fixture
+generators under `tools/ebsd-readers`. The real-data `.ctf` check runs with `MACEM_REAL_DATA=1`.
 
 ## Peek (0.10.0)
 
