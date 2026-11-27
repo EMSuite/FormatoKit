@@ -297,7 +297,7 @@ nonisolated final class EDSReaderBundleParityTests: XCTestCase {
             XCTAssertEqual(dense.shape, map.array.shape, path)
             var sums = [Double](repeating: 0, count: sparse.channels)
             for (k, v) in dense.doubles().enumerated() { sums[k % sparse.channels] += v }
-            XCTAssertEqual(sums, sparse.sum(mask: nil).map(Double.init), path)
+            XCTAssertEqual(sums, sparse.sum(mask: nil).map { Double($0) }, path)
         }
     }
 }
