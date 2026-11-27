@@ -108,8 +108,8 @@ nonisolated extension EBSDH5Reader {
             }
         }
         let grid = EBSDMapColumns.coordinates(shape: (rows: rows, columns: columns), steps: (dy: dy, dx: dx))
-        return EBSDMapColumns(euler: euler, phaseIDs: phaseIDs, x: grid.x, y: rows > 1 ? grid.y : nil, properties: properties,
-                              phaseHeaders: phases, scanUnit: "um")
+        return try EBSDMapColumns(euler: euler, phaseIDs: phaseIDs, x: grid.x, y: rows > 1 ? grid.y : nil, properties: properties,
+                                  phaseHeaders: phases, scanUnit: "um").checked(file: name)
     }
 
     /// `Header/Phases`: one group per phase, named by its id (1, 2, ...), in id order; no colour (the consumer gives orix's Tableau colours, as for a `.ctf`).

@@ -136,6 +136,34 @@ public nonisolated struct EBSDMapColumns: Sendable, Equatable {
     /// Why coordinates make no grid, as a clause.
     struct GridRefusal: Error { let why: String }
 
+    /// The most grid cells a map may span, as DiffractoKit's `CrystalMap.maximumCells` holds it.
+    public static let maximumCells = 1 << 28
+
+    /// The columns as building the map from them takes them (DiffractoKit's `CrystalMap`), refused where it would refuse them, so a
+    /// reader refuses the file it reads (the app's readers built the map and refused there): a column with another number of
+    /// values than the Euler angles, or x and y that make no grid of at most `maximumCells` cells. `name`, the file's, leads the
+    /// sentence where given.
+    func checked(file name: String? = nil) throws -> EBSDMapColumns {
+        let n = pointCount
+        let prefix = name.map { "\($0): " } ?? ""
+        func mismatch(_ what: String) -> EBSDReadError {
+            EBSDReadError(.unreadable, prefix + "its \(what) have another length than its \(n) orientations.")
+        }
+        if let phaseIDs, phaseIDs.count != n { throw mismatch("phase ids") }
+        if let x, x.count != n { throw mismatch("x coordinates") }
+        if let y, y.count != n { throw mismatch("y coordinates") }
+        if let isInData, isInData.count != n { throw mismatch("in-data mask values") }
+        for (key, values) in properties.sorted(by: { $0.key < $1.key }) where values.count != n { throw mismatch("values of \(key)") }
+        let cells: Int?
+        do { cells = try spannedCells() } catch let refusal as GridRefusal {
+            throw EBSDReadError(.unreadable, prefix + "the crystal map's coordinates make no grid: \(refusal.why).")
+        }
+        guard let cells, cells <= Self.maximumCells else {
+            throw EBSDReadError(.tooLarge, prefix + "the crystal map's coordinates span more than \(Self.maximumCells) grid cells.")
+        }
+        return self
+    }
+
     /// The grid cells the map's x and y span (orix's `_original_shape`, multiplied out), as `CrystalMap` derives it; nil where the
     /// count overflows.
     func spannedCells() throws -> Int? {

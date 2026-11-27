@@ -53,13 +53,24 @@ nonisolated struct OrixView {
 
     func property(_ name: String) -> [Double]? { map.properties[name].map { values in inData.map { values[$0] } } }
 
-    /// orix's `dx`, `dy`: the step from the sorted unique coordinates, 0 for fewer than two.
-    var dx: Double { EBSDMapColumns.stepSize(x) }
-    var dy: Double { EBSDMapColumns.stepSize(y) }
+    /// x of every stored point, in data or not (orix's `_x`).
+    private var storedX: [Double] { map.x == nil && map.y == nil ? (0..<map.pointCount).map(Double.init) : (map.x ?? []) }
 
-    /// orix's `shape`: the extent of every axis with a step (y, then x).
+    /// orix's `dx`, `dy`: the step from the sorted unique coordinates of every stored point (`_step_size_from_coordinates(self._x)`,
+    /// before `is_in_data` cuts the view), 0 for fewer than two.
+    var dx: Double { EBSDMapColumns.stepSize(storedX) }
+    var dy: Double { EBSDMapColumns.stepSize(map.y ?? []) }
+
+    /// orix's `shape`: `_data_slices_from_coordinates` on the points in data with the stored steps, the extent of every axis with a
+    /// step (y, then x).
     func shape() throws -> [Int] {
-        try EBSDMapColumns.checkedSlices([("y", y), ("x", x)]).map { $0.stop - $0.start }
+        var extents: [Int] = []
+        for (name, values, step) in [("y", y, dy), ("x", x, dx)] where step != 0 {
+            guard values.allSatisfy(\.isFinite) else { throw EBSDMapColumns.GridRefusal(why: "\(name) holds a value that is not a finite number") }
+            guard let lo = values.min(), let hi = values.max() else { continue }
+            extents.append(Int((hi / step + 1).rounded(.toNearestOrEven)) - Int((lo / step).rounded(.toNearestOrEven)))
+        }
+        return extents
     }
 
     /// The ids of every stored point, in data or not: orix's `CrystalMap` drops from its phase list the phases no stored point has
