@@ -170,8 +170,8 @@ public nonisolated enum ANGReader {
             EBSDPhaseHeader(id: $0.id, name: $0.name, formula: $0.formula, pointGroup: $0.pointGroup, lattice: $0.lattice,
                             latticeUnit: EBSDPhaseHeader.angstrom)
         }
-        let map = EBSDMapColumns(euler: euler, phaseIDs: phaseIDs, x: x, y: y, properties: properties, phaseHeaders: headers,
-                                 scanUnit: vendor == .astar ? "nm" : "um")
+        let map = try EBSDMapColumns(euler: euler, phaseIDs: phaseIDs, x: x, y: y, properties: properties, phaseHeaders: headers,
+                                     scanUnit: vendor == .astar ? "nm" : "um").checked(file: name)
         return ANGMap(url: url, header: header, vendor: vendor, columnNames: columnNames, map: map)
     }
 

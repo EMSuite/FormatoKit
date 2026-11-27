@@ -444,8 +444,9 @@ public nonisolated enum EBSDH5Reader {
             let mask = (try? file.reader.readBooleans(full)) ?? (try? data.doubles("is_in_data"))?.map { $0 != 0 }
             if let mask, mask.count == n { inData = mask }
         }
-        return EBSDMapColumns(euler: euler, phaseIDs: Array(phaseIDs.prefix(n)), x: x, y: y, properties: properties, phaseHeaders: phases,
-                              scanUnit: unit.flatMap { $0.isEmpty ? nil : $0 } ?? "px", isInData: inData)
+        // A phase id column longer than the angles is cut to them, as the app's reader did; a shorter one is refused (`checked`).
+        return try EBSDMapColumns(euler: euler, phaseIDs: Array(phaseIDs.prefix(n)), x: x, y: y, properties: properties, phaseHeaders: phases,
+                                  scanUnit: unit.flatMap { $0.isEmpty ? nil : $0 } ?? "px", isInData: inData).checked(file: file.url.lastPathComponent)
     }
 
     /// The refusal of a scan on a grid other than a square one (kikuchipy reads square grids only).

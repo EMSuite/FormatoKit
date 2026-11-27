@@ -136,7 +136,8 @@ public nonisolated enum CTFReader {
 
         if vendor == .astar { try fixASTARCoordinates(header: header, x: &x, y: &y) }
 
-        let map = EBSDMapColumns(euler: euler, phaseIDs: phaseID, x: x, y: y, properties: properties, phaseHeaders: phases, scanUnit: "um")
+        let map = try EBSDMapColumns(euler: euler, phaseIDs: phaseID, x: x, y: y, properties: properties, phaseHeaders: phases, scanUnit: "um")
+            .checked()
         return File(map: map, vendor: vendor, header: header, propertyNames: names)
     }
 
@@ -185,7 +186,8 @@ public nonisolated enum CTFReader {
     /// coordinates are regenerated from the header's steps (orix compares the x slice with the y cells; kept as is). Cells that
     /// are no count (not finite, or beyond an Int), or whose grid would not hold the file's points (the map could not be built from
     /// it), are refused before the new coordinates are allocated. Coordinates `CrystalMap.checkedSlices` refuses (not finite, or a
-    /// step far finer than their spread; `EBSDMapColumns.checkedSlices` is the same arithmetic) are left as read, for the map to refuse.
+    /// step far finer than their spread; `EBSDMapColumns.checkedSlices` is the same arithmetic) are left as read, for `EBSDMapColumns.checked`
+    /// to refuse.
     static func fixASTARCoordinates(header: [String], x: inout [Double], y: inout [Double]) throws {
         guard let slices = try? EBSDMapColumns.checkedSlices([("x", x), ("y", y)]), slices.count == 2,
               let cellsX = headerValue(header, key: "XCells"), let cellsY = headerValue(header, key: "YCells"),
@@ -266,7 +268,8 @@ public nonisolated enum CTFReader {
             guard seen.insert(name).inserted else { throw Refusal.repeatedColumn(name) }
         }
         let properties = Dictionary(uniqueKeysWithValues: propertyNames.map { ($0, column($0) ?? []) })   // every name is a column
-        let map = EBSDMapColumns(euler: euler, phaseIDs: phaseID, x: column("x"), y: column("y"), properties: properties, scanUnit: "um")
+        let map = try EBSDMapColumns(euler: euler, phaseIDs: phaseID, x: column("x"), y: column("y"), properties: properties, scanUnit: "um")
+            .checked()
         return File(map: map, vendor: .orientationTable, header: [String(lines[nameLine])], propertyNames: propertyNames)
     }
 }
