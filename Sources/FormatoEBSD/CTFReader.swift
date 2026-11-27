@@ -168,7 +168,7 @@ public nonisolated enum CTFReader {
             phases.append(EBSDPhaseHeader(id: i + 1, name: parts[2], spaceGroup: spaceGroup == 0 ? nil : spaceGroup, pointGroup: group,
                                           lattice: lattice, latticeUnit: EBSDPhaseHeader.angstrom))
         }
-        // orix's `PhaseList(**phases)`: ids 1, 2, ... in header order, colours in matplotlib's Tableau order (no colour named).
+        // orix's `PhaseList(**phases)`: ids 1, 2, ... in header order; no colour named (the consumer gives matplotlib's Tableau order).
         return phases
     }
 

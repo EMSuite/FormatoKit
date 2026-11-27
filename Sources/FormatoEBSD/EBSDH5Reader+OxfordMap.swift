@@ -112,7 +112,7 @@ nonisolated extension EBSDH5Reader {
                               phaseHeaders: phases, scanUnit: "um")
     }
 
-    /// `Header/Phases`: one group per phase, named by its id (1, 2, ...), in id order; colours in orix's Tableau order, as for a `.ctf`.
+    /// `Header/Phases`: one group per phase, named by its id (1, 2, ...), in id order; no colour (the consumer gives orix's Tableau colours, as for a `.ctf`).
     static func oxfordPhases(_ header: H5Group, file name: String) throws -> [EBSDPhaseHeader] {
         guard let list = try header.subgroup("Phases") else {
             throw EBSDReadError(.missing("Phases"), "\(name) does not list its crystal phases.")
