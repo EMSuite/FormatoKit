@@ -199,3 +199,34 @@ of Ti_orientations.ctf are orix-data's files (CC BY 4.0).
     orix - https://github.com/pyxem/orix, version 0.15.0
     Copyright (C) 2018-2025 the orix developers
     Both licensed under the GNU General Public License v3.0 or later
+
+
+================================================================================
+Electron Microscopy Studio and RosettaSciIO (FormatoEDS)
+================================================================================
+
+Sources/FormatoEDS moved from Electron Microscopy Studio (Sources/TEMSEM/EDS at commit
+f1eaafc), with Tests/FormatoEDSTests and its fixtures (FormatoKit#148): the reads are
+unchanged, the signals are FormatoCore's and the refusals typed.
+
+    Electron Microscopy Studio - https://github.com/EMSuite/Electron-Microscopy-Studio
+    Copyright (C) 2026 Paul Lobpreis
+    Licensed under the GNU General Public License v3.0
+
+The readers port RosettaSciIO 0.15.0's bruker, edax and jeol plugins (rsciio/bruker/
+_api.py with its unbcf_fast hypermap decoding, rsciio/edax/_api.py, rsciio/jeol/_api.py):
+the SFS container, the header and metadata mappings, the hypermap and event-stream
+decoding, the axes. The tests compare with what RosettaSciIO 0.15.0 reads from the same
+files (the m7/read-* bundles under Tests/FormatoEDSTests/Fixtures/bundles/references,
+written by the app's tools/parity/sem). The files under
+Tests/FormatoEDSTests/Fixtures/bundles/fixtures/rsciio are RosettaSciIO's public test
+data (rsciio/tests/data/bruker, the members of edax/edax_files.zip, jeol), copied byte
+for byte, except edax/*_crop8.spd and line_scan_crop.lsd (8 x 8 windows of its maps and
+its line scan, the header's point and line counts rewritten) and
+jeol/View000_0000006_4frames.pts and _2.5frames.pts (the first frames of its 512 x 512
+stream), which the app's tools/parity/sem/make_fixtures.py cut from them (GPL-3.0-or-
+later, as the files they come from); each bundle's manifest records its input's sha256.
+
+    RosettaSciIO - https://github.com/hyperspy/rosettasciio, version 0.15.0
+    Copyright (C) 2007-2026 The HyperSpy developers
+    Licensed under the GNU General Public License v3.0 or later
