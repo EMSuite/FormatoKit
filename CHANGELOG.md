@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.23.1](https://github.com/EMSuite/FormatoKit/compare/0.23.0...0.23.1) (2026-11-27)
+
+
+### Bug Fixes
+
+* the EBSD map readers refuse columns the crystal map would refuse ([#181](https://github.com/EMSuite/FormatoKit/issues/181)) ([2d3818a](https://github.com/EMSuite/FormatoKit/commit/2d3818abf2d6b8de3e71bcccf728c5803c22e967))
+
 ## [0.23.0](https://github.com/EMSuite/FormatoKit/compare/0.22.0...0.23.0) (2026-11-27)
 
 
