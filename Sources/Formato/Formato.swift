@@ -3,7 +3,9 @@
 //  Role: The umbrella product: one `FormatoLoader.load(path:)` that finds out which format a file is (RosettaSciIO's `load` guesses
 //        from the extension, then the plugin checks the content) and returns its signals the way that format's module does.
 //        Detection: the extension picks the candidates, the first bytes confirm them (TIFF and HDF5 signatures, DM's version word,
-//        Velox's `Version` dataset, HDF5's signature under `.hspy`, a TIA series header under `.ser`; an `.emi` by its extension); a file whose extension and bytes disagree is `.unknown`.
+//        Velox's `Version` dataset, HDF5's signature under `.hspy`, a TIA series header under `.ser`, the SFS signature of a Bruker
+//        `.bcf`, the first word of a JEOL `.pts`, `.img`, `.map` or `.asw`; an `.emi`, a Bruker `.spx`, an EDAX `.spd`, `.lsd` or `.spc`
+//        and a JEOL `.eds` by their extension, as RosettaSciIO checks no bytes of them); a file whose extension and bytes disagree is `.unknown`.
 //        Formats whose data are not signals (4D datacubes: EMPAD, MIB, py4DSTEM HDF5) are named, not loaded: they have
 //        dedicated readers with their own options.
 //
@@ -11,6 +13,7 @@
 import Foundation
 import FormatoCore
 import FormatoDM
+import FormatoEDS
 import FormatoEMD
 import FormatoHSPY
 import FormatoMRC
@@ -34,6 +37,12 @@ public nonisolated enum FormatoFileKind: Sendable, Equatable {
     case hyperSpy
     /// An FEI / Thermo Fisher TIA series (`.ser`) or its `.emi`: `TIAReader` reads them (0.20.0).
     case tia
+    /// A Bruker Esprit `.bcf` or `.spx`: `BrukerEDSReader` reads them (FormatoEDS).
+    case brukerEDS
+    /// An EDAX `.spd`, `.lsd` or `.spc`: `EDAXEDSReader` reads them (FormatoEDS).
+    case edaxEDS
+    /// A JEOL Analysis Station `.pts`, `.eds`, `.img`, `.map` or `.asw`: `JEOLEDSReader` reads them (FormatoEDS).
+    case jeolEDS
     case unknown
 }
 
@@ -59,6 +68,12 @@ public nonisolated enum FormatoLoader {
         let head = (try? handle.read(upToCount: 16)) ?? Data()
         let bytes = [UInt8](head)
         func isHDF5() -> Bool { bytes.starts(with: [0x89, 0x48, 0x44, 0x46, 0x0D, 0x0A, 0x1A, 0x0A]) }
+        // The first little-endian word of a JEOL file: 304 for a .pts, 52 for an .img or .map, 0 for an .asw (the readers' checks).
+        func firstWord(is word: UInt32) -> Bool {
+            guard bytes.count >= 4 else { return false }
+            let first = UInt32(bytes[0]) | UInt32(bytes[1]) << 8 | UInt32(bytes[2]) << 16 | UInt32(bytes[3]) << 24
+            return first == word
+        }
         switch ext {
         case "dm3", "dm4":
             // The version word, big-endian: 3 or 4.
@@ -82,13 +97,22 @@ public nonisolated enum FormatoLoader {
         // no bytes of either, and TIAReader.readEMI refuses an .emi with no metadata document).
         case "ser": return bytes.starts(with: [0x49, 0x49, 0x97, 0x01]) ? .tia : .unknown
         case "emi": return .tia
+        // A .bcf is an SFS container ("AAMVHFSS"); RosettaSciIO checks no bytes of the others, which are named by their extension.
+        case "bcf": return bytes.starts(with: Array("AAMVHFSS".utf8)) ? .brukerEDS : .unknown
+        case "spx": return .brukerEDS
+        case "spd", "lsd", "spc": return .edaxEDS
+        case "pts": return firstWord(is: 304) ? .jeolEDS : .unknown
+        case "img", "map": return firstWord(is: 52) ? .jeolEDS : .unknown
+        case "asw": return bytes.count >= 12 && firstWord(is: 0) ? .jeolEDS : .unknown
+        case "eds": return .jeolEDS
         default: return .unknown
         }
     }
 
     /// The signals of `path`, in the order the format's module returns them; a signal FormatoKit refuses is its error, the others
     /// still load (for DM, one result per image object; for Velox, single spectra, then images, then spectrum images; for
-    /// HyperSpy, one per experiment in the file's order).
+    /// HyperSpy, one per experiment in the file's order; for a Bruker, EDAX or JEOL EDS file, its signals in RosettaSciIO's order:
+    /// a spectrum image's array is an `EDSSparseSpectrumImage`, and the notes of an `EDSFile` are not returned).
     /// Throws `FormatoLoadError` for a kind with a dedicated reader or an unknown file, and the module's error where the file cannot
     /// be listed at all.
     public static func load(path: String) throws -> [Result<FormatoLazySignal, any Error>] {
@@ -126,6 +150,8 @@ public nonisolated enum FormatoLoader {
             let url = URL(fileURLWithPath: path)
             if url.pathExtension.lowercased() == "emi" { return try TIAReader.readEMI(url: url).map { .success($0) } }
             return [.success(try TIAReader.read(url: url))]
+        case .brukerEDS, .edaxEDS, .jeolEDS:
+            return try EDSReader.read(url: URL(fileURLWithPath: path)).signals.map { .success($0) }
         case .empad:
             throw FormatoLoadError.useDedicatedReader(.empad, "\(name) is an EMPAD file: open it with EMPADReader (a 4D datacube, with its calibration options).")
         case .merlinMIB:

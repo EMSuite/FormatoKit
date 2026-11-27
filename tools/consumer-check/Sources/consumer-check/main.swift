@@ -5,6 +5,7 @@ import Formato
 import FormatoCore
 import FormatoDM
 import FormatoEBSD
+import FormatoEDS
 import FormatoEMD
 import FormatoEMPAD
 import FormatoHDF5
@@ -277,6 +278,31 @@ do {
     let patterns: FormatoLazySignal = try dataset.signal()
     check(patterns.array.shape == [3, 3, 60, 60] && dataset.format == .oxfordH5OINA, "EBSDH5Reader.read, EBSDDataset.signal")
 } catch { check(false, "FormatoEBSD: \(error)") }
+
+// FormatoEDS: a Bruker map's images and its sparse spectrum image with the metadata the reader wrote; EDAX and JEOL spectra
+// through the one entry point; a file of no reader's format refused by its reason.
+do {
+    let rsciio = tests.appendingPathComponent("FormatoEDSTests/Fixtures/bundles/fixtures/rsciio")
+    let bcf = rsciio.appendingPathComponent("bruker/P45_the_default_job.bcf")
+    let file: EDSFile = try BrukerEDSReader.read(url: bcf)
+    let map: FormatoLazySignal = try need(file.spectrumImages.first)
+    let cube: EDSSparseSpectrumImage = try need(EDSFile.counts(of: map))
+    let metadata = EDSMetadata(map.metadata)
+    check(file.images.count == 2 && map.array.shape == [75, 100, 2048], "BrukerEDSReader.read")
+    check(cube.ny == 75 && cube.nx == 100 && cube.channels == 2048 && cube.sum(mask: nil).count == 2048, "EDSSparseSpectrumImage")
+    check(metadata.mode == "SEM" && metadata.beamEnergy == 20, "EDSMetadata")
+    check(try cube.read(start: [0, 0, 0], count: [1, 1, 2048]).shape == [1, 1, 2048], "EDSSparseSpectrumImage.read")
+    let spc: EDSFile = try EDAXEDSReader.read(url: rsciio.appendingPathComponent("edax/single_spect.spc"))
+    let eds: EDSFile = try JEOLEDSReader.read(url: rsciio.appendingPathComponent("jeol/met03.EDS"))
+    check(spc.spectra.count == 1 && EDSFile.kind(of: eds.signals[0]) == .spectrum, "EDAXEDSReader.read, JEOLEDSReader.read")
+    check(EDSReader.readableExtensions.contains("pts") && FormatoLoader.sniff(path: bcf.path) == .brukerEDS, "EDSReader, sniff .bcf")
+    do {
+        _ = try EDSReader.read(url: URL(fileURLWithPath: msa))
+        check(false, "EDSReader.read refuses an .msa")
+    } catch let error as EDSReadError {
+        check(error.reason == .notThisFormat && !error.text.isEmpty, "EDSReadError")
+    }
+} catch { check(false, "FormatoEDS: \(error)") }
 
 print("consumer-check summary: \(checks) checks, \(failed) failed")
 exit(failed == 0 ? 0 : 1)

@@ -1,0 +1,614 @@
+//
+//  JEOLEDSReader.swift
+//  Role: JEOL Analysis Station files read as RosettaSciIO 0.15.0 reads them (`rsciio/jeol/_api.py`, GPL-3.0-or-later):
+//        the tagged header tree every JEOL file carries (`_parsejeol`: marks, keywords, typed values, the PARAMPAGE renaming, the
+//        CountRate/DeadTime/index wrappers, the "Limits" skip, the Shift-JIS fallback); `.pts` — the spectrum image as an event stream
+//        of 16-bit words (0x8000 x, 0x9000 y, 0xA000 S(T)EM image value, 0xB000 X-ray channel), frame by frame (a frame ends where y
+//        steps back), every complete frame summed and an incomplete last frame dropped (`_readcube` with `sum_frames=True`,
+//        `only_valid_data=True`), plus the S(T)EM image of the stream when it holds one; `.eds` — one spectrum with its footer
+//        (excluded and selected elements, quantification, detector parameters); `.img`/`.map` — an image or element map;
+//        `.asw` — the project file, which names the views' files and reads each in turn.
+//        A `.pts` is read with `SI_dtype=np.uint32` and `read_em_image=True` (Electron Microscopy Studio's decision D-SEM): every count
+//        kept, where rsciio's uint8 default refuses a channel's 255th X-ray. The counts accumulate as sorted (pixel, channel) keys
+//        merged frame by frame, so memory follows the X-rays recorded, not the 512 x 512 x 4096 cube. The `.pts` file is mapped where
+//        that is safe, not read into memory, and its event words are decoded from the file's bytes as each sweep is read; the read
+//        reports the share of the stream read after each sweep and stops with `CancellationError` once its task is cancelled.
+//        Moved from Electron Microscopy Studio's Sources/TEMSEM/EDS/JEOLEDSReader.swift (at f1eaafc) by FormatoKit#148: the
+//        signals are FormatoCore's, the refusals typed (`EDSReadError`) and worded without the app's name; the reads are unchanged.
+//
+
+import Foundation
+import FormatoCore
+
+public nonisolated enum JEOLEDSReader {
+    public static let readableExtensions = ["pts", "eds", "img", "map", "asw"]
+
+    /// The file's signals. `progress` (0 ... 1) is reported while a `.pts` spectrum image is read, after each of its sweeps; the
+    /// calling task's cancellation stops that read between sweeps with `CancellationError`.
+    public static func read(url: URL, progress: (@Sendable (Double) -> Void)? = nil) throws -> EDSFile {
+        let signals = try signals(url: url, progress: progress)
+        return EDSFile(url: url, signals: signals)
+    }
+
+    /// The provenance of a JEOL file's metadata.
+    static func source(_ name: String) -> EDSSource {
+        EDSSource(file: name, source: "the JEOL header tree", rule: "rsciio jeol mapping (RosettaSciIO 0.15.0)")
+    }
+
+    /// The signals of one file; `projects` are the project files already open on the way to it (a project's members are read
+    /// through here).
+    package static func signals(url: URL, projects: [String] = [], progress: (@Sendable (Double) -> Void)? = nil) throws -> [FormatoLazySignal] {
+        switch url.pathExtension.lowercased() {
+        case "pts": return try readPTS(url: url, progress: progress)
+        case "eds": return try [readEDS(url: url)]
+        case "img", "map": return try [readIMG(url: url)]
+        case "asw": return try readASW(url: url, projects: projects, progress: progress)
+        default: return []
+        }
+    }
+
+    /// The file's bytes; `mapped` leaves them in the file where that is safe (a local volume) instead of reading them into memory.
+    static func contents(_ url: URL, mapped: Bool = false) throws -> Data {
+        guard FileManager.default.fileExists(atPath: url.path) else {
+            throw EDSReadError(.missing, "\(url.lastPathComponent) is missing (\(url.path)): the JEOL project names it but it is not beside the project file.")
+        }
+        do { return try Data(contentsOf: url, options: mapped ? .mappedIfSafe : []) } catch {
+            throw EDSReadError.reading(url.lastPathComponent, error)
+        }
+    }
+
+    static func load(_ url: URL) throws -> EDSBytes {
+        EDSBytes([UInt8](try contents(url)), name: url.lastPathComponent)
+    }
+
+    /// `progress` as part `index` of `count` equal parts reports it: the part's own fraction becomes its share of the whole.
+    static func part(_ index: Int, of count: Int, _ progress: (@Sendable (Double) -> Void)?) -> (@Sendable (Double) -> Void)? {
+        guard let progress else { return nil }
+        return { fraction in progress((Double(index) + fraction) / Double(count)) }
+    }
+
+    // MARK: - The header tree (`_parsejeol`)
+
+    package final class Node {
+        package var keys: [String] = []
+        package var children: [String: Node] = [:]
+        /// A leaf's value: strings ("c" types) or numbers (exact doubles of the stored type).
+        package var strings: [String]?
+        package var numbers: [Double]?
+        package var typeCode: Character?
+
+        package subscript(_ key: String) -> Node? { children[key] }
+
+        func set(_ key: String, _ node: Node) {
+            if children[key] == nil { keys.append(key) }
+            children[key] = node
+        }
+
+        package var number: Double? { numbers?.first }
+        package var string: String? { strings?.first }
+    }
+
+    static let types: [Int: (code: Character, size: Int)] = [
+        1: ("B", 1), 2: ("H", 2), 3: ("i", 4), 4: ("f", 4), 5: ("d", 8), 6: ("B", 1), 7: ("H", 2), 8: ("i", 4), 9: ("f", 4),
+        10: ("d", 8), 11: ("?", 1), 12: ("c", 1), 13: ("c", 1), 14: ("H", 2), 20: ("c", 1), 65553: ("?", 1), 65552: ("?", 1),
+    ]
+
+    static func decode(_ bytes: some Collection<UInt8>) -> String {
+        let b = Array(bytes)
+        if let s = String(bytes: b, encoding: .utf8) { return s }
+        if let s = String(bytes: b, encoding: .shiftJIS) { return s }
+        return String(decoding: b, as: UTF8.self)
+    }
+
+    /// The tree from byte `start` of `b`; `end` is where the parse stopped.
+    static func parseTree(_ b: EDSBytes, at start: Int) throws -> (root: Node, end: Int) {
+        let root = Node()
+        var path: [String] = []
+        var current = root
+        var o = start
+        var mark: Int8 = 1
+        while abs(Int(mark)) == 1 {
+            mark = try b.i8(o); o += 1
+            if mark == 1 {
+                let length = Int(try b.i32(o)); o += 4
+                var raw = Array(try b.slice(o, max(length, 0))); o += max(length, 0)
+                while let last = raw.last, last == 0 { raw.removeLast() }
+                var key: String
+                if raw == [0xCE, 0xDF, 0xB0, 0xC4] { key = "Port" }
+                else if raw.last == 222 { key = decode(raw.dropLast()) }
+                else { key = decode(raw) }
+                let valueType = Int(try b.i32(o)), valueLength = Int(try b.i32(o + 4)); o += 8
+                path.append(key)
+                if valueType == 0 {
+                    current.set(key, Node())
+                } else {
+                    guard let t = types[valueType] else {
+                        throw EDSReadError(.unsupportedType, "\(b.name) has a header value of unknown type \(valueType) (\(key)).")
+                    }
+                    let leaf = Node()
+                    leaf.typeCode = t.code
+                    if t.code == "c" {
+                        var bytes = Array(try b.slice(o, max(valueLength, 0)))
+                        while let last = bytes.last, last == 0 { bytes.removeLast() }
+                        leaf.strings = decode(bytes).components(separatedBy: "\u{0}")
+                        o += max(valueLength, 0)
+                    } else {
+                        let n = valueLength / t.size
+                        // The values must lie in the file before room is reserved for them (the reads below would refuse
+                        // them anyway, after the reservation).
+                        try b.need(o, max(n, 0) * t.size)
+                        var values: [Double] = []
+                        values.reserveCapacity(max(n, 0))
+                        for k in 0..<max(n, 0) {
+                            let p = o + k * t.size
+                            switch t.code {
+                            case "B": values.append(Double(try b.u8(p)))
+                            case "?": values.append(try b.u8(p) != 0 ? 1 : 0)
+                            case "H": values.append(Double(try b.u16(p)))
+                            case "i": values.append(Double(try b.i32(p)))
+                            case "f": values.append(Double(try b.f32(p)))
+                            default: values.append(try b.f64(p))
+                            }
+                        }
+                        leaf.numbers = values
+                        // numpy's fromfile reads arr_len items; the stream moves by what it read.
+                        o += max(n, 0) * t.size
+                    }
+                    let isPage = key.count >= 5 && String(Array(key)[(key.count - 5)..<(key.count - 1)]) == "PAGE"
+                    if isPage, let s = leaf.string {
+                        key = key + "_" + s
+                        current.set(key, Node())
+                        path[path.count - 1] = key
+                    } else if key == "CountRate" || key == "DeadTime" {
+                        let wrapper = Node(); wrapper.set("value", leaf); current.set(key, wrapper)
+                    } else if key == "Limits" {
+                        // rsciio keeps no value for Limits.
+                    } else if valueType == 14 {
+                        let wrapper = Node(); wrapper.set("index", leaf); current.set(key, wrapper)
+                    } else {
+                        current.set(key, leaf)
+                    }
+                }
+                if key != "Limits", let next = current[key] { current = next }
+            } else {
+                if !path.isEmpty {
+                    path.removeLast()
+                    current = root
+                    for k in path { if let next = current[k] { current = next } }
+                } else {
+                    mark = 0
+                }
+            }
+        }
+        return (root, o)
+    }
+
+    static func node(_ root: Node, _ keys: String..., file: String) throws -> Node {
+        var n = root
+        for k in keys {
+            guard let next = n[k] else { throw EDSReadError(.missing, "\(file)'s header has no \(keys.joined(separator: " / ")).") }
+            n = next
+        }
+        return n
+    }
+
+    /// rsciio's field of view in µm, `ScanSize / Mag · 1000`; a magnification of zero, below zero or not a number gives no length,
+    /// so the file is refused in words rather than calibrated with an infinite scale.
+    package static func fieldWidth(scanSize: Double, magnification: Double, file: String) throws -> Double {
+        let width = scanSize / magnification * 1.0e3
+        guard magnification > 0, width.isFinite else {
+            throw EDSReadError(.number, "\(file) states a magnification of \(magnification), so its map has no length scale.")
+        }
+        return width
+    }
+
+    static func number(_ root: Node, _ keys: String..., file: String) throws -> Double {
+        var n = root
+        for k in keys {
+            guard let next = n[k] else { throw EDSReadError(.missing, "\(file)'s header has no \(keys.joined(separator: " / ")).") }
+            n = next
+        }
+        guard let v = n.number else { throw EDSReadError(.number, "\(file)'s \(keys.joined(separator: " / ")) is not a number.") }
+        return v
+    }
+
+    static func string(_ root: Node, _ keys: String..., file: String) throws -> String {
+        var n = root
+        for k in keys {
+            guard let next = n[k] else { throw EDSReadError(.missing, "\(file)'s header has no \(keys.joined(separator: " / ")).") }
+            n = next
+        }
+        if let s = n.string { return s }
+        if let v = n.number {
+            // A whole number prints as an integer; one past Int (or infinite) prints as the double it is.
+            if v == v.rounded(), let whole = Int(exactly: v) { return String(whole) }
+            return String(v)
+        }
+        throw EDSReadError(.missing, "\(file)'s \(keys.joined(separator: " / ")) holds no value.")
+    }
+
+    static func mode(_ hv: Double) -> String { hv <= 30 ? "SEM" : "TEM" }
+
+    // MARK: - .img / .map
+
+    static func readIMG(url: URL) throws -> FormatoLazySignal {
+        let name = url.lastPathComponent
+        let b = try load(url)
+        guard b.bytes.count >= 48, try b.u32(0) == 52 else {
+            throw EDSReadError(.notThisFormat, "\(name) is not a JEOL image (its first word is not 52), as RosettaSciIO finds too.")
+        }
+        let dataPos = Int(try b.u32(44))
+        let tree = try parseTree(b, at: dataPos + 12).root
+        let size = try node(tree, "Image", "Size", file: name).numbers ?? []
+        guard size.count == 2, size[0] > 0, size[1] > 0 else { throw EDSReadError(.number, "\(name) states no image size.") }
+        // The size in whole pixels, as Int(_:) truncates it; one under a pixel, infinite or past Int is a damaged field.
+        guard size[0] >= 1, size[1] >= 1, let width = Int(exactly: size[0].rounded(.towardZero)),
+              let height = Int(exactly: size[1].rounded(.towardZero)) else {
+            throw EDSReadError(.number, "\(name) states an image of \(size[0]) x \(size[1]) pixels, which is not an image size.")
+        }
+        let bitsNode = try node(tree, "Image", "Bits", file: name)
+        guard let bits = bitsNode.numbers, let code = bitsNode.typeCode, code == "B" || code == "H" else {
+            throw EDSReadError(.unsupportedType, "\(name) stores its image in a type the reader does not read.")
+        }
+        // numpy's resize: truncated or padded with zeros to height x width. A complete file holds a byte or two for each pixel,
+        // so a size larger than the file is refused before the image is allocated.
+        let pixelCount = try EDSFile.checkedCount(dims: [height, width], bytesPerItem: 1, fileLength: b.bytes.count, name: name)
+        var pixels = [UInt32](repeating: 0, count: pixelCount)
+        for i in 0..<min(bits.count, pixels.count) { pixels[i] = UInt32(bits[i]) }
+        let scanSize = try number(tree, "Instrument", "ScanSize", file: name)
+        let mag = try number(tree, "Instrument", "Mag", file: name)
+        let scale = try Self.fieldWidth(scanSize: scanSize, magnification: mag, file: name)
+        let created = try number(tree, "Image", "Created", file: name)
+        let hv = try number(tree, "Instrument", "AccV", file: name)
+        var md = EDSMetadata()
+        md.mode = mode(hv)
+        md.beamEnergy = hv
+        md.magnification = mag
+        md.originalFilename = name
+        let when = try EDSText.oleDate(created, file: name)
+        md.date = when.date; md.time = when.time
+        md.title = try string(tree, "Image", "Title", file: name)
+        let axes = [EDSAxis(name: "y", size: height, scale: scale / Double(height), offset: 0, units: "µm"),
+                    EDSAxis(name: "x", size: width, scale: scale / Double(width), offset: 0, units: "µm")]
+        return try EDSSignals.image(axes: axes, dataType: code == "B" ? FormatoDataType.uint8 : .uint16, width: width, height: height, pixels: pixels,
+                                    metadata: md, from: source(name))
+    }
+
+    // MARK: - .eds
+
+    struct Cursor {
+        let b: EDSBytes
+        var o = 0
+        mutating func i8() throws -> Int { defer { o += 1 }; return Int(try b.i8(o)) }
+        mutating func i32() throws -> Int { defer { o += 4 }; return Int(try b.i32(o)) }
+        mutating func u16() throws -> Int { defer { o += 2 }; return Int(try b.u16(o)) }
+        mutating func f64() throws -> Double { defer { o += 8 }; return try b.f64(o) }
+        mutating func text(_ n: Int) throws -> String {
+            defer { o += max(n, 0) }
+            var raw = Array(try b.slice(o, max(n, 0)))
+            while let last = raw.last, last == 0 { raw.removeLast() }
+            return JEOLEDSReader.decode(raw)
+        }
+        mutating func skip(_ n: Int) throws { try b.need(o, n); o += n }
+    }
+
+    static func readEDS(url: URL) throws -> FormatoLazySignal {
+        let name = url.lastPathComponent
+        var c = Cursor(b: try load(url))
+        _ = try c.i32()
+        try c.skip(6)
+        let fileDate = try c.f64()
+        _ = try c.text(80); _ = try c.text(32)
+        _ = try c.i32(); try c.skip(80); _ = try c.i32(); try c.skip(8)
+        try c.skip(8 * 4)                       // Esc, Fnano F, E Noise, CH Res
+        let liveTime = try c.f64()
+        try c.skip(8 * 3)                       // real time, DeadTime, CountRate
+        _ = try c.i32(); try c.skip(16 + 8 + 8)  // CountRate n, sum, value, (double)
+        _ = try c.i32(); try c.skip(16 + 8 + 8)  // DeadTime n, sum, value, (double)
+        let coefA = try c.f64(), coefB = try c.f64()
+        _ = try c.text(32); _ = try c.i32(); try c.skip(8)
+        _ = try c.text(32)
+        let channels = try c.i32()
+        guard channels > 0, channels < 1 << 20 else { throw EDSReadError(.number, "\(name) states \(channels) channels.") }
+        var counts: [Int32] = []
+        counts.reserveCapacity(channels)
+        for _ in 0..<channels { counts.append(Int32(try c.i32())) }
+        // The footer: excluded elements, selected elements with their lines, quantification, then the detector parameters.
+        _ = try c.i32()
+        let excluded = try c.i32()
+        if excluded != 0 { try c.skip(2 * excluded) }
+        let selected = try c.i32()
+        for _ in 0..<max(selected, 0) {
+            _ = try c.i32(); _ = try c.u16(); try c.skip(8); try c.skip(4); try c.skip(14); try c.skip(32)
+            _ = try c.text(32); _ = try c.i32()
+            let lines = try c.i32()
+            for _ in 0..<max(lines, 0) {
+                _ = try c.i32(); try c.skip(8); _ = try c.u16()
+                let e = try c.i8(); _ = try c.text(e)
+                let l = try c.i8(); _ = try c.text(l)
+                _ = try c.i32()
+            }
+        }
+        let quanti = try c.i32()
+        if quanti != 0 {
+            try c.skip(4 * 3 + 8 + 4 * 2)
+            for _ in 0..<max(quanti, 0) {
+                try c.skip(4 + 2 + 8 + 16 + 8 + 8 + 8 + 16 + 8 * 5 + 4 * 2 + 8)
+            }
+        }
+        guard try c.i32() == 5 else { throw EDSReadError(.missing, "\(name) has no detector parameters in its footer.") }
+        let detector = try c.text(16)
+        _ = try c.text(16); _ = try c.text(16)
+        let accKV = try c.f64()
+        try c.skip(8 + 38)
+        let mnKa = try c.f64()
+        try c.skip(8 * 5 + 4 + 8 + 2 * 5 + 8)  // WorkD InsD XtiltAng TakeAng IncAng, skip2, ScanSize, DT_64..DT_1K, DetH
+        let dirAng = try c.f64()
+        try c.skip(8)
+        let elevAng = try c.f64()
+
+        var md = EDSMetadata()
+        md.mode = mode(accKV)
+        md.beamEnergy = accKV
+        md.azimuthAngle = dirAng
+        md.detectorType = detector
+        md.elevationAngle = elevAng
+        md.energyResolutionMnKa = mnKa
+        md.liveTime = liveTime
+        md.originalFilename = name
+        let when = try EDSText.oleDate(fileDate, file: name)
+        md.date = when.date; md.time = when.time
+        md.title = "EDX"
+        md.signalType = "EDS_" + mode(accKV)
+        return try EDSSignals.spectrum(axis: EDSAxis(name: "Energy", size: channels, scale: coefA, offset: coefB, units: "keV"),
+                                       dataType: .int32, bytes: EDSSignals.bytes(counts), metadata: md, from: source(name))
+    }
+
+    // MARK: - .pts
+
+    /// A `.pts` spectrum image, and the S(T)EM image of its stream when it holds one. The file is mapped, and the event words are
+    /// decoded from its bytes sweep by sweep. `progress` gets the share of the stream read after each complete sweep; the calling
+    /// task's cancellation is asked before each sweep, and a cancelled read throws `CancellationError`.
+    static func readPTS(url: URL, progress: (@Sendable (Double) -> Void)? = nil) throws -> [FormatoLazySignal] {
+        let name = url.lastPathComponent
+        let data = try contents(url, mapped: true)
+        // The fixed header is the first 304 bytes: the only ones copied for these bounds-checked reads.
+        let b = EDSBytes([UInt8](data.prefix(304)), name: name)
+        guard data.count >= 304, try b.u32(0) == 304 else {
+            throw EDSReadError(.notThisFormat, "\(name) is not a JEOL spectrum image (its first word is not 304), as RosettaSciIO finds too.")
+        }
+        let headPos = Int(try b.u32(20)), dataPos = Int(try b.u32(28))
+        let fileDate = try b.f64(296)
+        let header = try ptsHeader(data, headPos: headPos, dataPos: dataPos, name: name)
+        let meas = try node(header, "PTTD Data", "AnalyzableMap MeasData", file: name)
+        let pixelsText = try string(meas, "Meas Cond", "Pixels", file: name)
+        let wh = pixelsText.split(separator: "x").compactMap { Int($0.trimmingCharacters(in: .whitespaces)) }
+        guard wh.count == 2, wh[0] > 0, wh[1] > 0 else { throw EDSReadError(.number, "\(name) states the map size \"\(pixelsText)\".") }
+        let width = wh[0], height = wh[1]
+        let widthNorm = Int(4096.0 / Double(width)), heightNorm = Int(4096.0 / Double(height))
+        guard widthNorm > 0, heightNorm > 0 else { throw EDSReadError(.number, "\(name) states a map wider than the 4096 scan steps.") }
+        let channels = 4096
+        let mag = try number(meas, "MeasCond", "Mag", file: name)
+        let scanSize = try number(header, "PTTD Param", "Params", "PARAMPAGE0_SEM", "ScanSize", file: name)
+        let scale = try Self.fieldWidth(scanSize: scanSize, magnification: mag, file: name)
+        let template = try string(meas, "Meas Cond", "Tpl", file: name)
+        let coefA = try number(meas, "Doc", "CoefA", file: name), coefB = try number(meas, "Doc", "CoefB", file: name)
+        let digZ = try number(header, "PTTD Param", "Params", "PARAMPAGE1_EDXRF", "Tpl", template, "DigZ", file: name)
+        let energyOffset = coefB - coefA * digZ
+        let sweepValue = try number(meas, "Doc", "Sweep", file: name)
+        guard let sweep = Int(exactly: sweepValue.rounded(.towardZero)) else {
+            throw EDSReadError(.number, "\(name) states \(sweepValue) sweeps, which is not a count.")
+        }
+
+        // The event stream, frame by frame: 16-bit words from `dataPos` to the end of the file, decoded where they lie.
+        let streamStart = min(dataPos, data.count)
+        let words = (data.count - streamStart) / 2
+        let events = try data.withUnsafeBytes { (file: UnsafeRawBufferPointer) throws -> Events in
+            let stream = UnsafeRawBufferPointer(rebasing: file[streamStart..<(streamStart + 2 * words)])
+            return try readEvents(stream, sweeps: sweep, width: width, height: height, widthNorm: widthNorm, heightNorm: heightNorm,
+                                  channels: channels, progress: progress)
+        }
+        let accumulated = events.counts, em = events.em, hasEM = events.hasEM
+        var builder = try EDSSparseSpectrumImageBuilder(ny: height, nx: width, channels: channels)
+        var k = 0
+        for p in 0..<(width * height) {
+            var cs: [UInt16] = [], vs: [UInt32] = []
+            while k < accumulated.count, accumulated[k].key / channels == p {
+                cs.append(UInt16(accumulated[k].key % channels)); vs.append(accumulated[k].count); k += 1
+            }
+            builder.append(channels: cs, counts: vs)
+        }
+        let cube = try builder.finish(dataType: .uint32, shape: [height, width, channels])
+
+        let hv = try number(meas, "MeasCond", "AccKV", file: name)
+        let m = mode(hv)
+        let when = try EDSText.oleDate(fileDate, file: name)
+        var md = EDSMetadata()
+        md.mode = m
+        md.beamEnergy = hv
+        md.magnification = mag
+        md.azimuthAngle = try number(header, "PTTD Param", "Params", "PARAMPAGE0_SEM", "DirAng", file: name)
+        md.detectorType = try string(header, "PTTD Param", "Params", "PARAMPAGE0_SEM", "DetT", file: name)
+        md.elevationAngle = try number(header, "PTTD Param", "Params", "PARAMPAGE0_SEM", "ElevAng", file: name)
+        md.energyResolutionMnKa = try number(header, "PTTD Param", "Params", "PARAMPAGE0_SEM", "MnKaRES", file: name)
+        md.realTime = try number(meas, "Doc", "RealTime", file: name)
+        md.originalFilename = name
+        md.date = when.date; md.time = when.time
+        md.title = "EDS extracted from " + name
+        md.signalType = "EDS_" + m
+        let spatial = [EDSAxis(name: "y", size: height, scale: scale / Double(height), offset: 0, units: "µm"),
+                       EDSAxis(name: "x", size: width, scale: scale / Double(width), offset: 0, units: "µm")]
+        var signals: [FormatoLazySignal] = [EDSSignals.spectrumImage(
+            axes: spatial + [EDSAxis(name: "Energy", size: channels, scale: coefA, offset: energyOffset, units: "keV")],
+            cube: cube, metadata: md, from: source(name))]
+        if hasEM {
+            // uint16 for fewer than 16 sweeps (values wrap as numpy's do), uint32 from 16.
+            let wide = sweep >= 16
+            var emMD = EDSMetadata()
+            emMD.mode = m; emMD.beamEnergy = hv; emMD.magnification = mag; emMD.originalFilename = name
+            emMD.date = when.date; emMD.time = when.time
+            emMD.title = "S(T)EM Image extracted from " + name
+            signals.append(try EDSSignals.image(axes: spatial, dataType: wide ? FormatoDataType.uint32 : .uint16, width: width, height: height,
+                                                pixels: wide ? em : em.map { $0 & 0xFFFF }, metadata: emMD, from: source(name)))
+        }
+        return signals
+    }
+
+    /// The header tree of a `.pts`. It lies before the event stream, so it is parsed from a copy of the bytes before the stream; a
+    /// damaged file whose tree runs on into the stream (or starts after it) is parsed from the whole file, so it reads or is refused
+    /// exactly as it was when the whole file was in memory.
+    static func ptsHeader(_ data: Data, headPos: Int, dataPos: Int, name: String) throws -> Node {
+        let beforeStream = EDSBytes([UInt8](data.prefix(min(dataPos, data.count))), name: name)
+        if let root = try? parseTree(beforeStream, at: headPos + 12).root { return root }
+        return try parseTree(EDSBytes([UInt8](data), name: name), at: headPos + 12).root
+    }
+
+    /// What the complete sweeps of an event stream add up to: the X-ray counts as sorted (pixel, channel) keys, the S(T)EM image's
+    /// sums and whether the stream holds one.
+    struct Events {
+        var counts: [(key: Int, count: UInt32)]
+        var em: [UInt32]
+        var hasEM: Bool
+    }
+
+    /// Every complete sweep of `stream` (the event words, 16-bit little-endian) summed, up to `sweeps` + 1 frames as `_readcube`
+    /// walks them: a frame of no events or an incomplete one ends the read. The calling task's cancellation is asked before each
+    /// sweep (`CancellationError`); `progress` gets the share of the stream read after each complete sweep.
+    static func readEvents(_ stream: UnsafeRawBufferPointer, sweeps: Int, width: Int, height: Int, widthNorm: Int, heightNorm: Int,
+                           channels: Int, progress: (@Sendable (Double) -> Void)?) throws -> Events {
+        let words = stream.count / 2
+        var accumulated: [(key: Int, count: UInt32)] = []
+        var em = [UInt32](repeating: 0, count: width * height)
+        var hasEM = false
+        var start = 0
+        for _ in 0...max(sweeps, 0) {
+            try Task.checkCancellation()
+            let frame = readFrame(stream, from: start, width: width, height: height, widthNorm: widthNorm, heightNorm: heightNorm,
+                                  channels: channels)
+            hasEM = hasEM || frame.hasEM
+            if frame.length == 0 { break }
+            guard frame.valid else { break }
+            accumulated = merge(accumulated, frame.keys.sorted())
+            for (p, v) in frame.em { em[p] &+= v }
+            start += frame.length
+            progress?(Double(start) / Double(words))
+        }
+        return Events(counts: accumulated, em: em, hasEM: hasEM)
+    }
+
+    struct Frame {
+        var length: Int
+        var keys: [Int]
+        var em: [(Int, UInt32)]
+        var hasEM: Bool
+        var valid: Bool
+    }
+
+    /// One frame (`_readframe_dense` with no shift and no energy binning): the events up to where y steps back. `stream` is the event
+    /// stream's bytes, one 16-bit little-endian word an event, read from word `start`.
+    static func readFrame(_ stream: UnsafeRawBufferPointer, from start: Int, width: Int, height: Int, widthNorm: Int, heightNorm: Int,
+                          channels: Int) -> Frame {
+        let words = stream.count / 2
+        var x = 0, y = 0, previousX = 0, previousY = -1, count = 0
+        var hasEM = false
+        var keys: [Int] = [], em: [(Int, UInt32)] = []
+        var i = start
+        while i < words {
+            let value = Int(UInt16(littleEndian: stream.loadUnaligned(fromByteOffset: 2 * i, as: UInt16.self)))
+            let type = value & 0xF000, v = value & 0x0FFF
+            if type == 0x8000 {
+                x = v / widthNorm
+                if x >= width { x = -1 }
+                previousX = v
+            } else if type == 0x9000 {
+                y = v / heightNorm
+                if v < previousY { break }
+                previousY = v
+                if y >= height { y = -1 }
+            } else if type == 0xA000, x >= 0, y >= 0 {
+                em.append((y * width + x, UInt32(v)))
+                hasEM = true
+            } else if type == 0xB000 {
+                let z = v
+                if z < channels, x >= 0, y >= 0 { keys.append((y * width + x) * channels + z) }
+            }
+            count += 1
+            i += 1
+        }
+        let valid = previousY >= 4096 - heightNorm && (previousX >= 4096 - widthNorm || !hasEM)
+        return Frame(length: count, keys: keys, em: em, hasEM: hasEM, valid: valid)
+    }
+
+    /// Sorted (key, count) runs merged with a sorted list of keys.
+    static func merge(_ a: [(key: Int, count: UInt32)], _ sortedKeys: [Int]) -> [(key: Int, count: UInt32)] {
+        var runs: [(key: Int, count: UInt32)] = []
+        for k in sortedKeys {
+            if let last = runs.last, last.key == k { runs[runs.count - 1].count += 1 } else { runs.append((k, 1)) }
+        }
+        var out: [(key: Int, count: UInt32)] = []
+        out.reserveCapacity(a.count + runs.count)
+        var i = 0, j = 0
+        while i < a.count || j < runs.count {
+            if j == runs.count || (i < a.count && a[i].key < runs[j].key) { out.append(a[i]); i += 1 }
+            else if i == a.count || runs[j].key < a[i].key { out.append(runs[j]); j += 1 }
+            else { out.append((a[i].key, a[i].count &+ runs[j].count)); i += 1; j += 1 }
+        }
+        return out
+    }
+
+    // MARK: - .asw
+
+    /// How many project files deep a project may name another (a real project names none).
+    static let projectDepth = 8
+
+    /// The file a project names, under the project's folder. JEOL writes the name relative to the project, Windows style
+    /// (`.\Sample\00_View002\View002_0000000.img`); `.` and empty parts are dropped. A name with a part that climbs out of the
+    /// folder (`..`) or names a drive (`C:`) is refused, so a project reads only files in its own folder or below it.
+    package static func projectMember(folder: URL, filename: String) throws -> URL {
+        let parts = filename.split(whereSeparator: { $0 == "\\" || $0 == "/" }).map(String.init).filter { $0 != "." }
+        guard !parts.contains(".."), !parts.contains(where: { $0.contains(":") }) else {
+            throw EDSReadError(.outsideFolder, "\(filename) lies outside the JEOL project's folder \(folder.lastPathComponent); only files below a project are read.")
+        }
+        return parts.reduce(folder) { $0.appendingPathComponent($1) }
+    }
+
+    /// A project file and the files it names, in order. `projects` are the project files already open on the way here: a
+    /// project that names one of them, or nests deeper than `projectDepth`, is refused rather than followed round a loop.
+    /// `progress` counts the files named as equal parts: a `.pts` among them reports its sweeps inside its own part.
+    static func readASW(url: URL, projects: [String] = [], progress: (@Sendable (Double) -> Void)? = nil) throws -> [FormatoLazySignal] {
+        let name = url.lastPathComponent
+        let path = url.standardizedFileURL.path
+        guard !projects.contains(path) else {
+            throw EDSReadError(.loop, "\(name) is named again by the JEOL project it belongs to, a loop the reader does not follow.")
+        }
+        guard projects.count < projectDepth else {
+            throw EDSReadError(.loop, "\(name) is a JEOL project nested \(projects.count) projects deep, deeper than the reader follows.")
+        }
+        let b = try load(url)
+        guard b.bytes.count >= 12, try b.u32(0) == 0 else {
+            throw EDSReadError(.notThisFormat, "\(name) is not a JEOL project file (its first word is not 0), as RosettaSciIO finds too.")
+        }
+        let tree = try parseTree(b, at: 12).root
+        guard let samples = tree["SampleInfo"] else { return [] }
+        let folder = url.deletingLastPathComponent()
+        // The names first (the tree is in memory), so each member's progress is its share of the project's.
+        var members: [String] = []
+        for i in samples.keys {
+            guard let views = samples[i]?["ViewInfo"] else { continue }
+            for j in views.keys {
+                guard let data = views[j]?["ViewData"] else { continue }
+                for k in data.keys {
+                    if let file = data[k]?["Filename"]?.string { members.append(file) }
+                }
+            }
+        }
+        var out: [FormatoLazySignal] = []
+        for (m, file) in members.enumerated() {
+            let sub = try projectMember(folder: folder, filename: file)
+            guard readableExtensions.contains(sub.pathExtension.lowercased()) else { continue }
+            out += try signals(url: sub, projects: projects + [path], progress: part(m, of: members.count, progress))
+            progress?(Double(m + 1) / Double(members.count))
+        }
+        return out
+    }
+}

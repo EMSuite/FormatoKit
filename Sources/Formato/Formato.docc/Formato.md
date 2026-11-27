@@ -5,9 +5,11 @@ One entry point for every format FormatoKit reads: find out what a file is, then
 ## Overview
 
 ``FormatoLoader/sniff(path:)`` names a file's format from its extension, confirmed by its first bytes (the TIFF and HDF5
-signatures, DM's version word, Velox's `Version` dataset, a TIA series header; an `.emi` by its extension); a file whose extension and bytes disagree is
+signatures, DM's version word, Velox's `Version` dataset, a TIA series header, a Bruker `.bcf`'s SFS signature, a JEOL file's first
+word; an `.emi`, `.spx`, EDAX `.spd`, `.lsd` and `.spc` and JEOL `.eds` by their extension); a file whose extension and bytes disagree is
 ``FormatoFileKind/unknown``. ``FormatoLoader/load(path:)`` returns the signals of a DM, Velox, TIFF, MRC, MSA, HyperSpy
-(`.hspy`) or TIA (`.ser` alone, or an `.emi` with every series beside it) file the way that format's own module returns them, one result per object (per experiment for HyperSpy), so one
+(`.hspy`), TIA (`.ser` alone, or an `.emi` with every series beside it) or SEM-EDS (Bruker, EDAX and JEOL, through
+`FormatoEDS`'s `EDSReader`; a spectrum image's array is an `EDSSparseSpectrumImage`) file the way that format's own module returns them, one result per object (per experiment for HyperSpy), so one
 unreadable object does not hide the others.
 
 ```swift

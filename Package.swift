@@ -56,6 +56,9 @@ let package = Package(
         // EBSD patterns and orientation maps (kikuchipy h5ebsd, Bruker, EDAX, Oxford, EMsoft, NORDIF; .ang and .ctf) as plain data,
         // and the .ang and .ctf writers; ported from kikuchipy 0.13.1 and orix 0.15.0 (FormatoKit#147).
         .library(name: "FormatoEBSD", targets: ["FormatoEBSD"]),
+        // SEM-EDS maps, spectra and images of Bruker (.bcf, .spx), EDAX (.spd, .lsd, .spc) and JEOL (.pts, .eds, .img, .map, .asw)
+        // as FormatoCore signals, ported from RosettaSciIO 0.15.0 (FormatoKit#148).
+        .library(name: "FormatoEDS", targets: ["FormatoEDS"]),
     ],
     targets: binaryTargets + [
         // The data model every reader returns: arrays, axes, units, metadata with provenance, lazy signals; cancellation.
@@ -77,8 +80,8 @@ let package = Package(
         .target(name: "FormatoTIA", dependencies: ["FormatoCore"], swiftSettings: settings),
         // HyperSpy's .hspy layout over FormatoHDF5's slab writer and reader; no numerics.
         .target(name: "FormatoHSPY", dependencies: ["FormatoCore", "FormatoHDF5"], swiftSettings: settings),
-        .target(name: "Formato", dependencies: ["FormatoCore", "FormatoDM", "FormatoEMD", "FormatoHSPY", "FormatoMRC", "FormatoMSA", "FormatoTIA",
-                                               "FormatoTIFF"],
+        .target(name: "Formato", dependencies: ["FormatoCore", "FormatoDM", "FormatoEDS", "FormatoEMD", "FormatoHSPY", "FormatoMRC", "FormatoMSA",
+                                               "FormatoTIA", "FormatoTIFF"],
                 swiftSettings: settings),
         .target(name: "FormatoPeek",
                 dependencies: ["FormatoCore", "FormatoDM", "FormatoEMD", "FormatoHDF5", "FormatoHSPY", "FormatoMRC", "FormatoMSA", "FormatoTIA",
@@ -86,6 +89,8 @@ let package = Package(
                 swiftSettings: settings),
         // EBSD: pattern and map readers by record and through FormatoHDF5's lock, the .ang and .ctf writers; no crystallography.
         .target(name: "FormatoEBSD", dependencies: ["FormatoCore", "FormatoHDF5"], swiftSettings: settings),
+        // SEM-EDS: the Bruker SFS container and hypermap unpacker, the EDAX and JEOL readers; spectrum images held sparse.
+        .target(name: "FormatoEDS", dependencies: ["FormatoCore"], swiftSettings: settings),
         // Examples, not products. `swift run formato-peek <file>`: one decimated frame and the header facts.
         .executableTarget(name: "formato-peek", dependencies: ["FormatoPeek"], path: "Examples/formato-peek", swiftSettings: settings),
         // The first ten minutes: `swift run formato-info <file>` prints every signal of a DM, Velox or TIFF file (public API only).
@@ -134,9 +139,12 @@ let package = Package(
         // The EBSD readers and writers moved from Electron Microscopy Studio with their tests, fixtures and m1 reference bundles.
         .testTarget(name: "FormatoEBSDTests", dependencies: ["FormatoEBSD", "FormatoCore", "FormatoHDF5"], exclude: ["Fixtures"],
                     swiftSettings: settings),
+        // The SEM-EDS readers moved from Electron Microscopy Studio with their tests, fixtures and m7 reference bundles.
+        .testTarget(name: "FormatoEDSTests", dependencies: ["FormatoEDS", "FormatoCore"], exclude: ["Fixtures"], swiftSettings: settings),
         .testTarget(name: "FormatoPeekTests", dependencies: ["FormatoPeek", "FormatoCore", "FormatoHDF5", "FormatoHSPY", "FormatoTIA", "FormatoKitTestSupport"],
                     swiftSettings: settings),
-        .testTarget(name: "FormatoLoaderTests", dependencies: ["Formato", "FormatoCore", "FormatoHSPY", "FormatoTIA"], swiftSettings: settings),
+        .testTarget(name: "FormatoLoaderTests", dependencies: ["Formato", "FormatoCore", "FormatoEDS", "FormatoHSPY", "FormatoTIA"],
+                    swiftSettings: settings),
         // The comparisons with the pinned RosettaSciIO, Pint and tifffile values and the inherited golden baseline, byte for byte
         // (`swift test -c release --parallel --skip FormatoKitParityTests` leaves them out). Fixtures stay in the old test folders.
         .testTarget(name: "FormatoKitParityTests",

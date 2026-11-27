@@ -1,6 +1,7 @@
 import Testing
 import Foundation
 import FormatoCore
+import FormatoEDS
 import FormatoHSPY
 import FormatoTIA
 import Formato
@@ -97,4 +98,32 @@ private func path(_ relative: String) -> String { tests.appendingPathComponent(r
     let direct = try TIAReader.readEMI(url: URL(fileURLWithPath: path(folder + "16x16_STEM_BF_DF_acquire.emi")))
     #expect(try two.map { try $0.get().array.shape } == direct.map(\.array.shape))
     #expect(two.count == 2)
+}
+
+@Test func sniffsAndLoadsSEMEDSFiles() throws {
+    let folder = "FormatoEDSTests/Fixtures/bundles/fixtures/rsciio/"
+    #expect(FormatoLoader.sniff(path: path(folder + "bruker/P45_the_default_job.bcf")) == .brukerEDS)
+    #expect(FormatoLoader.sniff(path: path(folder + "bruker/bruker_nano.spx")) == .brukerEDS)
+    #expect(FormatoLoader.sniff(path: path(folder + "edax/spd_map_crop8.spd")) == .edaxEDS)
+    #expect(FormatoLoader.sniff(path: path(folder + "edax/single_spect.spc")) == .edaxEDS)
+    #expect(FormatoLoader.sniff(path: path(folder + "edax/line_scan_crop.lsd")) == .edaxEDS)
+    #expect(FormatoLoader.sniff(path: path(folder + "jeol/View000_0000006_4frames.pts")) == .jeolEDS)
+    #expect(FormatoLoader.sniff(path: path(folder + "jeol/InvalidFrame/Dummy-Data_0000000.img")) == .jeolEDS)
+    #expect(FormatoLoader.sniff(path: path(folder + "jeol/181019-BN.ASW")) == .jeolEDS)
+    #expect(FormatoLoader.sniff(path: path(folder + "jeol/met03.EDS")) == .jeolEDS)
+    // A .bcf that is no SFS container, and a .pts whose first word is not 304, are unknown.
+    #expect(FormatoLoader.sniff(path: path(folder + "bruker/Nope.bcf")) == .unknown)
+    let dir = FileManager.default.temporaryDirectory.appendingPathComponent("loader-eds-\(UUID().uuidString)")
+    try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+    defer { try? FileManager.default.removeItem(at: dir) }
+    let fake = dir.appendingPathComponent("fake.pts")
+    try FileManager.default.copyItem(at: URL(fileURLWithPath: path(folder + "jeol/InvalidFrame/Dummy-Data_0000000.img")), to: fake)
+    #expect(FormatoLoader.sniff(path: fake.path) == .unknown)
+    // A Bruker map loads its images, then its spectrum image, whose array is held sparse; single spectra load as one signal.
+    let map = try FormatoLoader.load(path: path(folder + "bruker/P45_the_default_job.bcf")).map { try $0.get() }
+    #expect(map.count == 3 && map.last?.array is EDSSparseSpectrumImage)
+    let spectrum = try FormatoLoader.load(path: path(folder + "edax/single_spect.spc"))
+    #expect(try spectrum.count == 1 && spectrum[0].get().array.shape == [4096])
+    let eds = try FormatoLoader.load(path: path(folder + "jeol/met03.EDS"))
+    #expect(try eds.count == 1 && eds[0].get().array.shape == [2048])
 }
