@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.24.0](https://github.com/EMSuite/FormatoKit/compare/0.23.1...0.24.0) (2026-11-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* SEM-EDS readers for Bruker, EDAX and JEOL files ([#183](https://github.com/EMSuite/FormatoKit/issues/183))
+
+### Features
+
+* SEM-EDS readers for Bruker, EDAX and JEOL files ([#183](https://github.com/EMSuite/FormatoKit/issues/183)) ([46f9f20](https://github.com/EMSuite/FormatoKit/commit/46f9f209358dc4c6512a9ae4cafe26001885921b))
+
+
+### Bug Fixes
+
+* the EDS metadata tree is one FormatoHSPY can write, and the sparse store checks its channel order ([#186](https://github.com/EMSuite/FormatoKit/issues/186)) ([2ddc61f](https://github.com/EMSuite/FormatoKit/commit/2ddc61fa26af1a6cb0dff129885c1b1af0b7c770))
+
 ## [0.23.1](https://github.com/EMSuite/FormatoKit/compare/0.23.0...0.23.1) (2026-11-27)
 
 
