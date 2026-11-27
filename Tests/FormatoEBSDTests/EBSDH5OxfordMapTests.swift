@@ -11,6 +11,7 @@
 //
 
 import Foundation
+import FormatoCore
 import XCTest
 @testable import FormatoEBSD
 

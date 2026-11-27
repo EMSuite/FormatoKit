@@ -18,6 +18,7 @@
 
 import CryptoKit
 import Foundation
+import FormatoCore
 import XCTest
 
 /// One committed reference case.

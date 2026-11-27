@@ -9,6 +9,7 @@
 
 import CryptoKit
 import Foundation
+import FormatoCore
 @testable import FormatoEBSD
 
 nonisolated enum EBSDFixtures {
