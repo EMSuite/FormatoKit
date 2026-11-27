@@ -218,7 +218,8 @@ nonisolated final class EBSDReaderBundleParityTests: XCTestCase {
             XCTAssertEqual(try signal.array.read(start: [r, c, 0, 0], count: [1, 1, dataset.patternRows, dataset.patternColumns]).bytes,
                            try reader.pattern(row: r, column: c).bytes, "\(name): the last pattern")
             let corner = try signal.array.read(start: [0, 0, 1, 2], count: [1, 1, 2, 3])
-            XCTAssertEqual(corner, try reader.pattern(row: 0, column: 0).slab(start: [1, 2], count: [2, 3]), "\(name): a corner of a pattern")
+            XCTAssertEqual(corner.shape, [1, 1, 2, 3], name)
+            XCTAssertEqual(corner.bytes, try reader.pattern(row: 0, column: 0).slab(start: [1, 2], count: [2, 3]).bytes, "\(name): a corner of a pattern")
         }
     }
 

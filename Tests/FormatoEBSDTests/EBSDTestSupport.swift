@@ -62,16 +62,20 @@ nonisolated struct OrixView {
         try EBSDMapColumns.checkedSlices([("y", y), ("x", x)]).map { $0.stop - $0.start }
     }
 
-    /// The file's phase headers of the ids in data (orix's `CrystalMap` keeps those of its phase list), in id order.
+    /// The ids of every stored point, in data or not: orix's `CrystalMap` drops from its phase list the phases no stored point has
+    /// (`np.unique(phase_id)` over the whole array, before `is_in_data` cuts the view).
+    private var storedPhaseIDs: Set<Int> { Set(map.phaseIDs ?? [Int](repeating: 0, count: map.pointCount)) }
+
+    /// The file's phase headers of the stored ids, not indexed (−1, which orix's own file lists) left out, in id order.
     var phases: [EBSDPhaseHeader] {
-        let ids = Set(phaseIDs)
-        return map.phaseHeaders.filter { ids.contains($0.id) }.sorted { $0.id < $1.id }
+        let ids = storedPhaseIDs
+        return map.phaseHeaders.filter { $0.id != -1 && ids.contains($0.id) }.sorted { $0.id < $1.id }
     }
 
-    /// orix's phase ids of the map: the not-indexed −1 first where a point has it, then the headers' ids in data, then the ids in data
+    /// orix's phase ids of the map: the not-indexed −1 first where a stored point has it, then the headers' ids, then the stored ids
     /// no header names (orix's unnamed phases).
     var phaseList: [Int] {
-        let ids = Set(phaseIDs)
+        let ids = storedPhaseIDs
         var out = ids.contains(-1) ? [-1] : []
         let named = phases.map(\.id)
         out += named
