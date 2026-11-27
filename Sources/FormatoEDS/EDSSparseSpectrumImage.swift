@@ -30,7 +30,8 @@ public nonisolated struct EDSSparseSpectrumImage: FormatoLazyArray, Equatable {
     public let shape: [Int]
 
     /// Checked whole, so no later read can index past the counts or past a spectrum: `ny · nx + 1` offsets from 0, never
-    /// decreasing, ending at the count of entries, and every channel below `channels`. A reader's damaged file is refused here.
+    /// decreasing, ending at the count of entries, every channel below `channels`, and each pixel's channels strictly ascending (so a
+    /// dense slab and the sums see the same counts). A reader's damaged file is refused here.
     /// `shape` (default [ny, nx, channels]) must end with the channels and hold ny · nx pixels before them; `dataType` is one of
     /// uint8, uint16 and uint32.
     public init(ny: Int, nx: Int, channels: Int, rowOffsets: [Int], channelIndex: [UInt16], counts: [UInt32],
@@ -45,6 +46,12 @@ public nonisolated struct EDSSparseSpectrumImage: FormatoLazyArray, Equatable {
         }
         if let wide = channelIndex.first(where: { Int($0) >= channels }) {
             throw EDSReadError(.damaged, "The spectrum image has a count in channel \(wide), beyond its \(channels) channels.")
+        }
+        for (pixel, (start, end)) in zip(rowOffsets, rowOffsets.dropFirst()).enumerated() where end - start > 1 {
+            for i in (start + 1)..<end where channelIndex[i] <= channelIndex[i - 1] {
+                throw EDSReadError(.damaged, "The spectrum image lists the channels of pixel \(pixel) out of order or twice "
+                                   + "(channel \(channelIndex[i]) after \(channelIndex[i - 1])).")
+            }
         }
         guard [.uint8, .uint16, .uint32].contains(dataType) else {
             throw EDSReadError(.unsupportedType, "A spectrum image's counts are uint8, uint16 or uint32, not \(dataType.rawValue).")
